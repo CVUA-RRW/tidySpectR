@@ -1,0 +1,30 @@
+Package: NMRrecipes
+Title: Recipes Steps for NMR Scaling
+Version: 0.1.1
+Authors@R: 
+    person(given = "Gregoire",
+           family = "Denay",
+           role = c("aut", "cre"),
+           email = "gregoire.denay@cvua-rrw.de",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Collection of pre-processing steps for NMR scaling using Tidymodels Recipes.
+Depends: 
+    R (>= 3.1)
+Imports:
+    recipes,
+    yardstick,
+    dplyr,
+    tibble,
+    magrittr,
+    purrr,
+    tidyselect,
+    methods,
+    generics,
+    rlang
+License: BSD-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
