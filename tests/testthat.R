@@ -1,4 +1,4 @@
 library(testthat)
-library(NMRrecipes)
+library(tidySpectR)
 
-test_check("NMRrecipes")
+test_check("tidySpectR")
