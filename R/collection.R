@@ -42,7 +42,8 @@ add_spectrum <- function(obj, ...)
 #' @param obj A `collection` object.
 #' @param values A vector of intensity values.
 #' @param id A unique identifier for the sample.
-#' @param limits Upper and lower limits of the measurement space.
+#' @param limits A vector of length two with the upper and lower 
+#'   limits of the measurement space.
 #' @param label A label for the sample.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
@@ -95,6 +96,8 @@ add_spectrum.collection <- function(obj,
                 max(limits),
                 length.out = length(values))
     
+    new_obj <- obj
+    
     # Build the data tibble
     binsize = (max(limits) - min(limits)) / length(values)
     
@@ -104,16 +107,16 @@ add_spectrum.collection <- function(obj,
                      bin_end = bins + (binsize/2),
                      values = values) %>% 
               mutate(id = as.factor(id))
-    obj$data <- bind_rows(obj$data, newdat)
+    new_obj$data <- bind_rows(obj$data, newdat)
     
     # Build the labels tibble
     newlab <- tibble("id" = id,
                      "label" = label) %>%
               mutate(id = as.factor(id),
                      label = as.factor(label))
-    obj$labels <- bind_rows(obj$labels, newlab)
+    new_obj$labels <- bind_rows(obj$labels, newlab)
     
-    return(obj)
+    return(new_obj)
 }
 
 #' @aliases pull_numbin pull_numbin.collection

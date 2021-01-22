@@ -1,6 +1,6 @@
 library(testthat)
 library(rlang)
-library(NMRrecipes)
+library(tidySpectR)
 
 context("Testing svast scaling")
 

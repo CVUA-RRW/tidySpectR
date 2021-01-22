@@ -25,7 +25,8 @@ currenctly used).}
 
 \item{values}{A vector of intensity values.}
 
-\item{limits}{Upper and lower limits of the measurement space.}
+\item{limits}{A vector of length two with the upper and lower
+limits of the measurement space.}
 
 \item{id}{A unique identifier for the sample.}
 
