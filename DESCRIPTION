@@ -1,13 +1,15 @@
-Package: NMRrecipes
-Title: Recipes Steps for NMR Scaling
-Version: 0.1.1
+Package: tidySpectR
+Title: Tidy chemometrics
+Version: 0.1
 Authors@R: 
     person(given = "Gregoire",
            family = "Denay",
            role = c("aut", "cre"),
            email = "gregoire.denay@cvua-rrw.de",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Collection of pre-processing steps for NMR scaling using Tidymodels Recipes.
+Description: The aim of this package is to provide tidy methods for the 
+    analysis of spectral dataset in order to improve 
+    accessibility and reproducibility of chemometric analysis.
 Depends: 
     R (>= 3.1)
 Imports:

@@ -2,7 +2,7 @@
 #'
 #' A collection is a matrix of spectral data.
 #'
-#' @ aliases collection collection.default
+#' @aliases collection collection.default
 #' @export
 collection <- function(...)
     UseMethod("collection")
@@ -73,7 +73,7 @@ pull_breaks <- function(obj)
 #' For a collection, retrieve the bin limits, including the edges (min and max limits of the spectra).
 #' 
 #' @return A vector of dbl.
-#' @rdname pull_numbin
+#' @rdname pull_breaks
 #' @export
 pull_numbin.pull_breaks <- function(obj){
     NULL
