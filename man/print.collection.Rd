@@ -14,7 +14,6 @@ currenctly used).}
 }
 \value{
 The original object (invisibly)
-importFrom dplyr pull select
 }
 \description{
 Print a spectra collection

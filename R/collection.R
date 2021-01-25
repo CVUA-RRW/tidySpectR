@@ -77,6 +77,7 @@ add_spectrum <- function(obj, ...)
 #'
 #' @rdname add_spectrum
 #' @importFrom tibble tibble
+#' @importFrom dplyr mutate bind_rows
 #' @export
 add_spectrum.collection <- function(obj, 
                                     values, 
@@ -99,10 +100,10 @@ add_spectrum.collection <- function(obj,
     new_obj <- obj
     
     # Build the data tibble
-    binsize = (max(limits) - min(limits)) / length(values)
+    binsize = (max(limits) - min(limits) + 1) / length(values)
     
-    newdat <- tibble("id" = id,
-                     "bins" = bins,
+    newdat <- tibble(id = id,
+                     bins = bins,
                      bin_start = bins - (binsize/2),
                      bin_end = bins + (binsize/2),
                      values = values) %>% 
@@ -110,8 +111,8 @@ add_spectrum.collection <- function(obj,
     new_obj$data <- bind_rows(obj$data, newdat)
     
     # Build the labels tibble
-    newlab <- tibble("id" = id,
-                     "label" = label) %>%
+    newlab <- tibble(id = id,
+                     label = label) %>%
               mutate(id = as.factor(id),
                      label = as.factor(label))
     new_obj$labels <- bind_rows(obj$labels, newlab)
@@ -156,23 +157,20 @@ pull_breaks <- function(obj, ...)
 #' 
 #' @return A vector of dbl.
 #' @rdname pull_breaks
-#' @importFrom dplyr filter pull
+#' @importFrom dplyr pull
 #' @export
 pull_breaks.collection <- function(obj, ...){
-    if (!obj$bucketted) {
-        rlang::abort("This collection was not yet bucketted. Thus breaking points may not be consistent.")
-    }
-    
     breaks_low <- obj$data %>%
-                filter(id == obj$data$id[1]) %>%
-                pull(bin_start)
+                pull(bin_start) %>% 
+                sort() %>%
+                unique()
     highest <- obj$data %>%
-                filter(id == obj$data$id[1]) %>%
                 pull(bin_end) %>%
+                unique() %>%
+                sort() %>%
                 last()
     breaks_low %>% 
-        append(highest) %>%
-        sort()
+        append(highest) 
 }
 
 #' @aliases pull_ids pull_ids.collection
@@ -207,7 +205,7 @@ pull_ids.collection <- function(obj, ...){
 #'   \item{id}{Unique sample identifier}
 #'   \item{label}{Label for the sample}
 #'   \item{bins}{Bin centers}
-#' @importFrom dplyr inner_join relocate
+#' @importFrom dplyr inner_join relocate select mutate
 #' @importFrom tidyr pivot_wider
 #' @export
 tidy.collection <- function(obj, ...){
@@ -226,7 +224,6 @@ tidy.collection <- function(obj, ...){
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return The original object (invisibly)
-#' importFrom dplyr pull select
 #' @export
 print.collection <- function(obj, ...){
     # Sample number

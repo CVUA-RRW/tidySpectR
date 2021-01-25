@@ -16,6 +16,7 @@ Imports:
     recipes,
     yardstick,
     dplyr,
+    tidyr,
     tibble,
     magrittr,
     purrr,
