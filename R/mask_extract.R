@@ -16,23 +16,6 @@ mask <- function(...)
 #'   currenctly used).
 #' @return An updated version of `collection`.
 #' @details The upper limit in not included: [min, max).
-#' @examples
-#' sample <- nmr_spectra %>% filter(ID == "20198124123")
-#' 
-#' coll <- collection() %>%
-#'      add_spectrum(sample$values, 
-#'                   c(min(sample$bins), max(sample$bins)),
-#'                   id = "20198124123")
-#'
-#' coll %>% mask(-2, 7.2)
-#'
-#' # The order is not important
-#' coll %>% mask(7.2, -2)
-#'
-#' # Cropping edges
-#' cropped <- coll %>%
-#'              mask(-Inf, 0) %>%
-#'              mask(Inf, 7.5)
 #'
 #' @rdname mask
 #' @importFrom dplyr filter

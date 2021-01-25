@@ -45,25 +45,3 @@ to point measurments.
 \code{labels} should be used to provide meanigful labels to the samples, e.g.
 'treated' and 'control'.
 }
-\examples{
-library(tidyverse)
-library(tidySpectR)
-
-# Load one sample
-sample <- nmr_spectra \%>\% filter(ID == "20198124123")
-
-coll <- collection() \%>\%
-     add_spectrum(sample$values, 
-                  c(min(sample$bins), max(sample$bins)),
-                  id = "20198124123")
-
-# Load a bunch of samples from a tibble (longform):
-coll <- collection()
-nmr_spectra \%>\% 
-    group_by(ID) \%>\%
-    group_walk(~ {coll <<- coll \%>\% 
-                   add_spectrum(.x$values, 
-                                c(min(.x$bins), max(.x$bins)),
-                                id = .y$ID)})
-
-}
