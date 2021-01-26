@@ -156,6 +156,7 @@ add_spectrum.collection <- function(obj,
 #'   \item{bins}{Bin centers}
 #' @importFrom dplyr inner_join relocate select mutate
 #' @importFrom tidyr pivot_wider
+#' @importFrom generics tidy
 #' @export
 #' @examples
 #' library(tidySpectR)
