@@ -55,11 +55,11 @@
 #' library(recipes)
 #' autoscale_xvast <- 
 #'   recipe(Species ~. , iris) %>%
-#'   step_vast(all_predictors(), scaling = 'autoscale', outcome = 'Species')
+#'   step_xvast(all_predictors(), scaling = 'autoscale', outcome = 'Species')
 #'
 #' pareto_svast <- 
 #'   recipe(Species ~. , iris) %>%
-#'   step_xast(all_predictors(), scaling = 'pareto', outcome = 'Species')
+#'   step_xvast(all_predictors(), scaling = 'pareto', outcome = 'Species')
 
 step_xvast <-
   function(recipe,

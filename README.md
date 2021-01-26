@@ -64,10 +64,8 @@ print(processed[,1:5])
 # Pre-processing for data analysis using the `recipe` package
 nmr_preprocessing <- recipe(processed, label ~.) %>%
                      update_role(id, new_role = "ID") %>% 
-                     # Pareto scaling
-                     step_pareto(all_predictors()) %>%
-                     # Adding VAST normalization
-                     step_vast(all_predictors()) %>%
+                     # Pareto-VAST scaling
+                     step_vast(all_predictors(), scaling = 'pareto') %>%
                      # PCA transformation
                      step_pca(all_predictors(), num_comp = 5)
 
@@ -75,18 +73,18 @@ nmr_preprocessing <- recipe(processed, label ~.) %>%
 nmr_preprocessing %>% prep() %>% juice()
 #> 
 #> # A tibble: 10 x 7
-#>    id          label           PC1       PC2       PC3       PC4       PC5
-#>    <fct>       <fct>         <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
-#>  1 20198124123 control   -3.83e-15 -2.61e-15  8.82e-15 -3.34e-15 -3.28e-15
-#>  2 20198124124 control    5.20e-15 -9.61e-15 -4.15e-15 -2.77e-15 -4.27e-16
-#>  3 20198124125 control   -3.34e-15  6.99e-15  3.39e-15 -1.82e-15  2.48e-15
-#>  4 20198124469 control   -2.18e-14 -4.47e-15  1.57e-16  3.33e-15  2.87e-15
-#>  5 20198124538 control   -6.77e-15  5.62e-15 -3.04e-15 -1.35e-15  2.16e-16
-#>  6 20198124540 treatment -6.06e-16  2.00e-15 -6.70e-15 -3.50e-15  3.22e-16
-#>  7 20198124553 treatment  1.84e-14  1.46e-15  3.55e-16  3.57e-15  6.50e-16
-#>  8 20198124554 treatment  1.25e-14 -2.07e-15  3.19e-15 -1.10e-16  4.24e-15
-#>  9 20198124555 treatment -1.46e-15  4.75e-17 -7.82e-16  5.55e-15 -2.85e-15
-#> 10 20198125029 treatment  1.69e-15  2.64e-15 -1.22e-15  4.35e-16 -4.22e-15
+#>    id          label        PC1    PC2     PC3     PC4    PC5
+#>    <fct>       <fct>      <dbl>  <dbl>   <dbl>   <dbl>  <dbl>
+#>  1 20198124123 control    -9.02  -6.24 -22.3    11.7   -5.69
+#>  2 20198124124 control   -57.6   46.9    8.19    6.24  -2.53
+#>  3 20198124125 control    60.2  -41.6    1.55   10.2    0.529
+#>  4 20198124469 control   -73.9  -32.4   -2.93    0.531 10.1
+#>  5 20198124538 control     4.72 -28.7    8.96   -7.51  -2.76
+#>  6 20198124540 treatment  -3.25  -5.80  21.4     6.83  -5.20
+#>  7 20198124553 treatment  60.9   33.3    2.02   -7.28   6.52
+#>  8 20198124554 treatment  26.2   32.2   -5.78   10.4    4.21
+#>  9 20198124555 treatment  -6.60  -2.26   0.285 -14.1    0.927
+#> 10 20198125029 treatment  -1.59   4.62 -11.5   -17.0   -6.08
 ```
 
 ## Installation
