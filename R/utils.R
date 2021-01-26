@@ -71,7 +71,7 @@ pull_numbin <- function( ...)
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return A tibble.
-#' @importFrom dplyr group_by summarise
+#' @importFrom dplyr group_by summarise n
 #' @export
 #' @examples
 #' library(tidySpectR)
@@ -79,7 +79,7 @@ pull_numbin <- function( ...)
 pull_numbin.collection <- function(obj, ...){
     obj$data %>% 
         group_by(id) %>%
-        summarise("numbin"=n(), .groups = "drop")
+        summarise("numbin"= n(), .groups = "drop")
 }
 
 #' Pull the breaking points (or bin limits) of a spectra collection
