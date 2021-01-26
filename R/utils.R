@@ -137,3 +137,43 @@ pull_ids <- function(obj, ...)
 pull_ids.collection <- function(obj, ...){
     obj$data$id %>% unique() %>% as.character()
 }
+
+#' Adds labels 
+#' 
+#' Add labels to an existing collection by providing a 
+#'   dat frame or tibble associating sample ids to labels
+#'
+#' @aliases add_labels add_labels.collection
+#' @export
+add_labels <- function(...)
+    UseMethod("add_labels")
+
+#' @rdname add_labels
+#' @param obj A spectra collection
+#' @param labels A dataframe or tibble associating sample ids to labels
+#' @param ids_from Name of the id column
+#' @param labels_from Name of the label column
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return An updated version of `collection`.
+#' @details Pre-existing labels will be overwritten.
+#' @importFrom tibble tibble
+#' @importFrom dplyr pull mutate
+#' @export
+#' @examples
+#' library(tidySpectR)
+#'
+#' newlabs <- tibble(names = pull_ids(fa_nmr),
+#'                   conditions = c("organic", "organic", "organic", "organic", "organic",
+#'                                  "conventional", "conventional", "conventional", "conventional", "conventional"))
+#'
+#' add_labels(fa_nmr, newlabs, ids_from= "names", labels_from= "conditions")
+add_labels <- function(obj, labels, ids_from, labels_from, ...){
+    new_obj <- obj
+    new_obj$labels <- tibble(id = pull(labels, var = ids_from),
+                         label = pull(labels, var = labels_from)) %>%
+                  mutate(id = as.factor(id),
+                         label = as.factor(label))
+    
+    return(new_obj)
+}
