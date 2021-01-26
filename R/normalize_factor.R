@@ -22,6 +22,7 @@ normalize_factor <- function(...)
 #' @export
 #' @examples
 #' library(tidySpectR)
+#' library(tibble)
 #' 
 #' norm <- tibble(id = pull_ids(fa_nmr), factors = runif(10))
 #'

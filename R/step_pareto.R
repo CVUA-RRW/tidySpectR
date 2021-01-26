@@ -44,7 +44,8 @@
 #' \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1534033/}
 #'
 #' @examples
-#' # requires the recipes package
+#' library(tidySpectR)
+#' library(recipes)
 #' pareto <- 
 #'   recipe(Species ~. , iris) %>%
 #'   step_pareto(all_predictors())

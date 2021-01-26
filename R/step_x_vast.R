@@ -51,7 +51,8 @@
 #' \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4428451/}
 #'
 #' @examples
-#' # requires the recipes package
+#' library(tidySpectR)
+#' library(recipes)
 #' autoscale_xvast <- 
 #'   recipe(Species ~. , iris) %>%
 #'   step_vast(all_predictors(), scaling = 'autoscale', outcome = 'Species')

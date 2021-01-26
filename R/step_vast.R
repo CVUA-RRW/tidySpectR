@@ -49,7 +49,8 @@
 #' \url{https://www.sciencedirect.com/science/article/abs/pii/S0003267003000941}
 #'
 #' @examples
-#' # requires the recipes package
+#' library(tidySpectR)
+#' library(recipes)
 #' autoscale_vast <- 
 #'   recipe(Species ~. , iris) %>%
 #'   step_vast(all_predictors(), scaling = 'autoscale')
