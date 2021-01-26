@@ -79,7 +79,7 @@ add_spectrum.collection <- function(obj,
     new_obj <- obj
     
     # Build the data tibble
-    binsize = (max(limits) - min(limits) + 1) / length(values)
+    binsize = (max(limits) - min(limits)) / (length(values) - 1)
     
     newdat <- tibble(id = id,
                      bins = bins,
