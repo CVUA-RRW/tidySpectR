@@ -2,12 +2,19 @@
 % Please edit documentation in R/bucket_optimized.R
 \name{find_local_min}
 \alias{find_local_min}
-\title{Find local minimum between two boundaries
-For internal use only.}
+\title{Find local minimum between two boundaries}
 \usage{
 find_local_min(i, data, N, s)
 }
+\arguments{
+\item{i}{A counter}
+
+\item{data}{A dataframe with columns values}
+
+\item{N}{number of point per bin (initial)}
+
+\item{s}{slackness}
+}
 \description{
-Find local minimum between two boundaries
 For internal use only.
 }

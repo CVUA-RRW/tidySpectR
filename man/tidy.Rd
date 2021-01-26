@@ -2,10 +2,18 @@
 % Please edit documentation in R/tidy.R
 \name{tidy}
 \alias{tidy}
-\title{See \code{generics::\link[generics::tidy]{tidy}} for details.}
+\title{See generics::tidy for details.}
 \usage{
 tidy(x, ...)
 }
+\arguments{
+\item{x}{An object to be converted into a tidy \code{\link[tibble:tibble]{tibble::tibble()}}.}
+
+\item{...}{Additional arguments to tidying method.}
+}
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with information about model components.
+}
 \description{
-See \code{generics::\link[generics::tidy]{tidy}} for details.
+See generics::tidy for details.
 }

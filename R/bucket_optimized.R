@@ -63,7 +63,13 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
 }
 
 #' Find local minimum between two boundaries
+#'
 #' For internal use only.
+#'
+#' @param i A counter
+#' @param data A dataframe with columns values
+#' @param N number of point per bin (initial)
+#' @param s slackness
 #' @importFrom dplyr slice 
 find_local_min <- function(i, data, N, s){
     start <- N*i-s

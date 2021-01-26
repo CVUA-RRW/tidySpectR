@@ -2,12 +2,17 @@
 % Please edit documentation in R/bucket_fromBreaks.R
 \name{bin_sum}
 \alias{bin_sum}
-\title{Sums values over a single bin.
-For internal use only.}
+\title{Sums values over a single bin.}
 \usage{
 bin_sum(lower, higher, data)
 }
+\arguments{
+\item{lower}{Lower limit}
+
+\item{higher}{higher limit}
+
+\item{data}{A dataframe with columns bin_end, bin_start, id and values}
+}
 \description{
-Sums values over a single bin.
 For internal use only.
 }

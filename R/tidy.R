@@ -34,8 +34,11 @@ tidy.collection <- function(x, ...){
 
 # Tidy methods
 #'
-#' See \code{generics::\link[generics::tidy]{tidy}} for details.
+#' See generics::tidy for details.
 #'
+#' @param x An object to be converted into a tidy [tibble::tibble()].
+#' @param ... Additional arguments to tidying method.
+#' @return A [tibble::tibble()] with information about model components.
 #' @rdname tidy
 #' @export
 #' @importFrom generics tidy

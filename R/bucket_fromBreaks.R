@@ -66,7 +66,11 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
 }
 
 #' Sums values over a single bin.
+#'
 #' For internal use only.
+#' @param lower Lower limit
+#' @param higher higher limit
+#' @param data A dataframe with columns bin_end, bin_start, id and values
 #' @importFrom dplyr filter group_by summarise
 #' @importFrom tibble add_column
 bin_sum <- function(lower, higher, data){
