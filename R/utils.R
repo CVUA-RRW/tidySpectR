@@ -165,8 +165,8 @@ add_labels <- function(...)
 #' library(tibble)
 #'
 #' newlabs <- tibble(names = pull_ids(fa_nmr),
-#'                   conditions = c("organic", "organic", 
-#'                                  "organic", "organic", "organic",
+#'                   conditions = c("organic", "organic", "organic", 
+#'                                  "organic", "organic",
 #'                                  "conventional", "conventional", 
 #'                                  "conventional", "conventional", 
 #'                                  "conventional"))
