@@ -40,7 +40,7 @@ bucket_optimized.collection <- function(obj, initial_width, slackness, ...){
     J <- average$data %>% nrow()
     
     # distance between points
-    sampling_interval <- (last(data$bins) -first(data$bins)) / (J - 1) 
+    sampling_interval <- (last(obj$data$bins) -first(obj$data$bins)) / (J - 1) 
     
     # N is the number of points per initial bucket
     N <- as.integer(initial_width / sampling_interval)
@@ -52,7 +52,7 @@ bucket_optimized.collection <- function(obj, initial_width, slackness, ...){
     T <- 1:(J/N-1) 
     
     # Finding local minima
-    breaks <- map_dbl(T, find_local_min, data, N, s)
+    breaks <- map_dbl(T, find_local_min, obj$data, N, s)
     
     new_obj <- obj %>%
                bucket_from_breaks(breaks)
