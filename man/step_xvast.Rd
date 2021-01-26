@@ -67,7 +67,8 @@ variable weighting. \code{autoscale} will perform mean-centering and standard de
 scaling while \code{pareto} will scale by the square-root of the standard deviation.
 }
 \examples{
-# requires the recipes package
+library(tidySpectR)
+library(recipes)
 autoscale_xvast <- 
   recipe(Species ~. , iris) \%>\%
   step_vast(all_predictors(), scaling = 'autoscale', outcome = 'Species')

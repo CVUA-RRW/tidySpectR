@@ -58,7 +58,8 @@ and means from the data used in the \code{training} argument of
 these estimates.
 }
 \examples{
-# requires the recipes package
+library(tidySpectR)
+library(recipes)
 pareto <- 
   recipe(Species ~. , iris) \%>\%
   step_pareto(all_predictors())

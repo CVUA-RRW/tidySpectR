@@ -31,6 +31,7 @@ Direct use is not recommended, see other normalization methods.
 }
 \examples{
 library(tidySpectR)
+library(tibble)
 
 norm <- tibble(id = pull_ids(fa_nmr), factors = runif(10))
 
