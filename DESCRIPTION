@@ -5,8 +5,7 @@ Authors@R:
     person(given = "Gregoire",
            family = "Denay",
            role = c("aut", "cre"),
-           email = "gregoire.denay@cvua-rrw.de",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "gregoire.denay@cvua-rrw.de")
 Description: The aim of this package is to provide tidy methods for the 
     analysis of spectral dataset in order to improve 
     accessibility and reproducibility of chemometric analysis.
@@ -30,4 +29,6 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat
+    testthat,
+    tidyverse,
+    tidymodels

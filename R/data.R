@@ -2,10 +2,11 @@
 #' 
 #' A dataset containing H1-NMR fatty-acid spectra for 10 egg yolk samples, binned to 0.0004 ppm.
 #'
-#' @format A tibble with 2621440 rows and 3 variables:
+#' @format A collection object
 #' \describe{
-#'   \item{ID}{Unique sample identifier}
-#'   \item{bins}{Ppm value (x-axis)}
-#'   \item{values}{Intensity value}
+#'   \item{data}{Tibble containing the spectral data}
+#'   \item{normalized}{Normalization method flag}
+#'   \item{bucketted}{Bucketting method flag}
+#'   \item{labels}{Tibble associating each sample to a condition}
 #' }
-"nmr_spectra"
+"fa_nmr"

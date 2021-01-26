@@ -3,10 +3,28 @@
 \name{collection}
 \alias{collection}
 \alias{collection.default}
-\title{Creates a Spectra collection}
+\title{Creates a spectra collection}
 \usage{
 collection(...)
+
+\method{collection}{default}(...)
+}
+\arguments{
+\item{...}{further arguments passed to or from other methods(not
+currenctly used).}
+}
+\value{
+An object of class \code{collection} with sub-objects:
+\item{data}{A tibble that contains the spectral data}
+\item{normalized}{Information about the normalization of the dataset}
+\item{bucketted}{Information about the bucketting of the dataset}
+\item{labels}{Information about the labelling of the dataset}
 }
 \description{
-A collection is a matrix of spectral data.
+A collection is a matrix of spectral data and associated labels.
+}
+\details{
+The collection is empty on creation, use \code{add_spectrum} to
+populate it. It is recommended to populate a collection using \code{purrr::walk}
+on a list of files (see \code{add_spectrum}).
 }

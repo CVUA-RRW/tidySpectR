@@ -31,16 +31,8 @@ An updated version of \code{collection}.
 The upper limit in not included: [min, max).
 }
 \examples{
-sample <- nmr_spectra \%>\% filter(ID == "20198124123")
+library(tidySpectR)
 
-coll <- collection() \%>\%
-     add_spectrum(sample$values, 
-                  c(min(sample$bins), max(sample$bins)),
-                  id = "20198124123")
-
-coll \%>\% extract(-2, 7.2)
-
-# The order is not important
-coll \%>\% extract(7.2, -2)
-
+# Removing edges
+extract(fa_nmr, from = 7.2, to = -0.5)
 }

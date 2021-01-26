@@ -21,3 +21,7 @@ A vector of chr.
 \description{
 For a collection, retrieve the sample identifiers
 }
+\examples{
+library(tidySpectR)
+pull_ids(fa_nmr)
+}

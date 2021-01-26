@@ -5,19 +5,23 @@
 \alias{pull_numbin.collection}
 \title{Pull the bin (or bucket) number of a spectra collection}
 \usage{
-pull_numbin(obj, ...)
+pull_numbin(...)
 
 \method{pull_numbin}{collection}(obj, ...)
 }
 \arguments{
-\item{obj}{A spectra collection}
-
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
+
+\item{obj}{A spectra collection}
 }
 \value{
 A tibble.
 }
 \description{
 For a collection, retrieve the number of bins.
+}
+\examples{
+library(tidySpectR)
+pull_numbin(fa_nmr)
 }

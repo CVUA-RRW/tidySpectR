@@ -23,3 +23,8 @@ depending on the binning of the data:
 \code{tidy} will return a dataframe containing the spectral
 information in its current state.
 }
+\examples{
+library(tidySpectR)
+
+tidy(fa_nmr)
+}

@@ -4,9 +4,9 @@
 \alias{add_spectrum}
 \alias{add_spctrum}
 \alias{add_spectrum.collection}
-\title{Add a spectrum to a collection}
+\title{Add a single spectrum to a collection object}
 \usage{
-add_spectrum(obj, ...)
+add_spectrum(...)
 
 \method{add_spectrum}{collection}(
   obj,
@@ -18,10 +18,10 @@ add_spectrum(obj, ...)
 )
 }
 \arguments{
-\item{obj}{A \code{collection} object.}
-
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
+
+\item{obj}{A \code{collection} object.}
 
 \item{values}{A vector of intensity values.}
 
@@ -36,7 +36,7 @@ limits of the measurement space.}
 An updated version of \code{obj}.
 }
 \description{
-Add a spectrum to a collection
+Adds an new entry to an existing colleciton object.
 }
 \details{
 It is assumed that the binning is uniform and correspond
@@ -44,4 +44,46 @@ to point measurments.
 
 \code{labels} should be used to provide meanigful labels to the samples, e.g.
 'treated' and 'control'.
+
+It is recommended to populate a collection using \code{purrr::walk}
+on a list of files (see example).
+}
+\examples{
+
+####################################################################
+
+# A simple example: adding a spectra from a vector of values:
+library(tidySpectR)
+
+# Genearating some values
+values = runif(50)
+limits = c(0,49)
+
+# Collection is empty on creation
+coll = collection()
+
+# Adding the data
+coll \%>\% 
+    add_spectrum(values, limits, id = "basic_example", label = "test")
+
+####################################################################
+\dontrun{
+# Real life example: parsing data form file and adding them to a 
+# collection on the fly
+library(purrr)
+
+# Generate a list of file paths for a folder containing spectra data files
+folder_path <- "path/to/data/folder"
+files <- file.path(folder_path, list.files(folder_path))
+
+# Create a collection and add the spectra
+coll <- collection()
+purrr::walk(files,
+              function(x){
+                  # Parse your files to extract values, limits and ids
+                  # ...
+                  coll <<- coll \%>\% 
+                           add_spectrum(values, limits, id)
+              }, coll)
+}
 }

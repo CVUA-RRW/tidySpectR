@@ -30,3 +30,12 @@ An updated version of \code{collection}.
 \details{
 The upper limit in not included: [min, max).
 }
+\examples{
+library(tidySpectR)
+
+# Trimming one side
+mask(fa_nmr, from = Inf, to = 7.2)
+
+# Masking region
+mask(fa_nmr, from = 3.5, to = 3, overlaps = 'remove')
+}

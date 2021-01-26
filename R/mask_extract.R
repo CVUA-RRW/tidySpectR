@@ -7,6 +7,7 @@
 mask <- function(...)
     UseMethod("mask")
 
+#' @rdname mask
 #' @param obj A`collection` object
 #' @param from,to Coordinates of the region to mask. 
 #'   Use -Inf or Inf to shorten the spectra.
@@ -17,9 +18,16 @@ mask <- function(...)
 #' @return An updated version of `collection`.
 #' @details The upper limit in not included: [min, max).
 #'
-#' @rdname mask
 #' @importFrom dplyr filter
 #' @export
+#' @examples
+#' library(tidySpectR)
+#' 
+#' # Trimming one side
+#' mask(fa_nmr, from = Inf, to = 7.2)
+#'
+#' # Masking region
+#' mask(fa_nmr, from = 3.5, to = 3, overlaps = 'remove')
 mask.collection <- function(obj, from, to, overlaps = 'keep', ...){
 
     if (!overlaps %in% c('keep', 'remove')){
@@ -55,6 +63,7 @@ mask.collection <- function(obj, from, to, overlaps = 'keep', ...){
 extract <- function(...)
     UseMethod("extract")
 
+#' @rdname extract
 #' @param obj A`collection` object
 #' @param from,to Coordinates of the region to extract. 
 #'   Use -Inf or Inf to extract up to an end of the spectra.
@@ -64,22 +73,13 @@ extract <- function(...)
 #'   currenctly used).
 #' @return An updated version of `collection`.
 #' @details The upper limit in not included: [min, max).
-#' @examples
-#' sample <- nmr_spectra %>% filter(ID == "20198124123")
-#' 
-#' coll <- collection() %>%
-#'      add_spectrum(sample$values, 
-#'                   c(min(sample$bins), max(sample$bins)),
-#'                   id = "20198124123")
-#'
-#' coll %>% extract(-2, 7.2)
-#'
-#' # The order is not important
-#' coll %>% extract(7.2, -2)
-#'
-#' @rdname extract
 #' @importFrom dplyr filter
 #' @export
+#' @examples
+#' library(tidySpectR)
+#'
+#' # Removing edges
+#' extract(fa_nmr, from = 7.2, to = -0.5)
 extract.collection <- function(obj, from, to, overlaps = 'keep', ...){
 
     if (!overlaps %in% c('keep', 'remove')){

@@ -22,3 +22,7 @@ A vector of dbl.
 For a collection, retrieve the bin limits, including the edges
 (min and max limits of the spectra).
 }
+\examples{
+library(tidySpectR)
+pull_breaks(fa_nmr) \%>\% head()
+}

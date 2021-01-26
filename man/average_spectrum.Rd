@@ -23,3 +23,10 @@ An updated version of \code{collection}.
 \description{
 Averages spectra
 }
+\examples{
+library(tidySpectR)
+
+average_spectrum(fa_nmr)
+
+average_spectrum(fa_nmr, group = 'labels')
+}

@@ -7,16 +7,22 @@
 average_spectrum <- function(...)
     UseMethod("average_spectrum")
 
+#' @rdname average_spectrum
 #' @param obj A`collection` object
 #' @param group How to perform grouping. Either `all`or `labels`
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
 #'
-#' @rdname average_spectrum
 #' @importFrom dplyr group_by summarise mutate select arrange inner_join
 #' @importFrom tibble add_column tibble
 #' @export
+#' @examples
+#' library(tidySpectR)
+#'
+#' average_spectrum(fa_nmr)
+#'
+#' average_spectrum(fa_nmr, group = 'labels')
 average_spectrum <- function(obj, group = 'all', ...){
     new_obj <- obj
     if (group == 'all'){
@@ -51,45 +57,51 @@ average_spectrum <- function(obj, group = 'all', ...){
     return(new_obj)
 }
 
-#' @aliases pull_numbin pull_numbin.collection
-#' @param obj A spectra collection
-#' @param ... further arguments passed to or from other methods(not
-#'   currenctly used).
-#' @export
-pull_numbin <- function(obj, ...)
-    UseMethod("pull_numbin")
-
 #' Pull the bin (or bucket) number of a spectra collection
 #'
 #' For a collection, retrieve the number of bins.
 #' 
-#' @return A tibble.
+#' @aliases pull_numbin pull_numbin.collection
+#' @export
+pull_numbin <- function( ...)
+    UseMethod("pull_numbin")
+
 #' @rdname pull_numbin
+#' @param obj A spectra collection
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return A tibble.
 #' @importFrom dplyr group_by summarise
 #' @export
+#' @examples
+#' library(tidySpectR)
+#' pull_numbin(fa_nmr)
 pull_numbin.collection <- function(obj, ...){
     obj$data %>% 
         group_by(id) %>%
         summarise("numbin"=n(), .groups = "drop")
 }
 
-#' @aliases pull_breaks pull_breaks.collection
-#' @param obj A spectra collection
-#' @param ... further arguments passed to or from other methods(not
-#'   currenctly used).
-#' @export
-pull_breaks <- function(obj, ...)
-    UseMethod("pull_breaks")
-
 #' Pull the breaking points (or bin limits) of a spectra collection
 #'
 #' For a collection, retrieve the bin limits, including the edges 
 #'   (min and max limits of the spectra).
-#' 
-#' @return A vector of dbl.
+#'
+#' @aliases pull_breaks pull_breaks.collection
+#' @export
+pull_breaks <- function(obj, ...)
+    UseMethod("pull_breaks")
+
 #' @rdname pull_breaks
+#' @param obj A spectra collection
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return A vector of dbl.
 #' @importFrom dplyr pull
 #' @export
+#' @examples
+#' library(tidySpectR)
+#' pull_breaks(fa_nmr) %>% head()
 pull_breaks.collection <- function(obj, ...){
     breaks_low <- obj$data %>%
                 pull(bin_start) %>% 
@@ -104,21 +116,24 @@ pull_breaks.collection <- function(obj, ...){
         append(highest) 
 }
 
-#' @aliases pull_ids pull_ids.collection
-#' @param obj A spectra collection
-#' @param ... further arguments passed to or from other methods(not
-#'   currenctly used).
-#' @export
-pull_ids <- function(obj, ...)
-    UseMethod("pull_ids")
-
 #' Pull the ids of a spectra collection
 #'
 #' For a collection, retrieve the sample identifiers 
 #' 
-#' @return A vector of chr.
-#' @rdname pull_ids
+#' @aliases pull_ids pull_ids.collection
 #' @export
+pull_ids <- function(obj, ...)
+    UseMethod("pull_ids")
+
+#' @rdname pull_ids
+#' @param obj A spectra collection
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return A vector of chr.
+#' @export
+#' @examples
+#' library(tidySpectR)
+#' pull_ids(fa_nmr)
 pull_ids.collection <- function(obj, ...){
     obj$data$id %>% unique() %>% as.character()
 }
