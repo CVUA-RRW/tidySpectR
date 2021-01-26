@@ -20,6 +20,9 @@ step_pareto(
 \method{tidy}{step_pareto}(x, ...)
 }
 \arguments{
+\item{recipe}{A recipe object. The step will be added to the
+sequence of operations for this recipe.}
+
 \item{...}{One or more selector functions to choose which
 variables are affected by the step. See \code{\link[=selections]{selections()}}
 for more details. For the \code{tidy} method, these are not
@@ -27,6 +30,9 @@ currently used.}
 
 \item{role}{Not used by this step since no new variables are
 created.}
+
+\item{trained}{A logical to indicate if the quantities for
+preprocessing have been estimated.}
 
 \item{means}{A named numeric vector of means. This is
 \code{NULL} until computed by \code{\link[=prep.recipe]{prep.recipe()}}.}
@@ -36,6 +42,15 @@ is \code{NULL} until computed by \code{\link[=prep.recipe]{prep.recipe()}}.}
 
 \item{na_rm}{A logical value indicating whether \code{NA}
 values should be removed when computing the standard deviation and mean.}
+
+\item{skip}{A logical. Should the step be skipped when the
+recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
+when \code{\link[=prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
+conducted on new data (e.g. processing the outcome variable(s)).
+Care should be taken when using \code{skip = TRUE} as it may affect
+the computations for subsequent operations}
+
+\item{id}{A character string that is unique to this step to identify it.}
 
 \item{x}{A \code{step_pareto} object.}
 }

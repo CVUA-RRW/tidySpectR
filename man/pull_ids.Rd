@@ -5,12 +5,12 @@
 \alias{pull_ids.collection}
 \title{Pull the ids of a spectra collection}
 \usage{
-pull_ids(obj, ...)
+pull_ids(x, ...)
 
-\method{pull_ids}{collection}(obj, ...)
+\method{pull_ids}{collection}(x, ...)
 }
 \arguments{
-\item{obj}{A spectra collection}
+\item{x}{A spectra collection}
 
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}

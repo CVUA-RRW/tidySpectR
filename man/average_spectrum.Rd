@@ -5,12 +5,12 @@
 \alias{average_spectrum.collection}
 \title{Calculate the average spectrum}
 \usage{
-average_spectrum(obj, group = "all", ...)
+average_spectrum(x, group = "all", ...)
 
-average_spectrum(obj, group = "all", ...)
+average_spectrum(x, group = "all", ...)
 }
 \arguments{
-\item{obj}{A\code{collection} object}
+\item{x}{A\code{collection} object}
 
 \item{group}{How to perform grouping. Either \code{all}or \code{labels}}
 

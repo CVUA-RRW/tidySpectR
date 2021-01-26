@@ -5,12 +5,12 @@
 \alias{add_labels.collection}
 \title{Adds labels}
 \usage{
-add_labels(obj, labels, ids_from, labels_from, ...)
+add_labels(x, labels, ids_from, labels_from, ...)
 
-add_labels(obj, labels, ids_from, labels_from, ...)
+add_labels(x, labels, ids_from, labels_from, ...)
 }
 \arguments{
-\item{obj}{A spectra collection}
+\item{x}{A spectra collection}
 
 \item{labels}{A dataframe or tibble associating sample ids to labels}
 

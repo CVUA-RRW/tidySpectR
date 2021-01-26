@@ -36,11 +36,11 @@ collection.default <- function(...){
 #'
 #' @aliases add_spctrum add_spectrum.collection
 #' @export
-add_spectrum <- function(...)
+add_spectrum <- function(x, ...)
     UseMethod("add_spectrum")
 
 #' @rdname add_spectrum
-#' @param obj A `collection` object.
+#' @param x A `collection` object.
 #' @param values A vector of intensity values.
 #' @param id A unique identifier for the sample.
 #' @param limits A vector of length two with the upper and lower 
@@ -48,7 +48,7 @@ add_spectrum <- function(...)
 #' @param label A label for the sample.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
-#' @return An updated version of `obj`.
+#' @return An updated version of `x`.
 #' @details It is assumed that the binning is uniform and correspond 
 #'   to point measurments.
 #'   
@@ -99,15 +99,15 @@ add_spectrum <- function(...)
 #'                            add_spectrum(values, limits, id)
 #'               }, coll)
 #' }
-add_spectrum.collection <- function(obj, 
+add_spectrum.collection <- function(x, 
                                     values, 
                                     limits,
                                     id = deparse(substitute(values)), 
                                     label = NA,
                                     ...){
     # Check that id is unique
-    if (length(obj$data) != 0) {
-        if (id %in% obj$data$id){
+    if (length(x$data) != 0) {
+        if (id %in% x$data$id){
         rlang::abort("`id` is already used in this collection")
         }
     }
@@ -117,7 +117,7 @@ add_spectrum.collection <- function(obj,
                 max(limits),
                 length.out = length(values))
     
-    new_obj <- obj
+    new_obj <- x
     
     # Build the data tibble
     binsize = (max(limits) - min(limits)) / (length(values) - 1)
@@ -128,68 +128,40 @@ add_spectrum.collection <- function(obj,
                      bin_end = bins + (binsize/2),
                      values = values) %>% 
               mutate(id = as.factor(id))
-    new_obj$data <- bind_rows(obj$data, newdat)
+    new_obj$data <- bind_rows(x$data, newdat)
     
     # Build the labels tibble
     newlab <- tibble(id = id,
                      label = label) %>%
               mutate(id = as.factor(id),
                      label = as.factor(label))
-    new_obj$labels <- bind_rows(obj$labels, newlab)
+    new_obj$labels <- bind_rows(x$labels, newlab)
     
     return(new_obj)
-}
-
-#' Tidy a spectra collection
-#'
-#' `tidy` will return a dataframe containing the spectral 
-#'   information in its current state.
-#'
-#' @aliases tidy.collection
-#' @param obj A `collection` object.
-#' @param ... further arguments passed to or from other methods(not
-#'   currenctly used).
-#' @return A tibble with a variable number columns
-#'   depending on the binning of the data:
-#'   \item{id}{Unique sample identifier}
-#'   \item{label}{Label for the sample}
-#'   \item{bins}{Bin centers}
-#' @importFrom dplyr inner_join relocate select mutate
-#' @importFrom tidyr pivot_wider
-#' @importFrom generics tidy
-#' @export
-#' @examples
-#' library(tidySpectR)
-#'
-#' tidy(fa_nmr)
-tidy.collection <- function(obj, ...){
-    obj$data %>%
-        select(id, bins, values) %>%
-        mutate(bins = as.factor(bins)) %>%
-        pivot_wider(names_from = bins, values_from = values) %>%
-        inner_join(obj$labels, by = 'id') %>%
-        relocate(label, .after = 1)
 }
 
 #' Print a spectra collection
 #'
 #' @aliases print.collection
-#' @param obj A `collection` object.
+#' @param x A `collection` object.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return The original object (invisibly)
 #' @export
-print.collection <- function(obj, ...){
+#' @examples
+#' library(tidySpectR)
+#' print(fa_nmr)
+print.collection <- function(x, ...){
     # Sample number
-    entries <- pull_ids(obj) %>% 
+    entries <- pull_ids(x) %>% 
                 length()
     
     # Processing bin_number
-    min_numbin <- pull_numbin(obj) %>%
+    min_numbin <- pull_numbin(x) %>%
         select(numbin) %>% 
         min()
     
-    max_numbin <- pull_numbin(obj) %>%
+    max_numbin <- pull_numbin(x) %>%
         select(numbin) %>% 
         max()
     
@@ -203,9 +175,9 @@ print.collection <- function(obj, ...){
         
     cat("Spectra collection containing", entries, "entries.\n")
     cat("Number of bins:", num_bin, "\n")
-    cat("Normalized:", obj$normalized, "\n")
-    cat("Bucketted:", obj$bucketted, "\n")
-    cat("Labels:", levels(obj$labels$label), "\n")
+    cat("Normalized:", x$normalized, "\n")
+    cat("Bucketted:", x$bucketted, "\n")
+    cat("Labels:", levels(x$labels$label), "\n")
     
-    invisible(obj)
+    invisible(x)
 }

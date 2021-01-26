@@ -5,15 +5,15 @@
 \alias{pull_numbin.collection}
 \title{Pull the bin (or bucket) number of a spectra collection}
 \usage{
-pull_numbin(...)
+pull_numbin(x, ...)
 
-\method{pull_numbin}{collection}(obj, ...)
+\method{pull_numbin}{collection}(x, ...)
 }
 \arguments{
+\item{x}{A spectra collection}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A spectra collection}
 }
 \value{
 A tibble.

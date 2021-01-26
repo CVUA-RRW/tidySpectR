@@ -5,15 +5,15 @@
 \alias{mask.collection}
 \title{Masks a spectral region}
 \usage{
-mask(...)
+mask(x, ...)
 
-\method{mask}{collection}(obj, from, to, overlaps = "keep", ...)
+\method{mask}{collection}(x, from, to, overlaps = "keep", ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A\code{collection} object}
 
 \item{from, to}{Coordinates of the region to mask.
 Use -Inf or Inf to shorten the spectra.}

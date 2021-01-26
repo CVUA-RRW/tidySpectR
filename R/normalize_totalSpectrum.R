@@ -6,11 +6,11 @@
 #'
 #' @aliases normalize_totalSpectrum normalize_totalSpectrum.collection
 #' @export
-normalize_totalSpectrum <- function(...)
+normalize_totalSpectrum <- function(x, ...)
     UseMethod("normalize_totalSpectrum")
 
 #' @rdname normalize_totalSpectrum
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -20,12 +20,12 @@ normalize_totalSpectrum <- function(...)
 #' library(tidySpectR)
 #' 
 #' normalize_totalSpectrum(fa_nmr)
-normalize_totalSpectrum.collection <- function(obj, ...){
-    factors <- obj$data %>%
+normalize_totalSpectrum.collection <- function(x, ...){
+    factors <- x$data %>%
                 group_by(id) %>%
                 summarise(factors = 1 / sum(values))
                 
-    new_obj <- obj %>% normalize_factor(factors)
+    new_obj <- x %>% normalize_factor(factors)
     
     new_obj$normalized <- "Total spectrum"
     

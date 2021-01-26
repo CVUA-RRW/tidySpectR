@@ -4,11 +4,11 @@
 #'
 #' @aliases mask mask.collection
 #' @export
-mask <- function(...)
+mask <- function(x, ...)
     UseMethod("mask")
 
 #' @rdname mask
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param from,to Coordinates of the region to mask. 
 #'   Use -Inf or Inf to shorten the spectra.
 #' @param overlaps What to do with the bins ovelapping the edge of the mask.
@@ -28,7 +28,7 @@ mask <- function(...)
 #'
 #' # Masking region
 #' mask(fa_nmr, from = 3.5, to = 3, overlaps = 'remove')
-mask.collection <- function(obj, from, to, overlaps = 'keep', ...){
+mask.collection <- function(x, from, to, overlaps = 'keep', ...){
 
     if (!overlaps %in% c('keep', 'remove')){
         rlang::abort("Invalid value for `overlaps`")
@@ -37,13 +37,13 @@ mask.collection <- function(obj, from, to, overlaps = 'keep', ...){
     lower <- min(from, to)
     higher <- max(from, to)
     
-    new_obj <- obj
+    new_obj <- x
     
     if (overlaps == 'remove'){
-        new_obj$data <- obj$data %>%
+        new_obj$data <- x$data %>%
             filter(bin_end < lower | bin_start >= higher)
     } else if (overlaps == 'keep'){
-        new_obj$data <- obj$data %>%
+        new_obj$data <- x$data %>%
             filter(bin_start < lower | bin_end >= higher)
     }
     
@@ -60,11 +60,11 @@ mask.collection <- function(obj, from, to, overlaps = 'keep', ...){
 #'
 #' @aliases extract extract.collection
 #' @export
-extract <- function(...)
+extract <- function(x, ...)
     UseMethod("extract")
 
 #' @rdname extract
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param from,to Coordinates of the region to extract. 
 #'   Use -Inf or Inf to extract up to an end of the spectra.
 #' @param overlaps What to do with the bins ovelapping the edge of the mask.
@@ -80,7 +80,7 @@ extract <- function(...)
 #'
 #' # Removing edges
 #' extract(fa_nmr, from = 7.2, to = -0.5)
-extract.collection <- function(obj, from, to, overlaps = 'keep', ...){
+extract.collection <- function(x, from, to, overlaps = 'keep', ...){
 
     if (!overlaps %in% c('keep', 'remove')){
         rlang::abort("Invalid value for `overlaps`")
@@ -89,13 +89,13 @@ extract.collection <- function(obj, from, to, overlaps = 'keep', ...){
     lower <- min(from, to)
     higher <- max(from, to)
     
-    new_obj <- obj
+    new_obj <- x
     
     if (overlaps == 'remove'){
-        new_obj$data <- obj$data %>%
+        new_obj$data <- x$data %>%
             filter(bin_end < higher & bin_start > lower)
     } else if (overlaps == 'keep'){
-        new_obj$data <- obj$data %>%
+        new_obj$data <- x$data %>%
             filter(bin_start < higher & bin_end > lower)
     }
     

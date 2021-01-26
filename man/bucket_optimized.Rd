@@ -5,15 +5,15 @@
 \alias{bucket_optimized.collection}
 \title{Performs optimized bucketting}
 \usage{
-bucket_optimized(...)
+bucket_optimized(x, ...)
 
-\method{bucket_optimized}{collection}(obj, initial_width, slackness, ...)
+\method{bucket_optimized}{collection}(x, initial_width, slackness, ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A\code{collection} object}
 
 \item{initial_width}{Initial bin width to optimize}
 

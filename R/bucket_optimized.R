@@ -11,11 +11,11 @@
 #' \url{https://doi.org/10.1016/j.chemolab.2013.01.006}
 #' 
 #' @export
-bucket_optimized <- function(...)
+bucket_optimized <- function(x, ...)
     UseMethod("bucket_optimized")
 
 #' @rdname bucket_optimized
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param initial_width Initial bin width to optimize
 #' @param slackness fraction of initial width that defines 
 #'   how far the boundary can move while searching for a local minimum
@@ -32,15 +32,15 @@ bucket_optimized <- function(...)
 #' library(tidySpectR)
 #'
 #' bucket_optimized(fa_nmr, initial_width = 0.02, slackness = 0.5)
-bucket_optimized.collection <- function(obj, initial_width, slackness, ...){
-    average <- obj %>% 
+bucket_optimized.collection <- function(x, initial_width, slackness, ...){
+    average <- x %>% 
                average_spectrum(group = "all")
     
     # J is the number of points
     J <- average$data %>% nrow()
     
     # distance between points
-    sampling_interval <- (last(obj$data$bins) -first(obj$data$bins)) / (J - 1) 
+    sampling_interval <- (last(x$data$bins) -first(x$data$bins)) / (J - 1) 
     
     # N is the number of points per initial bucket
     N <- as.integer(initial_width / sampling_interval)
@@ -52,9 +52,9 @@ bucket_optimized.collection <- function(obj, initial_width, slackness, ...){
     T <- 1:(J/N-1) 
     
     # Finding local minima
-    breaks <- map_dbl(T, find_local_min, obj$data, N, s)
+    breaks <- map_dbl(T, find_local_min, x$data, N, s)
     
-    new_obj <- obj %>%
+    new_obj <- x %>%
                bucket_from_breaks(breaks)
     
     new_obj$bucketted <- paste0("Optimized Bucketting (width=", initial_width, ", slackness=", slackness, ")")

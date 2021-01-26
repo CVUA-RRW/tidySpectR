@@ -5,15 +5,15 @@
 \alias{bucket_from_breaks.collection}
 \title{Bucket a collection form a list of breaks}
 \usage{
-bucket_from_breaks(...)
+bucket_from_breaks(x, ...)
 
-\method{bucket_from_breaks}{collection}(obj, breaks, ...)
+\method{bucket_from_breaks}{collection}(x, breaks, ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A\code{collection} object}
 
 \item{breaks}{A vector of breaking values}
 }

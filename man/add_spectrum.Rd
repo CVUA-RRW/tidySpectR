@@ -6,10 +6,10 @@
 \alias{add_spectrum.collection}
 \title{Add a single spectrum to a collection object}
 \usage{
-add_spectrum(...)
+add_spectrum(x, ...)
 
 \method{add_spectrum}{collection}(
-  obj,
+  x,
   values,
   limits,
   id = deparse(substitute(values)),
@@ -18,10 +18,10 @@ add_spectrum(...)
 )
 }
 \arguments{
+\item{x}{A \code{collection} object.}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A \code{collection} object.}
 
 \item{values}{A vector of intensity values.}
 
@@ -33,7 +33,7 @@ limits of the measurement space.}
 \item{label}{A label for the sample.}
 }
 \value{
-An updated version of \code{obj}.
+An updated version of \code{x}.
 }
 \description{
 Adds an new entry to an existing colleciton object.
