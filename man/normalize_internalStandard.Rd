@@ -5,14 +5,14 @@
 \alias{normalize_internalStandard.collection}
 \title{Normalizes spectra to an internal standard}
 \usage{
-normalize_internalStandard(...)
+normalize_internalStandard(x, ...)
 
-\method{normalize_internalStandard}{collection}(obj, from, to, ...)
+\method{normalize_internalStandard}{collection}(x, from, to, ...)
 }
 \arguments{
-\item{...}{arguments to be passed to \code{extract}}
+\item{x}{A\code{collection} object}
 
-\item{obj}{A\code{collection} object}
+\item{...}{arguments to be passed to \code{extract}}
 
 \item{from, to}{Coordinates of the region to use as standard.}
 }

@@ -4,10 +4,10 @@
 \alias{print.collection}
 \title{Print a spectra collection}
 \usage{
-\method{print}{collection}(obj, ...)
+\method{print}{collection}(x, ...)
 }
 \arguments{
-\item{obj}{A \code{collection} object.}
+\item{x}{A \code{collection} object.}
 
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
@@ -17,4 +17,8 @@ The original object (invisibly)
 }
 \description{
 Print a spectra collection
+}
+\examples{
+library(tidySpectR)
+print(fa_nmr)
 }

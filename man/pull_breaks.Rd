@@ -5,12 +5,12 @@
 \alias{pull_breaks.collection}
 \title{Pull the breaking points (or bin limits) of a spectra collection}
 \usage{
-pull_breaks(obj, ...)
+pull_breaks(x, ...)
 
-\method{pull_breaks}{collection}(obj, ...)
+\method{pull_breaks}{collection}(x, ...)
 }
 \arguments{
-\item{obj}{A spectra collection}
+\item{x}{A spectra collection}
 
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}

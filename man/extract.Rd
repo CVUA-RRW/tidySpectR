@@ -5,15 +5,15 @@
 \alias{extract.collection}
 \title{Extracts a spectral region}
 \usage{
-extract(...)
+extract(x, ...)
 
-\method{extract}{collection}(obj, from, to, overlaps = "keep", ...)
+\method{extract}{collection}(x, from, to, overlaps = "keep", ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A\code{collection} object}
 
 \item{from, to}{Coordinates of the region to extract.
 Use -Inf or Inf to extract up to an end of the spectra.}

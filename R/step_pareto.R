@@ -3,18 +3,29 @@
 #' `step_pareto` creates a *specification* of a recipe
 #'  step that will perform Pareto scaling on the columns.
 #'
+#' @param recipe A recipe object. The step will be added to the
+#'  sequence of operations for this recipe.
 #' @param ... One or more selector functions to choose which
 #'  variables are affected by the step. See [selections()]
 #'  for more details. For the `tidy` method, these are not
 #'  currently used.
 #' @param role Not used by this step since no new variables are
 #'  created.
+#' @param trained A logical to indicate if the quantities for
+#'  preprocessing have been estimated.
 #' @param means A named numeric vector of means. This is
 #'  `NULL` until computed by [prep.recipe()].
 #' @param sdroots A named numeric vector of standard deviation square roots. This
 #'  is `NULL` until computed by [prep.recipe()].
 #' @param na_rm A logical value indicating whether `NA`
 #'  values should be removed when computing the standard deviation and mean.
+#' @param skip A logical. Should the step be skipped when the
+#'  recipe is baked by [bake.recipe()]? While all operations are baked
+#'  when [prep.recipe()] is run, some operations may not be able to be
+#'  conducted on new data (e.g. processing the outcome variable(s)).
+#'  Care should be taken when using `skip = TRUE` as it may affect
+#'  the computations for subsequent operations
+#' @param id A character string that is unique to this step to identify it.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` (the
@@ -44,7 +55,8 @@
 #' \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1534033/}
 #'
 #' @examples
-#' # requires the recipes package
+#' library(tidySpectR)
+#' library(recipes)
 #' pareto <- 
 #'   recipe(Species ~. , iris) %>%
 #'   step_pareto(all_predictors())

@@ -4,11 +4,11 @@
 #' 
 #' @aliases average_spectrum average_spectrum.collection
 #' @export
-average_spectrum <- function(...)
+average_spectrum <- function(x, ...)
     UseMethod("average_spectrum")
 
 #' @rdname average_spectrum
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param group How to perform grouping. Either `all`or `labels`
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
@@ -23,10 +23,10 @@ average_spectrum <- function(...)
 #' average_spectrum(fa_nmr)
 #'
 #' average_spectrum(fa_nmr, group = 'labels')
-average_spectrum <- function(obj, group = 'all', ...){
-    new_obj <- obj
+average_spectrum <- function(x, group = 'all', ...){
+    new_obj <- x
     if (group == 'all'){
-        new_obj$data <- obj$dat %>% 
+        new_obj$data <- x$dat %>% 
                         group_by(bins, bin_start, bin_end) %>%
                         summarise(values = mean(values), .groups= 'drop') %>%
                         add_column(id = "all", .before = 1) %>% 
@@ -37,8 +37,8 @@ average_spectrum <- function(obj, group = 'all', ...){
                                  label = as.factor(label))
                                  
     } else if (group == 'labels'){
-        new_obj$data <- obj$dat %>% 
-                        inner_join(obj$labels, by = 'id') %>%
+        new_obj$data <- x$dat %>% 
+                        inner_join(x$labels, by = 'id') %>%
                         group_by(bins, bin_start, bin_end, label) %>%
                         summarise(values = mean(values), .groups= 'drop') %>%
                         mutate(id = label, .before = 1) %>%
@@ -63,23 +63,23 @@ average_spectrum <- function(obj, group = 'all', ...){
 #' 
 #' @aliases pull_numbin pull_numbin.collection
 #' @export
-pull_numbin <- function( ...)
+pull_numbin <- function(x, ...)
     UseMethod("pull_numbin")
 
 #' @rdname pull_numbin
-#' @param obj A spectra collection
+#' @param x A spectra collection
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return A tibble.
-#' @importFrom dplyr group_by summarise
+#' @importFrom dplyr group_by summarise n
 #' @export
 #' @examples
 #' library(tidySpectR)
 #' pull_numbin(fa_nmr)
-pull_numbin.collection <- function(obj, ...){
-    obj$data %>% 
+pull_numbin.collection <- function(x, ...){
+    x$data %>% 
         group_by(id) %>%
-        summarise("numbin"=n(), .groups = "drop")
+        summarise("numbin"= n(), .groups = "drop")
 }
 
 #' Pull the breaking points (or bin limits) of a spectra collection
@@ -89,11 +89,11 @@ pull_numbin.collection <- function(obj, ...){
 #'
 #' @aliases pull_breaks pull_breaks.collection
 #' @export
-pull_breaks <- function(obj, ...)
+pull_breaks <- function(x, ...)
     UseMethod("pull_breaks")
 
 #' @rdname pull_breaks
-#' @param obj A spectra collection
+#' @param x A spectra collection
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return A vector of dbl.
@@ -102,12 +102,12 @@ pull_breaks <- function(obj, ...)
 #' @examples
 #' library(tidySpectR)
 #' pull_breaks(fa_nmr) %>% head()
-pull_breaks.collection <- function(obj, ...){
-    breaks_low <- obj$data %>%
+pull_breaks.collection <- function(x, ...){
+    breaks_low <- x$data %>%
                 pull(bin_start) %>% 
                 sort() %>%
                 unique()
-    highest <- obj$data %>%
+    highest <- x$data %>%
                 pull(bin_end) %>%
                 unique() %>%
                 sort() %>%
@@ -122,11 +122,11 @@ pull_breaks.collection <- function(obj, ...){
 #' 
 #' @aliases pull_ids pull_ids.collection
 #' @export
-pull_ids <- function(obj, ...)
+pull_ids <- function(x, ...)
     UseMethod("pull_ids")
 
 #' @rdname pull_ids
-#' @param obj A spectra collection
+#' @param x A spectra collection
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return A vector of chr.
@@ -134,8 +134,8 @@ pull_ids <- function(obj, ...)
 #' @examples
 #' library(tidySpectR)
 #' pull_ids(fa_nmr)
-pull_ids.collection <- function(obj, ...){
-    obj$data$id %>% unique() %>% as.character()
+pull_ids.collection <- function(x, ...){
+    x$data$id %>% unique() %>% as.character()
 }
 
 #' Adds labels 
@@ -145,11 +145,11 @@ pull_ids.collection <- function(obj, ...){
 #'
 #' @aliases add_labels add_labels.collection
 #' @export
-add_labels <- function(...)
+add_labels <- function(x, ...)
     UseMethod("add_labels")
 
 #' @rdname add_labels
-#' @param obj A spectra collection
+#' @param x A spectra collection
 #' @param labels A dataframe or tibble associating sample ids to labels
 #' @param ids_from Name of the id column
 #' @param labels_from Name of the label column
@@ -172,8 +172,8 @@ add_labels <- function(...)
 #'                                  "conventional"))
 #'
 #' add_labels(fa_nmr, newlabs, ids_from= "names", labels_from= "conditions")
-add_labels <- function(obj, labels, ids_from, labels_from, ...){
-    new_obj <- obj
+add_labels <- function(x, labels, ids_from, labels_from, ...){
+    new_obj <- x
     new_obj$labels <- tibble(id = pull(labels, var = ids_from),
                          label = pull(labels, var = labels_from)) %>%
                   mutate(id = as.factor(id),

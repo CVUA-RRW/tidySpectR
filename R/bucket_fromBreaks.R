@@ -5,11 +5,11 @@
 #'
 #' @aliases bucket_from_breaks bucket_from_breaks.collection
 #' @export
-bucket_from_breaks <- function(...)
+bucket_from_breaks <- function(x, ...)
     UseMethod("bucket_from_breaks")
 
 #' @rdname bucket_from_breaks
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param breaks A vector of breaking values
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
@@ -28,13 +28,13 @@ bucket_from_breaks <- function(...)
 #'
 #' breaks = c(10, 8, 7.5, 7, 5, 0, -1)
 #' bucket_from_breaks(fa_nmr, breaks)
-bucket_from_breaks.collection <- function(obj, breaks, ...){
+bucket_from_breaks.collection <- function(x, breaks, ...){
     # Adding limits if nescessary
-    lowest <- obj %>% 
+    lowest <- x %>% 
                 pull_breaks() %>%
                 min()
                 
-    highest <- obj %>% 
+    highest <- x %>% 
                 pull_breaks() %>%
                 max()
                 
@@ -52,11 +52,11 @@ bucket_from_breaks.collection <- function(obj, breaks, ...){
     bin_start <- breaks[-length(breaks)]
     bin_end <- breaks[2:length(breaks)]
     
-    new_obj <- obj
+    new_obj <- x
     new_obj$data <- map2_dfr(bin_start, 
                              bin_end,
                              bin_sum,
-                             obj$data) %>% 
+                             x$data) %>% 
                     arrange(id, bins)
     
     # Set bucketing flag
@@ -66,7 +66,11 @@ bucket_from_breaks.collection <- function(obj, breaks, ...){
 }
 
 #' Sums values over a single bin.
+#'
 #' For internal use only.
+#' @param lower Lower limit
+#' @param higher higher limit
+#' @param data A dataframe with columns bin_end, bin_start, id and values
 #' @importFrom dplyr filter group_by summarise
 #' @importFrom tibble add_column
 bin_sum <- function(lower, higher, data){

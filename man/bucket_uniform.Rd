@@ -5,15 +5,15 @@
 \alias{bucket_uniform.collection}
 \title{Performs uniform bucketting}
 \usage{
-bucket_uniform(...)
+bucket_uniform(x, ...)
 
-\method{bucket_uniform}{collection}(obj, width = NULL, N = NULL, ...)
+\method{bucket_uniform}{collection}(x, width = NULL, N = NULL, ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A\code{collection} object}
 
 \item{width}{Bin width}
 

@@ -6,11 +6,11 @@
 #'
 #' @aliases normalize_internalStandard normalize_internalStandard.collection
 #' @export
-normalize_internalStandard <- function(...)
+normalize_internalStandard <- function(x, ...)
     UseMethod("normalize_internalStandard")
 
 #' @rdname normalize_internalStandard
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param from,to Coordinates of the region to use as standard. 
 #' @param ... arguments to be passed to `extract`
 #' @return An updated version of `collection`.
@@ -20,14 +20,14 @@ normalize_internalStandard <- function(...)
 #' library(tidySpectR)
 #' 
 #' normalize_internalStandard(fa_nmr, from = 3, to = 3.5)
-normalize_internalStandard.collection <- function(obj, from, to, ...){
-    factors <- obj %>% 
+normalize_internalStandard.collection <- function(x, from, to, ...){
+    factors <- x %>% 
                extract(from, to, ...) %>%
                .$data %>%
                group_by(id) %>%
                summarise(factors = 1 / sum(values))
                
-    new_obj <- obj %>% normalize_factor(factors)
+    new_obj <- x %>% normalize_factor(factors)
     
     new_obj$normalized <- paste0("Internal standard (", from, "-", to, ")")
     

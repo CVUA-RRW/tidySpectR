@@ -5,12 +5,12 @@
 \alias{add_labels.collection}
 \title{Adds labels}
 \usage{
-add_labels(obj, labels, ids_from, labels_from, ...)
+add_labels(x, labels, ids_from, labels_from, ...)
 
-add_labels(obj, labels, ids_from, labels_from, ...)
+add_labels(x, labels, ids_from, labels_from, ...)
 }
 \arguments{
-\item{obj}{A spectra collection}
+\item{x}{A spectra collection}
 
 \item{labels}{A dataframe or tibble associating sample ids to labels}
 
@@ -33,10 +33,14 @@ Pre-existing labels will be overwritten.
 }
 \examples{
 library(tidySpectR)
+library(tibble)
 
 newlabs <- tibble(names = pull_ids(fa_nmr),
-                  conditions = c("organic", "organic", "organic", "organic", "organic",
-                                 "conventional", "conventional", "conventional", "conventional", "conventional"))
+                  conditions = c("organic", "organic", "organic", 
+                                 "organic", "organic",
+                                 "conventional", "conventional", 
+                                 "conventional", "conventional", 
+                                 "conventional"))
 
 add_labels(fa_nmr, newlabs, ids_from= "names", labels_from= "conditions")
 }

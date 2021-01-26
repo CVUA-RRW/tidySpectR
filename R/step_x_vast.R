@@ -3,6 +3,8 @@
 #' `step_svast` creates a *specification* of a recipe
 #'  step that will perform x-VAST scaling on the columns
 #'
+#' @param recipe A recipe object. The step will be added to the
+#'  sequence of operations for this recipe.
 #' @param ... One or more selector functions to choose which
 #'  variables are affected by the step. See [selections()]
 #'  for more details. For the `tidy` method, these are not
@@ -11,6 +13,8 @@
 #'  See notes below.
 #' @param role Not used by this step since no new variables are
 #'  created.
+#' @param trained A logical to indicate if the quantities for
+#'  preprocessing have been estimated.
 #' @param outcome When a single outcome is available, character
 #'  string or call to [dplyr::vars()] can be used to specify a single outcome
 #'  variable.
@@ -22,6 +26,13 @@
 #'  is `NULL` until computed by [prep.recipe()].
 #' @param na_rm A logical value indicating whether `NA`
 #'  values should be removed when computing the standard deviation and mean.
+#' @param skip A logical. Should the step be skipped when the
+#'  recipe is baked by [bake.recipe()]? While all operations are baked
+#'  when [prep.recipe()] is run, some operations may not be able to be
+#'  conducted on new data (e.g. processing the outcome variable(s)).
+#'  Care should be taken when using `skip = TRUE` as it may affect
+#'  the computations for subsequent operations
+#' @param id A character string that is unique to this step to identify it.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` (the
@@ -51,14 +62,15 @@
 #' \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4428451/}
 #'
 #' @examples
-#' # requires the recipes package
+#' library(tidySpectR)
+#' library(recipes)
 #' autoscale_xvast <- 
 #'   recipe(Species ~. , iris) %>%
-#'   step_vast(all_predictors(), scaling = 'autoscale', outcome = 'Species')
+#'   step_xvast(all_predictors(), scaling = 'autoscale', outcome = 'Species')
 #'
 #' pareto_svast <- 
 #'   recipe(Species ~. , iris) %>%
-#'   step_xast(all_predictors(), scaling = 'pareto', outcome = 'Species')
+#'   step_xvast(all_predictors(), scaling = 'pareto', outcome = 'Species')
 
 step_xvast <-
   function(recipe,

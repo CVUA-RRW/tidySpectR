@@ -5,15 +5,15 @@
 \alias{normalize_totalSpectrum.collection}
 \title{Normalizes spectra to their integrals}
 \usage{
-normalize_totalSpectrum(...)
+normalize_totalSpectrum(x, ...)
 
-\method{normalize_totalSpectrum}{collection}(obj, ...)
+\method{normalize_totalSpectrum}{collection}(x, ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
-
-\item{obj}{A\code{collection} object}
 }
 \value{
 An updated version of \code{collection}.

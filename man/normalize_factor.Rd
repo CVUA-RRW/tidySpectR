@@ -5,11 +5,13 @@
 \alias{normalize_factor.collection}
 \title{Normalizes spectra to a given factor}
 \usage{
-normalize_factor(...)
+normalize_factor(x, ...)
 
-\method{normalize_factor}{collection}(obj, factors, ...)
+\method{normalize_factor}{collection}(x, factors, ...)
 }
 \arguments{
+\item{x}{A\code{collection} object}
+
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
 
@@ -31,6 +33,7 @@ Direct use is not recommended, see other normalization methods.
 }
 \examples{
 library(tidySpectR)
+library(tibble)
 
 norm <- tibble(id = pull_ids(fa_nmr), factors = runif(10))
 

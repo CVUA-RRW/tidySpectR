@@ -5,11 +5,11 @@
 #'
 #' @aliases bucket_uniform bucket_uniform.collection
 #' @export
-bucket_uniform <- function(...)
+bucket_uniform <- function(x, ...)
     UseMethod("bucket_uniform")
 
 #' @rdname bucket_uniform
-#' @param obj A`collection` object
+#' @param x A`collection` object
 #' @param width Bin width
 #' @param N Number of bins to create
 #' @param ... further arguments passed to or from other methods(not
@@ -26,13 +26,13 @@ bucket_uniform <- function(...)
 #' bucket_uniform(fa_nmr, width= 0.04)
 #'
 #' bucket_uniform(fa_nmr, N = 1500)
-bucket_uniform.collection <- function(obj, width = NULL, N = NULL, ...){
+bucket_uniform.collection <- function(x, width = NULL, N = NULL, ...){
     # getting spectra limits
-    lowest <- obj %>% 
+    lowest <- x %>% 
                 pull_breaks() %>%
                 min()
                 
-    highest <- obj %>% 
+    highest <- x %>% 
                 pull_breaks() %>%
                 max()
     
@@ -49,7 +49,7 @@ bucket_uniform.collection <- function(obj, width = NULL, N = NULL, ...){
         bucketting <- paste0("Uniform (number=", as.character(N), ")")
     }
     
-    new_obj <- obj %>%
+    new_obj <- x %>%
                bucket_from_breaks(breaks)
     
     new_obj$bucketted <- bucketting
