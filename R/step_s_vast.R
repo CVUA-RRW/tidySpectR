@@ -202,8 +202,8 @@ print.step_svast <-
   }
 
 
-#' @rdname step_vast
-#' @param x A `step_vast` object.
+#' @rdname step_vsast
+#' @param x A `step_svast` object.
 #' @export
 tidy.step_svast <- function(x, ...) {
   if (is_trained(x)) {

@@ -1,0 +1,39 @@
+title: tidySpectR
+
+url: https://cvua-rrw.github.io/tidySpectR/
+
+template:
+  params:
+    bootswatch: flatly
+
+reference:
+  - title: Creating and handling spectra collections
+    content:
+    - collection
+    - add_spectrum
+    - print.collection
+    - tidy.collection
+    - autoplot.collection
+  - title: Masking and extracting data
+    content:
+    - mask
+    - extract
+  - title: Normalization methods
+    content:
+    - starts_with("normalize")
+  - title: Bucketting methods
+    content:
+    - starts_with("bucket")
+  - title: Recipe steps
+    content:
+    - starts_with("step_")
+  - title: Internal functions
+    content:
+    - bin_sum
+    - average_spectrum()
+    - starts_with("pull_")
+
+navbar:
+  left:
+  - text: Reference
+    href: reference/index.html

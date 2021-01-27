@@ -201,8 +201,8 @@ print.step_xvast <-
   }
 
 
-#' @rdname step_vast
-#' @param x A `step_vast` object.
+#' @rdname step_xvast
+#' @param x A `step_xvast` object.
 #' @export
 tidy.step_xvast <- function(x, ...) {
   if (is_trained(x)) {
