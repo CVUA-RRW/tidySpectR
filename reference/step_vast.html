@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Applies VAST scaling on numeric data — tidy.step_svast • tidySpectR</title>
+<title>Applies VAST scaling on numeric data — step_vast • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Applies VAST scaling on numeric data — tidy.step_svast" />
+<meta property="og:title" content="Applies VAST scaling on numeric data — step_vast" />
 <meta property="og:description" content="step_vast creates a specification of a recipe
 step that will perform VAST scaling on the columns" />
 
@@ -107,7 +107,7 @@ step that will perform VAST scaling on the columns" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Applies VAST scaling on numeric data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_s_vast.R'><code>R/step_s_vast.R</code></a>, <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_vast.R'><code>R/step_vast.R</code></a>, <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_x_vast.R'><code>R/step_x_vast.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_vast.R'><code>R/step_vast.R</code></a></small>
     <div class="hidden name"><code>step_vast.Rd</code></div>
     </div>
 
@@ -116,10 +116,7 @@ step that will perform VAST scaling on the columns" />
 step that will perform VAST scaling on the columns</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for step_svast</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>step_vast</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>step_vast</span><span class='op'>(</span>
   <span class='va'>recipe</span>,
   <span class='va'>...</span>,
   scaling <span class='op'>=</span> <span class='st'>"autoscale"</span>,
@@ -134,17 +131,15 @@ step that will perform VAST scaling on the columns</p>
 <span class='op'>)</span>
 
 <span class='co'># S3 method for step_vast</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for step_xvast</span>
 <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A <code>step_vast</code> object.</p></td>
+      <th>recipe</th>
+      <td><p>A recipe object. The step will be added to the
+sequence of operations for this recipe.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -152,11 +147,6 @@ step that will perform VAST scaling on the columns</p>
 variables are affected by the step. See <code><a href='https://recipes.tidymodels.org/reference/selections.html'>selections()</a></code>
 for more details. For the <code>tidy</code> method, these are not
 currently used.</p></td>
-    </tr>
-    <tr>
-      <th>recipe</th>
-      <td><p>A recipe object. The step will be added to the
-sequence of operations for this recipe.</p></td>
     </tr>
     <tr>
       <th>scaling</th>
@@ -205,6 +195,10 @@ the computations for subsequent operations</p></td>
     <tr>
       <th>id</th>
       <td><p>A character string that is unique to this step to identify it.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>A <code>step_vast</code> object.</p></td>
     </tr>
     </table>
 
