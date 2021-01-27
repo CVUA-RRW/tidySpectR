@@ -90,7 +90,12 @@ step that will perform VAST scaling on the columns" />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/CVUA-RRW/tidySpectR/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -105,7 +110,7 @@ step that will perform VAST scaling on the columns" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Applies VAST scaling on numeric data</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_s_vast.R'><code>R/step_s_vast.R</code></a>, <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_vast.R'><code>R/step_vast.R</code></a>, <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/step_x_vast.R'><code>R/step_x_vast.R</code></a></small>
     <div class="hidden name"><code>step_vast.Rd</code></div>
     </div>
 
@@ -229,7 +234,7 @@ scaling: application to NMR-based metabolic profiling. Anal. Chim. Acta 490,
 <a href='https://www.sciencedirect.com/science/article/abs/pii/S0003267003000941'>https://www.sciencedirect.com/science/article/abs/pii/S0003267003000941</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>tidySpectR</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
 <span class='va'>autoscale_vast</span> <span class='op'>&lt;-</span> 
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Species</span> <span class='op'>~</span><span class='va'>.</span> , <span class='va'>iris</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
