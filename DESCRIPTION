@@ -4,11 +4,13 @@ Version: 0.1
 Authors@R: 
     person(given = "Gregoire",
            family = "Denay",
-           role = c("aut", "cre"),
+           role = c("aut", "cre", "cph"),
            email = "gregoire.denay@cvua-rrw.de")
 Description: The aim of this package is to provide tidy methods for the 
     analysis of spectral dataset in order to improve 
     accessibility and reproducibility of chemometric analysis.
+URL: https://github.com/CVUA-RRW/tidySpectR, https://cvua-rrw.github.io/tidySpectR/
+BugReports: https://github.com/CVUA-RRW/tidySpectR/issues
 Depends: 
     R (>= 3.1)
 Imports:
@@ -23,12 +25,13 @@ Imports:
     methods,
     generics,
     rlang
-License: BSD_3_clause + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     tidyverse,
     tidymodels
+License: BSD_3_clause
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+

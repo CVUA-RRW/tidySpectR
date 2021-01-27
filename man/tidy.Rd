@@ -17,3 +17,4 @@ A \code{\link[tibble:tibble]{tibble::tibble()}} with information about model com
 \description{
 See generics::tidy for details.
 }
+\keyword{internal}

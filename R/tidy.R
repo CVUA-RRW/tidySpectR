@@ -40,6 +40,7 @@ tidy.collection <- function(x, ...){
 #' @param ... Additional arguments to tidying method.
 #' @return A [tibble::tibble()] with information about model components.
 #' @rdname tidy
+#' @keywords internal
 #' @export
 #' @importFrom generics tidy
 tidy <- function(x, ...)

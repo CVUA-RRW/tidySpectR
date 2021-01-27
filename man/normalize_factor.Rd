@@ -21,7 +21,7 @@ currenctly used).}
 An updated version of \code{collection}.
 }
 \description{
-Intensities will be multiplies by the given factor.
+Intensities will be multiplied by the given factor.
 }
 \details{
 Will mutliply the spectra by the factors given
@@ -29,7 +29,8 @@ as arguments.
 
 Missing ids will not be normalized
 
-Direct use is not recommended, see other normalization methods.
+This method should be used to bucket new data based on the results from
+a previous dataset.
 }
 \examples{
 library(tidySpectR)

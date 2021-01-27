@@ -5,21 +5,21 @@
 \alias{add_labels.collection}
 \title{Adds labels}
 \usage{
-add_labels(x, labels, ids_from, labels_from, ...)
+add_labels(x, ...)
 
-add_labels(x, labels, ids_from, labels_from, ...)
+\method{add_labels}{collection}(x, labels, ids_from, labels_from, ...)
 }
 \arguments{
-\item{x}{A spectra collection}
+\item{x}{A \code{collection} object}
+
+\item{...}{further arguments passed to or from other methods(not
+currenctly used).}
 
 \item{labels}{A dataframe or tibble associating sample ids to labels}
 
 \item{ids_from}{Name of the id column}
 
 \item{labels_from}{Name of the label column}
-
-\item{...}{further arguments passed to or from other methods(not
-currenctly used).}
 }
 \value{
 An updated version of \code{collection}.

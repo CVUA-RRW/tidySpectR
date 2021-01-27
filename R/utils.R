@@ -149,7 +149,7 @@ add_labels <- function(x, ...)
     UseMethod("add_labels")
 
 #' @rdname add_labels
-#' @param x A spectra collection
+#' @param x A `collection` object 
 #' @param labels A dataframe or tibble associating sample ids to labels
 #' @param ids_from Name of the id column
 #' @param labels_from Name of the label column
@@ -172,7 +172,7 @@ add_labels <- function(x, ...)
 #'                                  "conventional"))
 #'
 #' add_labels(fa_nmr, newlabs, ids_from= "names", labels_from= "conditions")
-add_labels <- function(x, labels, ids_from, labels_from, ...){
+add_labels.collection <- function(x, labels, ids_from, labels_from, ...){
     new_obj <- x
     new_obj$labels <- tibble(id = pull(labels, var = ids_from),
                          label = pull(labels, var = labels_from)) %>%

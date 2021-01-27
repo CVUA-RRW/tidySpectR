@@ -42,10 +42,12 @@
 #' @concept preprocessing
 #' @concept normalization_methods
 #'
-#' @importFrom recipes add_step rand_id ellipse_check step bake prep terms_select
-#' @importFrom tibble tibble as_tibble
+#' @importFrom recipes add_step rand_id ellipse_check step bake prep 
+#' @importFrom recipes printer terms_select check_type is_trained sel2char
+#' @importFrom tibble tibble as_tibble 
 #' @importFrom dplyr group_by summarize select
 #' @importFrom generics tidy required_pkgs
+#' @importFrom stats sd
 #'
 #' @export
 #' @details supervised maximum Variable Stability (x-VAST) scaling preforms centering and scaling followed 
