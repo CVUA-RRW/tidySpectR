@@ -24,12 +24,13 @@ Imports:
     tidyselect,
     methods,
     generics,
-    rlang
+    rlang,
+    ggplot2
 Suggests: 
     testthat,
     tidyverse,
     tidymodels
-License: BSD_3_clause
+License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -21,6 +21,10 @@
 #' tidy(fa_nmr)
 NULL
 
+#' @importFrom generics tidy
+#' @export
+generics::tidy
+
 #' @rdname tidy.collection
 #' @export
 tidy.collection <- function(x, ...){
@@ -32,16 +36,3 @@ tidy.collection <- function(x, ...){
         relocate(label, .after = 1)
 }
 
-# Tidy methods
-#'
-#' See generics::tidy for details.
-#'
-#' @param x An object to be converted into a tidy [tibble::tibble()].
-#' @param ... Additional arguments to tidying method.
-#' @return A [tibble::tibble()] with information about model components.
-#' @rdname tidy
-#' @keywords internal
-#' @export
-#' @importFrom generics tidy
-tidy <- function(x, ...)
-    UseMethod("tidy")
