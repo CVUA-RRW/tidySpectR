@@ -78,15 +78,18 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/CVUA-RRW/tidySpectR/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       
@@ -122,6 +125,40 @@
       
       
     </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="collection.html">collection()</a></code> </p>
+        </td>
+        <td><p>Creates a spectra collection</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="add_spectrum.html">add_spectrum()</a></code> </p>
+        </td>
+        <td><p>Add a single spectrum to a collection object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print.collection.html">print(<i>&lt;collection&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print a spectra collection</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tidy.collection.html">tidy(<i>&lt;collection&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Tidy a spectra collection</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="autoplot.collection.html">autoplot(<i>&lt;collection&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot a collection of spectra in their current processing state.</p></td>
+      </tr>
+    </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-masking-and-extracting-data" class="hasAnchor"><a href="#section-masking-and-extracting-data" class="anchor"></a>Masking and extracting data</h2>
@@ -130,6 +167,22 @@
       </tr>
       
       
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="mask.html">mask()</a></code> </p>
+        </td>
+        <td><p>Masks a spectral region</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="extract.html">extract()</a></code> </p>
+        </td>
+        <td><p>Extracts a spectral region</p></td>
+      </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
@@ -140,6 +193,28 @@
       
       
     </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="normalize_factor.html">normalize_factor()</a></code> </p>
+        </td>
+        <td><p>Normalizes spectra to a given factor</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="normalize_internalStandard.html">normalize_internalStandard()</a></code> </p>
+        </td>
+        <td><p>Normalizes spectra to an internal standard</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="normalize_totalSpectrum.html">normalize_totalSpectrum()</a></code> </p>
+        </td>
+        <td><p>Normalizes spectra to their integrals</p></td>
+      </tr>
+    </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-bucketting-methods" class="hasAnchor"><a href="#section-bucketting-methods" class="anchor"></a>Bucketting methods</h2>
@@ -148,6 +223,28 @@
       </tr>
       
       
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bucket_from_breaks.html">bucket_from_breaks()</a></code> </p>
+        </td>
+        <td><p>Bucket a collection form a list of breaks</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bucket_optimized.html">bucket_optimized()</a></code> </p>
+        </td>
+        <td><p>Performs optimized bucketting</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bucket_uniform.html">bucket_uniform()</a></code> </p>
+        </td>
+        <td><p>Performs uniform bucketting</p></td>
+      </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
@@ -158,6 +255,34 @@
       
       
     </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="step_pareto.html">step_pareto()</a></code> <code><a href="step_pareto.html">tidy(<i>&lt;step_pareto&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Applies Pareto scaling on numeric data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="step_svast.html">step_svast()</a></code> </p>
+        </td>
+        <td><p>Applies Supervised-VAST scaling on numeric data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="step_vast.html">tidy(<i>&lt;step_svast&gt;</i>)</a></code> <code><a href="step_vast.html">step_vast()</a></code> <code><a href="step_vast.html">tidy(<i>&lt;step_vast&gt;</i>)</a></code> <code><a href="step_vast.html">tidy(<i>&lt;step_xvast&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Applies VAST scaling on numeric data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="step_xvast.html">step_xvast()</a></code> </p>
+        </td>
+        <td><p>Applies x-VAST scaling on numeric data</p></td>
+      </tr>
+    </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-internal-functions" class="hasAnchor"><a href="#section-internal-functions" class="anchor"></a>Internal functions</h2>
@@ -166,6 +291,34 @@
       </tr>
       
       
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="bin_sum.html">bin_sum()</a></code> </p>
+        </td>
+        <td><p>Sums values over a single bin.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pull_breaks.html">pull_breaks()</a></code> </p>
+        </td>
+        <td><p>Pull the breaking points (or bin limits) of a spectra collection</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pull_ids.html">pull_ids()</a></code> </p>
+        </td>
+        <td><p>Pull the ids of a spectra collection</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pull_numbin.html">pull_numbin()</a></code> </p>
+        </td>
+        <td><p>Pull the bin (or bucket) number of a spectra collection</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
