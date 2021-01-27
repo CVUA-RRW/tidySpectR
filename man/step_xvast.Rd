@@ -2,6 +2,7 @@
 % Please edit documentation in R/step_x_vast.R
 \name{step_xvast}
 \alias{step_xvast}
+\alias{tidy.step_xvast}
 \title{Applies x-VAST scaling on numeric data}
 \usage{
 step_xvast(
@@ -18,6 +19,8 @@ step_xvast(
   skip = FALSE,
   id = rand_id("xvast")
 )
+
+\method{tidy}{step_xvast}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -61,6 +64,8 @@ Care should be taken when using \code{skip = TRUE} as it may affect
 the computations for subsequent operations}
 
 \item{id}{A character string that is unique to this step to identify it.}
+
+\item{x}{A \code{step_xvast} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

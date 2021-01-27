@@ -202,7 +202,7 @@ print.step_svast <-
   }
 
 
-#' @rdname step_vsast
+#' @rdname step_svast
 #' @param x A `step_svast` object.
 #' @export
 tidy.step_svast <- function(x, ...) {

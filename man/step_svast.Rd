@@ -2,6 +2,7 @@
 % Please edit documentation in R/step_s_vast.R
 \name{step_svast}
 \alias{step_svast}
+\alias{tidy.step_svast}
 \title{Applies Supervised-VAST scaling on numeric data}
 \usage{
 step_svast(
@@ -18,6 +19,8 @@ step_svast(
   skip = FALSE,
   id = rand_id("svast")
 )
+
+\method{tidy}{step_svast}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -61,6 +64,8 @@ Care should be taken when using \code{skip = TRUE} as it may affect
 the computations for subsequent operations}
 
 \item{id}{A character string that is unique to this step to identify it.}
+
+\item{x}{A \code{step_svast} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

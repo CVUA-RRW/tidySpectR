@@ -71,7 +71,7 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
 #' @param data A dataframe with columns values
 #' @param N number of point per bin (initial)
 #' @param s slackness
-#' @importFrom dplyr slice
+#' @importFrom dplyr slice slice_min
 find_local_min <- function(i, data, N, s){
     start <- N*i-s
     end <- N*i+s-1 # correcting for R indexing
