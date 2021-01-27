@@ -25,7 +25,7 @@ bucket_optimized <- function(x, ...)
 #' @details The Optimized Bucketting Algorithm optimizes bucket size by 
 #'   searching local minima in the average spectrum.
 #' 
-#' @importFrom dplyr last first
+#' @importFrom dplyr last first pull
 #' @importFrom purrr map_dbl
 #' @export
 #' @examples
@@ -52,7 +52,8 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
     T <- 1:(J/N-1) 
     
     # Finding local minima
-    breaks <- map_dbl(T, find_local_min, x$data, N, s)
+    breaks <- map_dfr(T, find_local_min, x$data, N, s) %>%
+              pull(bins)
     
     new_obj <- x %>%
                bucket_from_breaks(breaks)
@@ -70,13 +71,12 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
 #' @param data A dataframe with columns values
 #' @param N number of point per bin (initial)
 #' @param s slackness
-#' @importFrom dplyr slice 
+#' @importFrom dplyr slice
 find_local_min <- function(i, data, N, s){
     start <- N*i-s
     end <- N*i+s-1 # correcting for R indexing
     # Return local minimum position 
     data %>% 
     slice(start:end) %>%
-    slice(which.min(values)) %>%
-    .$bins
+    slice_min(order_by = values, n=1, with_ties = FALSE)
 }

@@ -19,12 +19,14 @@ ggplot2::autoplot
 #' @details
 #' A `raw` plot displays individual spectra, combine it with offset values
 #'   to separate individual spectra along the x and/or y axes.
+#'
 #' An `average` plot will represent only the average spectra and the range of 
 #'   values within each bin. Offset values will be ignored.
+#'
 #' A `label_average` plot will display the label-average spectrum and range of values 
 #'   within each label. Use offset values to separate the spectra.
 #' 
-#' Further plot sustomization is possible (although limited) by passing ggplot 
+#' Further plot customization is possible (although limited) by passing ggplot 
 #'   methods to the returned object
 #'
 #' @importFrom ggplot2 ggplotGrob annotation_custom geom_vline theme geom_rect element_blank
