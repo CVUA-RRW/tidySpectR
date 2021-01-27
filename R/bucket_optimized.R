@@ -26,7 +26,7 @@ bucket_optimized <- function(x, ...)
 #'   searching local minima in the average spectrum.
 #' 
 #' @importFrom dplyr last first pull
-#' @importFrom purrr map_dbl
+#' @importFrom purrr map_dfr
 #' @export
 #' @examples
 #' library(tidySpectR)
