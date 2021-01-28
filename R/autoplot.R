@@ -40,11 +40,11 @@ autoplot.collection <- function(object,
     theme_set(theme_bw())
     
     if (type == "average"){
-        main <- average_plot(dat, ...)
+        main <- average_plot(object, ...)
     } else if (type == "label_average"){
-        main <- average_plot_by_labels(dat, offset_x, offset_y, ...)
+        main <- average_plot_by_labels(object, offset_x, offset_y, ...)
     } else {
-        main <- all_plot(dat, offset_x, offset_y, ...)
+        main <- all_plot(object, offset_x, offset_y, ...)
     }
     
     return(main)

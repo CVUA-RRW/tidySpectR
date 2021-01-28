@@ -26,7 +26,8 @@ normalize_factor <- function(x, ...)
 #' library(tidySpectR)
 #' library(tibble)
 #' 
-#' norm <- tibble(id = pull_ids(fa_nmr), factors = runif(10))
+#' ids <- pull_ids(fa_nmr)
+#' norm <- tibble(id = ids, factors = runif(length(ids)))
 #'
 #' normalize_factor(fa_nmr, norm)
 normalize_factor.collection <- function(x, factors, ...) {

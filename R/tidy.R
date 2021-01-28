@@ -13,7 +13,7 @@
 #'   \item{id}{Unique sample identifier}
 #'   \item{label}{Label for the sample}
 #'   \item{bins}{Bin centers}
-#' @importFrom dplyr inner_join relocate select mutate
+#' @importFrom dplyr inner_join relocate select mutate ungroup
 #' @importFrom tidyr pivot_wider
 #' @examples
 #' library(tidySpectR)

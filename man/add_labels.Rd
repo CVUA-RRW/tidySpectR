@@ -36,11 +36,8 @@ library(tidySpectR)
 library(tibble)
 
 newlabs <- tibble(names = pull_ids(fa_nmr),
-                  conditions = c("organic", "organic", "organic", 
-                                 "organic", "organic",
-                                 "conventional", "conventional", 
-                                 "conventional", "conventional", 
-                                 "conventional"))
+                  conditions = c("control", "control", "control", 
+                                 "treated", "treated", "treated"))
 
 add_labels(fa_nmr, newlabs, ids_from= "names", labels_from= "conditions")
 }
