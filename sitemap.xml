@@ -16,9 +16,6 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/average_spectrum.html</loc>
   </url>
   <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/bin_sum.html</loc>
-  </url>
-  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/bucket_from_breaks.html</loc>
   </url>
   <url>
@@ -83,5 +80,11 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.collection.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//articles/plotting.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//articles/simple_case_study.html</loc>
   </url>
 </urlset>

@@ -1,8 +1,10 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2021-01-27T14:52Z
+articles:
+  plotting: plotting.html
+  simple_case_study: simple_case_study.html
+last_built: 2021-01-28T08:53Z
 urls:
   reference: https://cvua-rrw.github.io/tidySpectR//reference
   article: https://cvua-rrw.github.io/tidySpectR//articles
