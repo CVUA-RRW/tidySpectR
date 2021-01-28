@@ -1,0 +1,7 @@
+^\.git$
+^\.github$
+^\.gitignore$
+^_pkgdown\.yaml$
+^todo\.txt$
+^doc$
+^Meta$

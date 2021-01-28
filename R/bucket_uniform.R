@@ -23,9 +23,9 @@ bucket_uniform <- function(x, ...)
 #' @examples
 #' library(tidySpectR)
 #' 
-#' bucket_uniform(fa_nmr, width= 0.04)
+#' bucket_uniform(fa_nmr, width= 0.1)
 #'
-#' bucket_uniform(fa_nmr, N = 1500)
+#' bucket_uniform(fa_nmr, N = 100)
 bucket_uniform.collection <- function(x, width = NULL, N = NULL, ...){
     # getting spectra limits
     lowest <- x %>% 

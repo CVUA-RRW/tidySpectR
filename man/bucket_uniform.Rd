@@ -32,7 +32,7 @@ Provide either \code{width} or \code{N}
 \examples{
 library(tidySpectR)
 
-bucket_uniform(fa_nmr, width= 0.04)
+bucket_uniform(fa_nmr, width= 0.1)
 
-bucket_uniform(fa_nmr, N = 1500)
+bucket_uniform(fa_nmr, N = 100)
 }

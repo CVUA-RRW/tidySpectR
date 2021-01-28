@@ -31,9 +31,3 @@ reference:
   - title: Internal functions
     contents:
     - average_spectrum()
-navbar:
-  right:
-  - text: Reference
-    href: reference/index.html
-  - text: News
-    href: news/index.html
