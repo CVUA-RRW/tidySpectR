@@ -35,3 +35,5 @@ navbar:
   right:
   - text: Reference
     href: reference/index.html
+  - text: News
+    href: news/index.html
