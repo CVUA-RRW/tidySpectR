@@ -33,6 +33,7 @@ tidy.collection <- function(x, ...){
         mutate(bins = as.factor(bins)) %>%
         pivot_wider(names_from = bins, values_from = values) %>%
         inner_join(x$labels, by = 'id') %>%
-        relocate(label, .after = 1)
+        relocate(label, .after = 1) %>%
+        ungroup()
 }
 

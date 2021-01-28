@@ -84,6 +84,6 @@ purrr::walk(files,
                   # ...
                   coll <<- coll \%>\% 
                            add_spectrum(values, limits, id)
-              }, coll)
+              })
 }
 }

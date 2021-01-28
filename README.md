@@ -26,10 +26,10 @@ data(fa_nmr)
 print(fa_nmr)
 #> 
 #> Spectra collection containing 10 entries.
-#> Number of bins: 47500
+#> Number of bins: 2250
 #> Normalized: FALSE
 #> Bucketted: FALSE
-#> Labels: control treatment
+#> Labels: conventional organic
 
 processed <- fa_nmr %>% 
              # Trimming edges
@@ -44,47 +44,40 @@ processed <- fa_nmr %>%
              normalize_internalStandard(from = 3.58, to = 3.64) %>%
              tidy()
 
+# Just checking the first five columns
 print(processed[,1:5]) 
 #> 
-#> # A tibble: 10 x 5
-#> # Groups:   id [10]
-#>    id          label     `0.519600000000001` `0.559600000000001` `0.5996`
-#>    <fct>       <fct>                   <dbl>               <dbl>    <dbl>
-#>  1 20198124123 control                0.0173              0.0270   0.0236
-#>  2 20198124124 control                0.0186              0.0271   0.0253
-#>  3 20198124125 control                0.0138              0.0218   0.0191
-#>  4 20198124469 control                0.0176              0.0269   0.0244
-#>  5 20198124538 control                0.0161              0.0246   0.0219
-#>  6 20198124540 treatment              0.0159              0.0238   0.0219
-#>  7 20198124553 treatment              0.0152              0.0233   0.0209
-#>  8 20198124554 treatment              0.0154              0.0249   0.0217
-#>  9 20198124555 treatment              0.0177              0.0263   0.0240
-#> 10 20198125029 treatment              0.0171              0.0251   0.0232
+#> # A tibble: 6 x 5
+#>   id         label      `0.51997876833874… `0.55997876833874… `0.59997876833874…
+#>   <fct>      <fct>                   <dbl>              <dbl>              <dbl>
+#> 1 201993059… conventio…             0.0353             0.0385             0.0442
+#> 2 201993062… conventio…             0.0388             0.0414             0.0481
+#> 3 201995046… conventio…             0.0259             0.0307             0.0348
+#> 4 201981241… organic                0.0381             0.0398             0.0451
+#> 5 201981241… organic                0.0311             0.0329             0.0425
+#> 6 201981241… organic                0.0385             0.0403             0.0470
+
 
 # Pre-processing for data analysis using the `recipe` package
 nmr_preprocessing <- recipe(processed, label ~.) %>%
                      update_role(id, new_role = "ID") %>% 
                      # Pareto-VAST scaling
                      step_vast(all_predictors(), scaling = 'pareto') %>%
-                     # PCA transformation
+                     # PCA transformation (from the recipes package)
                      step_pca(all_predictors(), num_comp = 5)
 
 # Check the data 
 nmr_preprocessing %>% prep() %>% juice()
 #> 
-#> # A tibble: 10 x 7
-#>    id          label        PC1    PC2     PC3     PC4    PC5
-#>    <fct>       <fct>      <dbl>  <dbl>   <dbl>   <dbl>  <dbl>
-#>  1 20198124123 control    -9.02  -6.24 -22.3    11.7   -5.69
-#>  2 20198124124 control   -57.6   46.9    8.19    6.24  -2.53
-#>  3 20198124125 control    60.2  -41.6    1.55   10.2    0.529
-#>  4 20198124469 control   -73.9  -32.4   -2.93    0.531 10.1
-#>  5 20198124538 control     4.72 -28.7    8.96   -7.51  -2.76
-#>  6 20198124540 treatment  -3.25  -5.80  21.4     6.83  -5.20
-#>  7 20198124553 treatment  60.9   33.3    2.02   -7.28   6.52
-#>  8 20198124554 treatment  26.2   32.2   -5.78   10.4    4.21
-#>  9 20198124555 treatment  -6.60  -2.26   0.285 -14.1    0.927
-#> 10 20198125029 treatment  -1.59   4.62 -11.5   -17.0   -6.08
+#> # A tibble: 6 x 7
+#>   id          label          PC1   PC2   PC3    PC4     PC5
+#>   <fct>       <fct>        <dbl> <dbl> <dbl>  <dbl>   <dbl>
+#> 1 20199305928 conventional -52.1  38.3  50.2  29.4    1.77
+#> 2 20199306281 conventional -81.3 -35.1 -28.7   3.52 -28.6
+#> 3 20199504645 conventional  25.5  76.9 -37.8 -15.9   -2.13
+#> 4 20198124123 organic       23.3 -21.0  52.6 -34.6   -2.98
+#> 5 20198124124 organic      146.  -28.8 -10.6  19.9   -0.771
+#> 6 20198124125 organic      -61.1 -30.3 -25.7  -2.23  32.8
 ```
 
 ## Installation

@@ -97,7 +97,7 @@ add_spectrum <- function(x, ...)
 #'                   # ...
 #'                   coll <<- coll %>% 
 #'                            add_spectrum(values, limits, id)
-#'               }, coll)
+#'               })
 #' }
 add_spectrum.collection <- function(x, 
                                     values, 

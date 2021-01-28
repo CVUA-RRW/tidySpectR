@@ -13,6 +13,7 @@ reference:
     - add_spectrum
     - print.collection
     - tidy.collection
+    - starts_with("pull_")
     - autoplot.collection
   - title: Masking and extracting data
     contents:
@@ -29,10 +30,7 @@ reference:
     - starts_with("step_")
   - title: Internal functions
     contents:
-    - bin_sum
     - average_spectrum()
-    - starts_with("pull_")
-
 navbar:
   right:
   - text: Reference
