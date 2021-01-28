@@ -32,9 +32,11 @@ The Optimized Bucketting Algorithm optimizes bucket size by
 searching local minima in the average spectrum.
 }
 \examples{
+\dontrun{
 library(tidySpectR)
 
-bucket_optimized(fa_nmr, initial_width = 0.1, slackness = 0.5)
+bucket_optimized(fa_nmr, initial_width = 0.01, slackness = 0.5)
+}
 }
 \references{
 Sousa SAA, Magalhaes A, Ferreira MMC. Optimized bucketing for NMR spectra:

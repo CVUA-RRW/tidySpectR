@@ -118,7 +118,6 @@ processed data.
 fa_nmr %>% 
     extract(from = 3.3, to = 3.9) %>%
     bucket_optimized(initial_width = 0.04, slackness = 0.25) %>%
-    extract(from = 3.3, to = 3.9) %>%
     autoplot(type = "average")
 ```
 
