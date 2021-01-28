@@ -5,17 +5,17 @@
 \alias{average_spectrum.collection}
 \title{Calculate the average spectrum}
 \usage{
-average_spectrum(x, group = "all", ...)
+average_spectrum(x, ...)
 
-average_spectrum(x, group = "all", ...)
+\method{average_spectrum}{collection}(x, group = "all", ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
 
-\item{group}{How to perform grouping. Either \code{all}or \code{labels}}
-
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
+
+\item{group}{How to perform grouping. Either \code{all}or \code{labels}}
 }
 \value{
 An updated version of \code{collection}.

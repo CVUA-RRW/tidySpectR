@@ -3,6 +3,7 @@
 S3method(add_labels,collection)
 S3method(add_spectrum,collection)
 S3method(autoplot,collection)
+S3method(average_spectrum,collection)
 S3method(bake,step_pareto)
 S3method(bake,step_svast)
 S3method(bake,step_vast)

@@ -23,7 +23,7 @@ average_spectrum <- function(x, ...)
 #' average_spectrum(fa_nmr)
 #'
 #' average_spectrum(fa_nmr, group = 'labels')
-average_spectrum <- function(x, group = 'all', ...){
+average_spectrum.collection <- function(x, group = 'all', ...){
     new_obj <- x
     if (group == 'all'){
         new_obj$data <- x$dat %>% 
