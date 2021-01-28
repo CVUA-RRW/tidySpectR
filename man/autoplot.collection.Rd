@@ -4,16 +4,7 @@
 \alias{autoplot.collection}
 \title{Plot a collection of spectra in their current processing state.}
 \usage{
-\method{autoplot}{collection}(
-  object,
-  type = "raw",
-  limits = c(-Inf, Inf),
-  enlarge = NULL,
-  offset_x = 0,
-  offset_y = 0,
-  show_bins = FALSE,
-  ...
-)
+\method{autoplot}{collection}(object, type = "raw", offset_x = 0, offset_y = 0, ...)
 }
 \arguments{
 \item{object}{A \code{collection} object.}
@@ -21,17 +12,9 @@
 \item{type}{A single character string for the type of plot to
 produce with values "raw", "average" or "label_average". See details.}
 
-\item{limits}{A numeric vector of size two, used to crop the data.}
-
-\item{enlarge}{A numeric vector of size two, used to extract
-a portion of the data to display enlarged in a window overlayed on
-the main plot.}
-
 \item{offset_x}{x axis offset value (in the axis unit) for the spectra}
 
 \item{offset_y}{y axis offset value (in the axis unit) for the spectra}
-
-\item{show_bins}{A boolean controlling whether to show bin limits.}
 
 \item{...}{Not currently used.}
 }
