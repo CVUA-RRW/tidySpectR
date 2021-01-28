@@ -10,12 +10,119 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width=10, 
+  fig.height=5
 )
 ```
 
+## Introduction
+
+The `autoplot` method provides a simple plotting interface to 
+easily produce plots of the spectra contained in a collection in their current 
+processing status.
+
 ```{r setup}
+library(tidyverse)
 library(tidySpectR)
 ```
 
-Coming soon
+## Basic usage
+
+First let us have a look at the `fa_nmr` dataset that is provided 
+with this package:
+
+```{r rawplot}
+print(fa_nmr)
+
+autoplot(fa_nmr)
+```
+
+This is a bit clutered so we can try to separate a bit the spectra.
+For this we can play with two parameters: `offset_y` and `offset_x`
+which will offset each spectra on their respective axes. 
+
+The offset value must be provided in the axis unit!
+
+```{r rawoffset}
+autoplot(fa_nmr, offset_y = 1e+09) +
+    theme(legend.position = "none")
+
+autoplot(fa_nmr, offset_y = 1e+09, offset_x = 1) +
+    theme(legend.position = "none")
+```
+
+If we are not interested in visualizing individual spectra we can 
+simply plot the average supectrum of the label-average spectra.
+In this case the average spectrum will be respresented by a 
+solid line and the range of data by a transparent ribbon.
+
+```{r averages}
+autoplot(fa_nmr, type = "average") +
+    theme(legend.position = "none")
+
+autoplot(fa_nmr, type = "label_average", offset_y = 1e+09, offset_x = 1)
+```
+
+## Plotting specific regions
+
+It is possible to look at a specific region by preprocessing
+the collection with the `extract` method
+Let's take a closer look at what is happening in the 3.3 - 3.9 ppm region:
+
+```{r crop}
+fa_nmr %>% 
+    extract(from = 3.3, to = 3.9) %>%
+    autoplot(offset_y = 2e+08) +
+        theme(legend.position = "none")
+```
+
+## Controlling bucketting
+
+Visualization is especially needed to control the bucketting process.
+Let's try different bucketting methods and check their results 
+on the raw spectra.
+
+For this example we will focus only on the 3.3 - 3.9 ppm region.
+
+```{r bucketting}
+uniform <- fa_nmr %>% 
+    extract(from = 3.3, to = 3.9) %>%
+    bucket_uniform(width = 0.04) %>%
+    pull_breaks()
+    
+fa_nmr %>% 
+    extract(from = 3.3, to = 3.9) %>%
+    autoplot(fa_nmr, type = "average") +
+    geom_vline(xintercept = uniform, color = "red", alpha = 0.5) +
+    theme(legend.position = "none") +
+    ggtitle("Uniform bucketting 0.04ppm")
+    
+opti <- fa_nmr %>% 
+    extract(from = 3.3, to = 3.9) %>%
+    bucket_optimized(initial_width = 0.04, slackness = 0.25) %>%
+    pull_breaks()
+    
+fa_nmr %>% 
+    extract(from = 3.3, to = 3.9) %>%
+    autoplot(fa_nmr, type = "average") +
+    geom_vline(xintercept = opti, color = "red", alpha = 0.5) +
+    theme(legend.position = "none") +
+    ggtitle("Optimized bucketting 0.04ppm")
+```
+
+This could still be optimized but we can now visualize the 
+processed data.
+
+```{r processed}
+fa_nmr %>% 
+    extract(from = 3.3, to = 3.9) %>%
+    bucket_optimized(initial_width = 0.04, slackness = 0.25) %>%
+    extract(from = 3.3, to = 3.9) %>%
+    autoplot(type = "average")
+```
+
+
+
+
+

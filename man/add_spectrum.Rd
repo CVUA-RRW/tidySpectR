@@ -11,7 +11,8 @@ add_spectrum(x, ...)
 \method{add_spectrum}{collection}(
   x,
   values,
-  limits,
+  left,
+  right,
   id = deparse(substitute(values)),
   label = NA,
   ...
@@ -25,8 +26,11 @@ currenctly used).}
 
 \item{values}{A vector of intensity values.}
 
-\item{limits}{A vector of length two with the upper and lower
-limits of the measurement space.}
+\item{left}{A dbl, left limit of the spectra, corresponds to the
+first element of \code{values}}
+
+\item{right}{A dbl, right limit of the spectra, corresponds to the
+last element of \code{values}}
 
 \item{id}{A unique identifier for the sample.}
 
@@ -41,6 +45,10 @@ Adds an new entry to an existing colleciton object.
 \details{
 It is assumed that the binning is uniform and correspond
 to point measurments.
+
+Be careful with the values of \code{left}and \code{right}! THis is important
+for example for NMR data which are usually given with a reversed
+y-axis.
 
 \code{labels} should be used to provide meanigful labels to the samples, e.g.
 'treated' and 'control'.
@@ -57,14 +65,15 @@ library(tidySpectR)
 
 # Genearating some values
 values = runif(50)
-limits = c(0,49)
+left = 0
+right = 49
 
 # Collection is empty on creation
 coll = collection()
 
 # Adding the data
 coll \%>\% 
-    add_spectrum(values, limits, id = "basic_example", label = "test")
+    add_spectrum(values, left, right, id = "basic_example", label = "test")
 
 ####################################################################
 \dontrun{
@@ -83,7 +92,7 @@ purrr::walk(files,
                   # Parse your files to extract values, limits and ids
                   # ...
                   coll <<- coll \%>\% 
-                           add_spectrum(values, limits, id)
+                           add_spectrum(values, left, right, id)
               })
 }
 }

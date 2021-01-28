@@ -43,14 +43,20 @@ add_spectrum <- function(x, ...)
 #' @param x A `collection` object.
 #' @param values A vector of intensity values.
 #' @param id A unique identifier for the sample.
-#' @param limits A vector of length two with the upper and lower 
-#'   limits of the measurement space.
+#' @param left A dbl, left limit of the spectra, corresponds to the
+#'   first element of `values`
+#' @param right A dbl, right limit of the spectra, corresponds to the
+#'   last element of `values`
 #' @param label A label for the sample.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `x`.
 #' @details It is assumed that the binning is uniform and correspond 
 #'   to point measurments.
+#'
+#' Be careful with the values of `left`and `right`! THis is important
+#'   for example for NMR data which are usually given with a reversed 
+#'   y-axis. 
 #'   
 #' `labels` should be used to provide meanigful labels to the samples, e.g.
 #'    'treated' and 'control'.
@@ -70,14 +76,15 @@ add_spectrum <- function(x, ...)
 #' 
 #' # Genearating some values
 #' values = runif(50)
-#' limits = c(0,49)
+#' left = 0
+#' right = 49
 #' 
 #' # Collection is empty on creation
 #' coll = collection()
 #' 
 #' # Adding the data
 #' coll %>% 
-#'     add_spectrum(values, limits, id = "basic_example", label = "test")
+#'     add_spectrum(values, left, right, id = "basic_example", label = "test")
 #' 
 #' ####################################################################
 #' \dontrun{
@@ -96,12 +103,13 @@ add_spectrum <- function(x, ...)
 #'                   # Parse your files to extract values, limits and ids
 #'                   # ...
 #'                   coll <<- coll %>% 
-#'                            add_spectrum(values, limits, id)
+#'                            add_spectrum(values, left, right, id)
 #'               })
 #' }
 add_spectrum.collection <- function(x, 
                                     values, 
-                                    limits,
+                                    left,
+                                    right,
                                     id = deparse(substitute(values)), 
                                     label = NA,
                                     ...){
@@ -113,13 +121,14 @@ add_spectrum.collection <- function(x,
     }
         
     # get bins from limits
-    bins <- seq(min(limits),
-                max(limits),
+    bins <- seq(left,
+                right,
                 length.out = length(values))
     
     new_obj <- x
     
     # Build the data tibble
+    limits <- c(left, right)
     binsize = (max(limits) - min(limits)) / (length(values) - 1)
     
     newdat <- tibble(id = id,

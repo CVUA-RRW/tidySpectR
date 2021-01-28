@@ -7,7 +7,7 @@ context("Testing masking and extraction")
 library(tidyverse)
 
 coll <- collection() %>%
-    add_spectrum(c(1,1,1,1,1,1), c(0,5), id = "sample", label = "test")
+    add_spectrum(c(1,1,1,1,1,1), left = 0, right = 5, id = "sample", label = "test")
     
 test_that("mask", {
     mask1 <- coll %>% 

@@ -31,7 +31,7 @@ bucket_optimized <- function(x, ...)
 #' @examples
 #' library(tidySpectR)
 #'
-#' bucket_optimized(fa_nmr, initial_width = 0.02, slackness = 0.5)
+#' bucket_optimized(fa_nmr, initial_width = 0.1, slackness = 0.5)
 bucket_optimized.collection <- function(x, initial_width, slackness, ...){
     average <- x %>% 
                average_spectrum(group = "all")

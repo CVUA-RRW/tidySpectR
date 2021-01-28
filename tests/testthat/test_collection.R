@@ -12,10 +12,10 @@ test_that('collection instanciation', {
 })
 
 coll <- collection() %>%
-        add_spectrum(c(1,1,1,1,1), c(0,4), id = "sample", label = "test")
+        add_spectrum(c(1,1,1,1,1), left = 0, right = 4, id = "sample", label = "test")
 
 coll2sample <- coll %>%
-        add_spectrum(c(1,1,1,1,1,1), c(0,5), id = "sample2", label = "test_2")
+        add_spectrum(c(1,1,1,1,1,1), left = 0, right = 5, id = "sample2", label = "test_2")
         
 test_that('add_spectrum',{
     datadf <- tibble(id = "sample",

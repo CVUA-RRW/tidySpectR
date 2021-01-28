@@ -61,8 +61,7 @@ all_plot <- function(dat, offset_x, offset_y, ...){
     p <- ggplot(dat, aes (x = bins + x_offset,
                           y = values + y_offset)) +
          geom_line(aes(color = id),
-                   size = 0.1,
-                   alpha = 0.5)+
+                   size = 0.1)+
          labs(x = "bins", y = "intensity")
 }
 
