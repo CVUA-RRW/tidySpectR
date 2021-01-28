@@ -15,7 +15,7 @@ normalize_factor(x, ...)
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
 
-\item{factors}{A tibble with columns \code{id} and \code{factor}}
+\item{factors}{A tibble with columns \code{id} and \code{factors}}
 }
 \value{
 An updated version of \code{collection}.

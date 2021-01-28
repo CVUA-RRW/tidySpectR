@@ -9,7 +9,7 @@ normalize_factor <- function(x, ...)
 
 #' @rdname normalize_factor
 #' @param x A`collection` object
-#' @param factors A tibble with columns `id` and `factor`
+#' @param factors A tibble with columns `id` and `factors`
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -41,7 +41,8 @@ normalize_factor.collection <- function(x, factors, ...) {
                                  pull(factors)
 
                             x %>% mutate(values = x$values * f)
-                        }, factors)
+                        }, factors) %>% 
+                    ungroup()
     
     new_obj$normalized <- "Custom factors"
     
