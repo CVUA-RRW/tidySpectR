@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Performs optimized bucketting — bucket_optimized • tidySpectR</title>
+<title>Calculate the bin values for each splits of the current bin — sub_bins_values • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Performs optimized bucketting — bucket_optimized" />
-<meta property="og:description" content="Bucket a collection of spectra using the Optimized
-Bucketting Algorithm" />
+<meta property="og:title" content="Calculate the bin values for each splits of the current bin — sub_bins_values" />
+<meta property="og:description" content="Calculate the bin values for each splits of the current bin" />
 
 
 
@@ -127,65 +126,45 @@ Bucketting Algorithm" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Performs optimized bucketting</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/bucket_optimized.R'><code>R/bucket_optimized.R</code></a></small>
-    <div class="hidden name"><code>bucket_optimized.Rd</code></div>
+    <h1>Calculate the bin values for each splits of the current bin</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/bucket_aibin.R'><code>R/bucket_aibin.R</code></a></small>
+    <div class="hidden name"><code>sub_bins_values.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Bucket a collection of spectra using the Optimized
-Bucketting Algorithm</p>
+    <p>Calculate the bin values for each splits of the current bin</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bucket_optimized</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for collection</span>
-<span class='fu'>bucket_optimized</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>initial_width</span>, <span class='va'>slackness</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sub_bins_values</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>current_bin</span>, <span class='va'>R</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A<code>collection</code> object</p></td>
+      <td><p>spliting point</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further arguments passed to or from other methods(not
-currenctly used).</p></td>
+      <th>current_bin</th>
+      <td><p>A <code>collection</code> object containing the current bin</p></td>
     </tr>
     <tr>
-      <th>initial_width</th>
-      <td><p>Initial bin width to optimize</p></td>
-    </tr>
-    <tr>
-      <th>slackness</th>
-      <td><p>fraction of initial width that defines
-how far the boundary can move while searching for a local minimum</p></td>
+      <th>R</th>
+      <td><p>resolution</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An updated version of <code>collection</code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A tibble with bin values:</p><dl>
+<dt>candidate</dt><dd><p>position of the new splitting point</p></dd>
+<dt>vb1</dt><dd><p>left-bin value</p></dd>
+<dt>vb2</dt><dd><p>right-bin value</p></dd>
+<dt>vbsum</dt><dd><p>sum of the left and righ bin values</p></dd>
 
-    <p>The Optimized Bucketting Algorithm optimizes bucket size by
-searching local minima in the average spectrum.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+</dl>
 
-    <p>Sousa SAA, Magalhaes A, Ferreira MMC. Optimized bucketing for NMR spectra:
-Three case studies. Chemometr Intell Lab. 2013;122:93–102.
-https://doi.org/10.1016/j.chemolab.2013.01.006
-<a href='https://doi.org/10.1016/j.chemolab.2013.01.006'>https://doi.org/10.1016/j.chemolab.2013.01.006</a></p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
-
-<span class='fu'>bucket_optimized</span><span class='op'>(</span><span class='va'>fa_nmr</span>, initial_width <span class='op'>=</span> <span class='fl'>0.01</span>, slackness <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
