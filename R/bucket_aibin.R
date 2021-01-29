@@ -14,7 +14,7 @@
 #'
 #' In order to limit splitting in local minima of noisy regions a minimal quality
 #'   value is computed from the user-provided noise-region.
-#'
+#' 
 #' @references
 #' De Meyer T, Sinnaeve D, Van Gasse B, Tsiporkova E, Rietzschel ER, 
 #' De Buyzere ML, Gillebert TC, Bekaert S, Martins JC, Van Criekinge W. 
@@ -28,12 +28,17 @@ bucket_aibin <- function(x, ...)
 #' @rdname bucket_aibin
 #' @param x A`collection` object to bucket
 #' @param R resolution value, strictly positive and typically in the interval
-#'   0 > R >= 1. A lower R value will results in more bins being created.
+#'   0 > R >= 1. 
 #' @param noise_region A`collection` object containing a noise_region
 #' @param cores Number of cores to allocate to the process for multprocessing
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
+#' @notes The amount of created bins is not directly dpeending of a high or low R.
+#'   If a maximal splitting is looked for, you should try several different values 
+#'   in the possible rangeof R (see references). However the differences in binning should
+#'   limited to bins that are borderline noise and most likely has limited effect in 
+#'   the downstream analysis.
 #' @export
 #' @examples
 #' \dontrun{

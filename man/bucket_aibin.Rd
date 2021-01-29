@@ -16,7 +16,7 @@ bucket_aibin(x, ...)
 currenctly used).}
 
 \item{R}{resolution value, strictly positive and typically in the interval
-0 > R >= 1. A lower R value will results in more bins being created.}
+0 > R >= 1.}
 
 \item{noise_region}{A\code{collection} object containing a noise_region}
 
@@ -51,7 +51,7 @@ spectra <- normalized \%>\% extract(0, 7.2)
 noise <- normalized \%>\% mask(0, 7.2, overlaps = 'remove')
 
 # Sit back and relax
-bucketted <- bucket_aibin(spectra, 0.2, noise, cores  = 2)
+bucketted <- bucket_aibin(spectra, 0.2, noise, cores = 2)
 }
 }
 \references{

@@ -25,7 +25,7 @@ data(fa_nmr)
 # H1-NMR data of egg yolk fatty acids
 print(fa_nmr)
 #> 
-#> Spectra collection containing 10 entries.
+#> Spectra collection containing 6 entries.
 #> Number of bins: 2250
 #> Normalized: FALSE
 #> Bucketted: FALSE

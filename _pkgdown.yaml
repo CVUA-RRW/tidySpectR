@@ -15,6 +15,7 @@ reference:
     - tidy.collection
     - starts_with("pull_")
     - autoplot.collection
+    - average_spectrum
   - title: Masking and extracting data
     contents:
     - mask
@@ -29,6 +30,6 @@ reference:
   - title: Recipe steps
     contents:
     - starts_with("step_")
-  - title: Internal functions
+  - title: Data
     contents:
-    - average_spectrum()
+    - fa_nmr

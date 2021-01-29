@@ -45,7 +45,7 @@ filter_noise.collection <- function(x, noise_region, snr, ...){
     keep <- signal_level %>%
             filter(bins > (snr * noise_level))
             
-    new_obj$data <- right_join(x$data, select(keep, bins))
+    new_obj$data <- right_join(x$data, select(keep, bins), by = "bins")
     
     return(new_obj)
 }
