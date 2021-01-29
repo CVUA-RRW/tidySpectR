@@ -25,7 +25,10 @@ Imports:
     methods,
     generics,
     rlang,
-    ggplot2
+    ggplot2,
+    furrr,
+    future,
+    parallel
 Suggests: 
     testthat,
     tidyverse,

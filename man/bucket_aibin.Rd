@@ -4,17 +4,19 @@
 \alias{bucket_aibin}
 \title{Applies Adaptive Inteligent Binning on a collection`}
 \usage{
-bucket_aibin(x, R, noise_region, ...)
+bucket_aibin(x, R, noise_region, cores = 1, ...)
 
-bucket_aibin(x, R, noise_region, ...)
+bucket_aibin(x, R, noise_region, cores = 1, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object to bucket}
 
 \item{R}{resolution value, strictly positive and typically in the interval
-0 > R >= 1}
+0 > R >= 1. A lower R value will results in more bins being created.}
 
 \item{noise_region}{A\code{collection} object containing a noise_region}
+
+\item{cores}{Number of cores to allocate to the process for multprocessing}
 
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
@@ -48,7 +50,7 @@ spectra <- normalized \%>\% extract(0, 7.2)
 noise <- normalized \%>\% mask(0, 7.2, overlaps = 'remove')
 
 # Sit back and relax
-bucketted <- bucket_aibin(spectra, 0.2, noise)
+bucketted <- bucket_aibin(spectra, 0.2, noise, cores  = 2)
 }
 }
 \references{

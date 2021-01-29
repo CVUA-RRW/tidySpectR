@@ -27,8 +27,9 @@ bucket_aibin <- function(x, ...)
 #' @rdname bucket_aibin
 #' @param x A`collection` object to bucket
 #' @param R resolution value, strictly positive and typically in the interval
-#'   0 > R >= 1
+#'   0 > R >= 1. A lower R value will results in more bins being created.
 #' @param noise_region A`collection` object containing a noise_region
+#' @param cores Number of cores to allocate to the process for multprocessing
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
@@ -44,9 +45,14 @@ bucket_aibin <- function(x, ...)
 #' noise <- normalized %>% mask(0, 7.2, overlaps = 'remove')
 #' 
 #' # Sit back and relax
-#' bucketted <- bucket_aibin(spectra, 0.2, noise)
+#' bucketted <- bucket_aibin(spectra, 0.2, noise, cores  = 2)
 #' }
-bucket_aibin <- function(x, R, noise_region, ...){
+#' @importFrom future plan makeClusterPSOCK cluster
+#' @importFrom parallel stopCluster
+bucket_aibin <- function(x, R, noise_region, cores = 1,...){
+    cl <- makeClusterPSOCK(cores)
+    plan(cluster, workers = cl)
+    
     # Determine Vnoise
     vnoise <- find_vnoise(noise_region, R)
     
@@ -55,6 +61,8 @@ bucket_aibin <- function(x, R, noise_region, ...){
     
     new_obj <- bucket_from_breaks(x, splits)
     new_obj$bucketted <- "Adaptive inteligent binning"
+    
+    stopCluster(cl)
     return(new_obj)
 }
 
@@ -125,6 +133,7 @@ recursive_split <- function(current_bin, R, vnoise, breaks = NULL){
 #' @keywords internal
 #' @importFrom purrr map_dfr
 #' @importFrom dplyr slice_max
+#' @importFrom furrr future_map_dfr furrr_options
 divide_bin <- function(current_bin, R, vnoise){
     vb <- bin_value(current_bin$data, R)
     
@@ -135,10 +144,12 @@ divide_bin <- function(current_bin, R, vnoise){
     candidates <- candidates[-length(candidates)]
     
     # Get bin values for each candidates
-    split_values <- map_dfr(candidates, 
-                            ~ sub_bins_values(.x,
-                            current_bin, 
-                            R))
+    split_values <- future_map_dfr(candidates, 
+                                    ~ sub_bins_values(.x,
+                                    current_bin, 
+                                    R),
+                                    .options = furrr_options(packages= c("tibble", 
+                                                                         "dplyr")))
     
     # Find candidate which maximizes Vbsum
     new_split <- slice_max(split_values, vbsum) %>%
