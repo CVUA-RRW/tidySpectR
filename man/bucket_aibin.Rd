@@ -40,6 +40,13 @@ will be split and the process will be repeated on the newly created bins.
 In order to limit splitting in local minima of noisy regions a minimal quality
 value is computed from the user-provided noise-region.
 }
+\note{
+The amount of created bins is not directly dpeending of a high or low R.
+If a maximal splitting is looked for, you should try several different values
+in the possible rangeof R (see references). However the differences in binning should
+limited to bins that are borderline noise and most likely has limited effect in
+the downstream analysis.
+}
 \examples{
 \dontrun{
 library(tidySpectR)

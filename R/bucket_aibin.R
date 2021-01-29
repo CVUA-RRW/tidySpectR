@@ -34,7 +34,7 @@ bucket_aibin <- function(x, ...)
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
-#' @notes The amount of created bins is not directly dpeending of a high or low R.
+#' @note The amount of created bins is not directly dpeending of a high or low R.
 #'   If a maximal splitting is looked for, you should try several different values 
 #'   in the possible rangeof R (see references). However the differences in binning should
 #'   limited to bins that are borderline noise and most likely has limited effect in 
