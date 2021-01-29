@@ -74,7 +74,7 @@ newly created bin." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@ currenctly used).</p></td>
     <tr>
       <th>R</th>
       <td><p>resolution value, strictly positive and typically in the interval
-0 &gt; R &gt;= 1. A lower R value will results in more bins being created.</p></td>
+0 &gt; R &gt;= 1.</p></td>
     </tr>
     <tr>
       <th>noise_region</th>
@@ -183,6 +183,13 @@ If the best splitting candidates fulfills quality requirements, the bin
 will be split and the process will be repeated on the newly created bins.</p>
 <p>In order to limit splitting in local minima of noisy regions a minimal quality
 value is computed from the user-provided noise-region.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The amount of created bins is not directly dpeending of a high or low R.
+If a maximal splitting is looked for, you should try several different values
+in the possible rangeof R (see references). However the differences in binning should
+limited to bins that are borderline noise and most likely has limited effect in
+the downstream analysis.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>De Meyer T, Sinnaeve D, Van Gasse B, Tsiporkova E, Rietzschel ER,
@@ -203,7 +210,7 @@ May 15;80(10):3783-90. doi: 10.1021/ac7025964.
 <span class='va'>noise</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mask.html'>mask</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>7.2</span>, overlaps <span class='op'>=</span> <span class='st'>'remove'</span><span class='op'>)</span>
 
 <span class='co'># Sit back and relax</span>
-<span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.2</span>, <span class='va'>noise</span>, cores  <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.2</span>, <span class='va'>noise</span>, cores <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
