@@ -1,8 +1,9 @@
-#' Applies Adaptive Inteligent Binning on a collection`
+#' Applies Adaptive Inteligent Binning on a collection
 #' 
 #' Adaptive Inteligent Binning (aibin) recursively finds bin edges 
 #'   in existing bins by maximizing the information contained in each 
 #'   newly created bin.
+#' @aliases bucket_aibin bucket_aibin.collection
 #' @export
 #' @details 
 #' AI binning will first consider the entire spectra as a single bin.
@@ -49,7 +50,7 @@ bucket_aibin <- function(x, ...)
 #' }
 #' @importFrom future plan makeClusterPSOCK cluster
 #' @importFrom parallel stopCluster
-bucket_aibin <- function(x, R, noise_region, cores = 1,...){
+bucket_aibin.collection <- function(x, R, noise_region, cores = 1,...){
     cl <- makeClusterPSOCK(cores)
     plan(cluster, workers = cl)
     

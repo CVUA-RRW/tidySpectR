@@ -2,14 +2,18 @@
 % Please edit documentation in R/bucket_aibin.R
 \name{bucket_aibin}
 \alias{bucket_aibin}
-\title{Applies Adaptive Inteligent Binning on a collection`}
+\alias{bucket_aibin.collection}
+\title{Applies Adaptive Inteligent Binning on a collection}
 \usage{
-bucket_aibin(x, R, noise_region, cores = 1, ...)
+bucket_aibin(x, ...)
 
-bucket_aibin(x, R, noise_region, cores = 1, ...)
+\method{bucket_aibin}{collection}(x, R, noise_region, cores = 1, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object to bucket}
+
+\item{...}{further arguments passed to or from other methods(not
+currenctly used).}
 
 \item{R}{resolution value, strictly positive and typically in the interval
 0 > R >= 1. A lower R value will results in more bins being created.}
@@ -17,9 +21,6 @@ bucket_aibin(x, R, noise_region, cores = 1, ...)
 \item{noise_region}{A\code{collection} object containing a noise_region}
 
 \item{cores}{Number of cores to allocate to the process for multprocessing}
-
-\item{...}{further arguments passed to or from other methods(not
-currenctly used).}
 }
 \value{
 An updated version of x
