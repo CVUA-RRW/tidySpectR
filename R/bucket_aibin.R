@@ -46,7 +46,7 @@ bucket_aibin <- function(x, ...)
 #' noise <- normalized %>% mask(0, 7.2, overlaps = 'remove')
 #' 
 #' # Sit back and relax
-#' bucketted <- bucket_aibin(spectra, 0.2, noise, cores  = 2)
+#' bucketted <- bucket_aibin(spectra, 0.2, noise, cores = 2)
 #' }
 #' @importFrom future plan makeClusterPSOCK cluster
 #' @importFrom parallel stopCluster
