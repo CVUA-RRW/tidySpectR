@@ -8,6 +8,10 @@ utils::globalVariables(
         
         # autoplot variables
         "x_offset", "y_offset", "average", "min_val",
-        "max_val"
+        "max_val",
+        
+        # aibin
+        "product", "vbsum", "candidate"
+        
     )
 )
