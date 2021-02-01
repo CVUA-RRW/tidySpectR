@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -95,14 +95,254 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CVUA-RRW/tidySpectR">tidySpectR</a></span><span class="op">)</span></code></pre></div>
-<p>coming soon</p>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
+<p>In this example we will process the example data <code>fa_nmr</code> to build a simple PC-LDA classificator. As this dataset includes only three spectra of each category don’t expect wonders, the aim of this vignette is simply to guide you through a workflow.</p>
+<p>##Pre processing NMR spectra</p>
+<div id="creating-a-collection-from-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#creating-a-collection-from-files" class="anchor"></a>Creating a collection from files</h3>
+<p>This package comes with an example dataset, already loaded as a collection. This dataset contains H1-NMR spectra for fatty acids of egg yolks. The spectra were pre-processed using TopSpin: * Phasing * Baseline removal * Spectral alignement * Export as .txt files</p>
+<p>Each exported file looked like this :</p>
+<pre><code># File created = &lt;DATE&gt;
+# Data set = &lt;NAME&gt;  10  1  &lt;"Path/to/folder"&gt;
+# Spectral Region:
+# LEFT = 14.931500434875488 ppm. RIGHT = -5.284929038283497 ppm.
+#
+# SIZE = 262144 ( = number of points)
+#
+# In the following ordering is from the 'left' to the 'right' limits!
+# Lines beginning with '#' must be considered as comment lines.
+#
+83549.0
+83274.0
+83057.0
+...</code></pre>
+<p>Here is how this data was loaded as a collection:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+
+<span class="co"># First we get a list of the files in the spectra folder</span>
+<span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">INPUT_FOLDER</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">INPUT_FOLDER</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Then we create a simple parser to read the data form the files</span>
+<span class="va">parse_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">meta_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">path</span>, n <span class="op">=</span> <span class="fl">10</span>, ok <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">meta_raw</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span>
+    <span class="va">left</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">meta_raw</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
+    <span class="va">right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">meta_raw</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, <span class="st">" "</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span>
+    <span class="va">vals</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span><span class="va">path</span>, col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"values"</span><span class="op">)</span>, comment <span class="op">=</span> <span class="st">"#"</span>, col_types<span class="op">=</span> <span class="st">"d"</span><span class="op">)</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">dataset</span>, left <span class="op">=</span> <span class="va">left</span>, right <span class="op">=</span> <span class="va">right</span>, values <span class="op">=</span> <span class="va">vals</span><span class="op">$</span><span class="va">values</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co"># Finally we load each spectra and add it to a collection</span>
+<span class="va">fa_nmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collection.html">collection</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span><span class="va">files</span>, <span class="op">~</span> <span class="op">{</span><span class="va">parsed</span> <span class="op">&lt;-</span> <span class="fu">parse_file</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>
+                    <span class="va">fa_nmr</span> <span class="op">&lt;&lt;-</span> <span class="va">fa_nmr</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/add_spectrum.html">add_spectrum</a></span><span class="op">(</span><span class="va">parsed</span><span class="op">$</span><span class="va">values</span>,
+                                                   <span class="va">parsed</span><span class="op">$</span><span class="va">left</span>,
+                                                   <span class="va">parsed</span><span class="op">$</span><span class="va">right</span>,
+                                                   <span class="va">parsed</span><span class="op">$</span><span class="va">id</span><span class="op">)</span><span class="op">}</span><span class="op">)</span>
+
+<span class="co"># We can also load labels for a file to add the to the collection</span>
+<span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span><span class="va">LABELS</span><span class="op">)</span>
+<span class="va">fa_nmr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_labels.html">add_labels</a></span><span class="op">(</span><span class="va">fa_nmr</span>, <span class="va">labs</span>, ids_from <span class="op">=</span> <span class="st">"sample"</span>, labels_from <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="preparing-the-spectra" class="section level3">
+<h3 class="hasAnchor">
+<a href="#preparing-the-spectra" class="anchor"></a>Preparing the spectra</h3>
+<p>Let’s set up things here. We will need the <code>tidyverse</code> and <code>tidymodels</code> packages for this example</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
+<span class="co">#&gt; ✔ ggplot2 3.3.3     ✔ purrr   0.3.4</span>
+<span class="co">#&gt; ✔ tibble  3.0.6     ✔ dplyr   1.0.3</span>
+<span class="co">#&gt; ✔ tidyr   1.1.2     ✔ stringr 1.4.0</span>
+<span class="co">#&gt; ✔ readr   1.4.0     ✔ forcats 0.5.1</span>
+<span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span>
+<span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
+<span class="co">#&gt; ── Attaching packages ────────────────────────────────────── tidymodels 0.1.2 ──</span>
+<span class="co">#&gt; ✔ broom     0.7.4      ✔ recipes   0.1.15</span>
+<span class="co">#&gt; ✔ dials     0.0.9      ✔ rsample   0.0.8 </span>
+<span class="co">#&gt; ✔ infer     0.5.4      ✔ tune      0.1.2 </span>
+<span class="co">#&gt; ✔ modeldata 0.1.0      ✔ workflows 0.2.1 </span>
+<span class="co">#&gt; ✔ parsnip   0.1.5      ✔ yardstick 0.0.7</span>
+<span class="co">#&gt; ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──</span>
+<span class="co">#&gt; ✖ scales::discard() masks purrr::discard()</span>
+<span class="co">#&gt; ✖ dplyr::filter()   masks stats::filter()</span>
+<span class="co">#&gt; ✖ recipes::fixed()  masks stringr::fixed()</span>
+<span class="co">#&gt; ✖ dplyr::lag()      masks stats::lag()</span>
+<span class="co">#&gt; ✖ yardstick::spec() masks readr::spec()</span>
+<span class="co">#&gt; ✖ recipes::step()   masks stats::step()</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://discrim.tidymodels.org">discrim</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'discrim'</span>
+<span class="co">#&gt; The following object is masked from 'package:dials':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     smoothness</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CVUA-RRW/tidySpectR">tidySpectR</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'tidySpectR'</span>
+<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     extract</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">fa_nmr</span><span class="op">)</span></code></pre></div>
+<p>First remove the water and solvent (MeOD in this case) peaks and trim the edges of the spectra to the interessant region.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="va">fa_nmr</span>
+
+<span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">4.6</span>, <span class="fl">4.66</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Water peak"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/filtering-1.png" width="700"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"MeOD peak"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/filtering-2.png" width="700"></p>
+<p>This looks good so we can proceed to masking the peaks, these will be effectivally removed from the dataset (not set to zero).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="va">spectra</span> <span class="op">%&gt;%</span> 
+    <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">7.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">4.6</span>, <span class="fl">4.66</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="normalization" class="section level3">
+<h3 class="hasAnchor">
+<a href="#normalization" class="anchor"></a>Normalization</h3>
+<p>We can now proceed to normalizing the spectra using normalization to a given peak. You could also normalize with external values (Osmolarity, concentrations, …), check the <code>normalize_factor</code> method for that.</p>
+<p>First we will check the normalization peak to be sure that we include all of it.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spectra</span> <span class="op">%&gt;%</span>
+    <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Normalization peak (raw)"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/normraw-1.png" width="700"></p>
+<p>Looking good, let’s proceed and check the result.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalize_internalStandard.html">normalize_internalStandard</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span>
+
+<span class="va">spectra</span> <span class="op">%&gt;%</span>
+    <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Normalization peak (after normalization)"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/norm-1.png" width="700"></p>
+</div>
+<div id="bucketting" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bucketting" class="anchor"></a>Bucketting</h3>
+<p>We can now bucket (or “bin”) the spectra. In this example we will use a very simple uniform binning but more sophisticated methods are implemented.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bucket_uniform.html">bucket_uniform</a></span><span class="op">(</span><span class="va">spectra</span>, width <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span>
+
+<span class="va">spectra</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"label_average"</span>, offset_x <span class="op">=</span> <span class="fl">0.5</span>, offset_y <span class="op">=</span> <span class="fl">5</span> <span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Processed spectra"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/bucket-1.png" width="700"></p>
+<p>And here are the processed spectra!</p>
+<p>Note that the spectra in this dataset were pre-bucketted. In real life the data would be several time bigger and the bucketting process can be pretty slow. We could speed it up using multiprocessing:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HenrikBengtsson/future">future</a></span><span class="op">)</span>
+
+<span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future/man/re-exports.html">makeClusterPSOCK</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="va">cluster</span>, workers <span class="op">=</span> <span class="va">cl</span><span class="op">)</span>
+
+<span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bucket_uniform.html">bucket_uniform</a></span><span class="op">(</span><span class="va">spectra</span>, width <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span>
+
+<span class="fu">stopCluster</span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="multivariate-data-analysis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multivariate-data-analysis" class="anchor"></a>Multivariate data analysis</h2>
+<p>Now that we have processed our spectra we can go on to the modelling part. For this we will rely on the <a href="https://www.tidymodels.org/">tidymodels</a> workflow. First we will scale the spectra using Pareto scaling and perform PCA on the predictors.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Export the spectra in a tidy format </span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
+
+<span class="va">rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">label</span> <span class="op">~</span><span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://recipes.tidymodels.org/reference/roles.html">update_role</a></span><span class="op">(</span><span class="va">id</span>, new_role <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+        <span class="fu"><a href="../reference/step_pareto.html">step_pareto</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_nzv.html">step_nzv</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_pca.html">step_pca</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
+
+<span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://discrim.tidymodels.org/reference/discrim_linear.html">discrim_linear</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"classification"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu">set_engine</span><span class="op">(</span><span class="st">"mda"</span><span class="op">)</span>
+
+<span class="va">wflow</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu">add_recipe</span><span class="op">(</span><span class="va">rec</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu">add_model</span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
+        
+<span class="va">fitted</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span><span class="va">wflow</span>, <span class="va">df</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fitted</span><span class="op">)</span>
+<span class="co">#&gt; ══ Workflow [trained] ══════════════════════════════════════════════════════════</span>
+<span class="co">#&gt; Preprocessor: Recipe</span>
+<span class="co">#&gt; Model: discrim_linear()</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ── Preprocessor ────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; 3 Recipe Steps</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ● step_pareto()</span>
+<span class="co">#&gt; ● step_nzv()</span>
+<span class="co">#&gt; ● step_pca()</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ── Model ───────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; mda::fda(formula = ..y ~ ., data = data, method = mda::gen.ridge, </span>
+<span class="co">#&gt;     keep.fitted = FALSE)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Dimension: 1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Percent Between-Group Variance Explained:</span>
+<span class="co">#&gt;  v1 </span>
+<span class="co">#&gt; 100 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Degrees of Freedom (per dimension): 1.921826 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Training Misclassification Error: 0.33333 ( N = 6 )</span></code></pre></div>
+<p>It looks like we managed to missclassify one sample, this would probably improve by increasing the sample number and optimizing the preprocessing.</p>
+</div>
+<div id="process-new-samples" class="section level2">
+<h2 class="hasAnchor">
+<a href="#process-new-samples" class="anchor"></a>Process new samples</h2>
+<p>When you go to production, you’ll want to use the same pre-processing steps on new samples. While this is straigthford for all the read masking operations it can become difficult when you use more sophisticated bucketting algorithms.</p>
+<p>Fortunately it is possible to extract the bucketting values from existing collections and apply them to new ones.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="va">fa_nmr</span>
+
+<span class="co"># Extracting the bucket limits from the previous analysis</span>
+<span class="va">buckets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_breaks.html">pull_breaks</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
+
+
+<span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">new_dat</span>, <span class="fl">0.5</span>, <span class="fl">7.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+            <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">4.6</span>, <span class="fl">4.66</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+            <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span> <span class="op">%&gt;%</span>
+            <span class="fu"><a href="../reference/normalize_internalStandard.html">normalize_internalStandard</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
+            <span class="co"># Applying the bucket limits:</span>
+            <span class="fu"><a href="../reference/bucket_from_breaks.html">bucket_from_breaks</a></span><span class="op">(</span><span class="va">buckets</span><span class="op">)</span> </code></pre></div>
+<p>And done! Let’s check that we got the same thing out of both processes:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">spectra</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
+<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Original data"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/compare-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">new_dat</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
+<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/compare-2.png" width="700"></p>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
