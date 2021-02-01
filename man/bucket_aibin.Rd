@@ -7,7 +7,7 @@
 \usage{
 bucket_aibin(x, ...)
 
-\method{bucket_aibin}{collection}(x, R, noise_region, cores = 1, ...)
+\method{bucket_aibin}{collection}(x, R, noise_region, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object to bucket}
@@ -19,8 +19,6 @@ currenctly used).}
 0 > R >= 1.}
 
 \item{noise_region}{A\code{collection} object containing a noise_region}
-
-\item{cores}{Number of cores to allocate to the process for multprocessing}
 }
 \value{
 An updated version of x
@@ -58,7 +56,16 @@ spectra <- normalized \%>\% extract(0, 7.2)
 noise <- normalized \%>\% mask(0, 7.2, overlaps = 'remove')
 
 # Sit back and relax
-bucketted <- bucket_aibin(spectra, 0.2, noise, cores = 2)
+bucketted <- bucket_aibin(spectra, 0.2, noise)
+
+# Multiprocessing example
+library(future)
+cl <- makeClusterPSOCK(6)
+plan(cluster, workers = cl)
+
+bucketted <- bucket_aibin(spectra, 0.2, noise)
+
+stopCluster(cl)
 }
 }
 \references{

@@ -23,14 +23,13 @@
 #' May 15;80(10):3783-90. doi: 10.1021/ac7025964. 
 #' \url{https://pubmed.ncbi.nlm.nih.gov/18419139/}
 bucket_aibin <- function(x, ...)
-    UseMethod(bucket_aibin)
+    UseMethod("bucket_aibin")
 
 #' @rdname bucket_aibin
 #' @param x A`collection` object to bucket
 #' @param R resolution value, strictly positive and typically in the interval
 #'   0 > R >= 1. 
 #' @param noise_region A`collection` object containing a noise_region
-#' @param cores Number of cores to allocate to the process for multprocessing
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
@@ -51,14 +50,18 @@ bucket_aibin <- function(x, ...)
 #' noise <- normalized %>% mask(0, 7.2, overlaps = 'remove')
 #' 
 #' # Sit back and relax
-#' bucketted <- bucket_aibin(spectra, 0.2, noise, cores = 2)
-#' }
-#' @importFrom future plan makeClusterPSOCK cluster
-#' @importFrom parallel stopCluster
-bucket_aibin.collection <- function(x, R, noise_region, cores = 1,...){
-    cl <- makeClusterPSOCK(cores)
-    plan(cluster, workers = cl)
-    
+#' bucketted <- bucket_aibin(spectra, 0.2, noise)
+#' 
+#' # Multiprocessing example
+#' library(future)
+#' cl <- makeClusterPSOCK(6)
+#' plan(cluster, workers = cl)
+#'
+#' bucketted <- bucket_aibin(spectra, 0.2, noise)
+#'
+#' stopCluster(cl)
+#'}
+bucket_aibin.collection <- function(x, R, noise_region,...){
     # Determine Vnoise
     vnoise <- find_vnoise(noise_region, R)
     
@@ -68,7 +71,6 @@ bucket_aibin.collection <- function(x, R, noise_region, cores = 1,...){
     new_obj <- bucket_from_breaks(x, splits)
     new_obj$bucketted <- "Adaptive inteligent binning"
     
-    stopCluster(cl)
     return(new_obj)
 }
 

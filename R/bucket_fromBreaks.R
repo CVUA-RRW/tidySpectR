@@ -22,6 +22,7 @@ bucket_from_breaks <- function(x, ...)
 #' 
 #' @importFrom dplyr arrange
 #' @importFrom purrr map2_dfr
+#' @importFrom furrr future_map2_dfr
 #' @export
 #' @examples
 #' library(tidySpectR)
@@ -53,11 +54,11 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
     bin_end <- breaks[2:length(breaks)]
     
     new_obj <- x
-    new_obj$data <- map2_dfr(bin_start, 
-                             bin_end,
-                             bin_sum,
-                             x$data) %>% 
-                    arrange(id, bins)
+    new_obj$data <- future_map2_dfr(bin_start, 
+                                     bin_end,
+                                     bin_sum,
+                                     x$data) %>% 
+                            arrange(id, bins)
     
     # Set bucketing flag
     new_obj$bucketted <- 'custom'

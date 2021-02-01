@@ -1,5 +1,9 @@
 # tidySpectR
 
+![R-CMD-check](https://github.com/CVUA-RRW/tidySpectR/workflows/R-CMD-check/badge.svg)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
+
 ## Introduction
 
 The aim of this package is to provide tidy methods for the 
