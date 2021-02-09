@@ -17,6 +17,7 @@ reference:
     - starts_with("pull_")
     - autoplot.collection
     - average_spectrum
+    - subsample
   - title: Masking and extracting data
     contents:
     - mask

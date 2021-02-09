@@ -1,3 +1,5 @@
+# Misc functions for the handling of collection objects
+
 #' Calculate the average spectrum 
 #'
 #' Averages spectra 
@@ -138,6 +140,29 @@ pull_ids.collection <- function(x, ...){
     x$data$id %>% unique() %>% as.character()
 }
 
+#' Pull the limits of a spectra collection
+#'
+#' For a collection, the upper and lower limits of the x-axis
+#' 
+#' @aliases pull_limits pull_limits.collection
+#' @export
+pull_limits <- function(x, ...)
+    UseMethod("pull_limits")
+
+#' @rdname pull_limits
+#' @param x A spectra collection
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return A vector of int.
+#' @export
+#' @examples
+#' library(tidySpectR)
+#' pull_limits(fa_nmr)
+pull_limits.collection <- function(x, ...){
+    breaks <- pull_breaks(x) 
+    return(c(first(breaks), last(breaks)))
+}
+    
 #' Adds labels 
 #' 
 #' Add labels to an existing collection by providing a 
