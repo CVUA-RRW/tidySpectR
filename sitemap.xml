@@ -82,6 +82,9 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_ids.html</loc>
   </url>
   <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_limits.html</loc>
+  </url>
+  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_numbin.html</loc>
   </url>
   <url>
@@ -104,6 +107,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/sub_bins_values.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/subsample.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.collection.html</loc>
