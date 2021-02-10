@@ -1,6 +1,6 @@
 Package: tidySpectR
 Title: Tidy Chemometrics
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person(given = "Gregoire",
            family = "Denay",
@@ -26,7 +26,8 @@ Imports:
     generics,
     rlang,
     ggplot2,
-    furrr
+    furrr,
+    ropls
 Suggests: 
     testthat,
     tidyverse,

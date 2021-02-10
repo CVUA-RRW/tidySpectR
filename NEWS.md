@@ -1,5 +1,11 @@
 # tidySpectR (development version)
 
+## Version 0.1.2
+
+ * Added a `subsample´ method to extract a subset of spectra from a collection
+ * Added the `pull_limits`getter to retrieve X-axis limits
+ * Added `step_opls_denoise` to filter structural noise
+
 ## Version 0.1.1
 
  * Added `add_labels` to reference

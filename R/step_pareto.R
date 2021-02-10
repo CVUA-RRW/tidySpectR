@@ -167,5 +167,5 @@ tidy.step_pareto <- function(x, ...) {
 #' @rdname required_pkgs.step
 #' @export
 required_pkgs.step_pareto <- function(x, ...) {
-  c("NMRrecipes")
+  c("tidySpectR")
 }

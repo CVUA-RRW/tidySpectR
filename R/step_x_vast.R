@@ -222,5 +222,5 @@ tidy.step_xvast <- function(x, ...) {
 #' @rdname required_pkgs.step
 #' @export
 required_pkgs.step_xvast <- function(x, ...) {
-  c("NMRrecipes")
+  c("tidySpectR")
 }
