@@ -30,7 +30,7 @@ bucket_from_breaks <- function(x, ...)
 #' breaks = c(10, 8, 7.5, 7, 5, 0, -1)
 #' bucket_from_breaks(fa_nmr, breaks)
 bucket_from_breaks.collection <- function(x, breaks, ...){
-    # Adding limits if nescessary
+# Adding limits if nescessary
     lowest <- x %>% 
                 pull_breaks() %>%
                 min()
@@ -54,26 +54,30 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
     bin_end <- breaks[2:length(breaks)]
     
     new_obj <- x
-    new_obj$data <- future_map2_dfr(bin_start, 
-                                     bin_end,
-                                     bin_sum,
-                                     x$data) %>% 
-                            arrange(id, bins)
     
+    dat <- x$data %>%
+            data2wide()
+
+    new_obj$data <- future_map2_dfr(bin_start,
+                    bin_end,
+                    bin_sum,
+                    dat)
+                    
     # Set bucketing flag
     new_obj$bucketted <- 'custom'
     
     return(new_obj)
 }
 
-#' @importFrom dplyr filter group_by summarise
+#' @importFrom dplyr filter group_by summarise across starts_with
 #' @importFrom tibble add_column
 bin_sum <- function(lower, higher, data){
     data %>% 
     filter(bin_end >= lower & bin_end < higher) %>%
-    group_by(id) %>%
-    summarise(values = sum(values), .groups = "drop") %>%
-    add_column(bins = mean(c(lower,higher)), .after = 1) %>%
-    add_column(bin_start = lower, .after = 2) %>%
-    add_column(bin_end = higher, .after = 3) 
+    summarise(across(-starts_with("bin"),
+                     sum)) %>%
+    add_column(bins = mean(c(lower,higher)), .before = 1) %>%
+    add_column(bin_start = lower, .after = 1) %>%
+    add_column(bin_end = higher, .after = 2) %>%
+    wide2long()
 }
