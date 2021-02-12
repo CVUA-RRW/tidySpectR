@@ -2,7 +2,7 @@
 % Please edit documentation in R/internals.R
 \name{wide2long}
 \alias{wide2long}
-\title{Pivot_wider on collection$data}
+\title{Pivot_longer on collection$data wide format}
 \usage{
 wide2long(x, ...)
 }
@@ -12,6 +12,6 @@ wide2long(x, ...)
 \item{...}{not currently used}
 }
 \description{
-Pivot_wider on collection$data
+Pivot_longer on collection$data wide format
 }
 \keyword{internal}

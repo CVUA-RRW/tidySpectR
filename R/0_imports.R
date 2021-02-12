@@ -11,7 +11,10 @@ utils::globalVariables(
         "max_val",
         
         # aibin
-        "product", "vbsum", "candidate"
+        "product", "vbsum", "candidate",
+        
+        # bucket from breaks
+        "bin_index"
         
     )
 )

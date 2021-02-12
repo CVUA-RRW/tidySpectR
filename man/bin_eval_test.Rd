@@ -7,7 +7,7 @@
 bin_eval_test(vbmax, vb, vb1max, vb2max, vnoise)
 }
 \arguments{
-\item{vbmax}{maximum of left and right bin values sum}
+\item{vbmax}{sum of maximums of left and right bin values}
 
 \item{vb}{original bin value}
 

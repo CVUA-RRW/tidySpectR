@@ -7,7 +7,7 @@
 find_vnoise(noise_region, R)
 }
 \arguments{
-\item{noise_region}{A \code{collection} object containing the noise region}
+\item{noise_region}{A matrix containing the noise region}
 
 \item{R}{resolution}
 }

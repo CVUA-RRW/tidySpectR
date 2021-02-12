@@ -4,17 +4,19 @@
 \alias{sub_bins_values}
 \title{Calculate the bin values for each splits of the current bin}
 \usage{
-sub_bins_values(x, current_bin, R)
+sub_bins_values(x, i, current_bin, R)
 }
 \arguments{
 \item{x}{spliting point}
 
-\item{current_bin}{A \code{collection} object containing the current bin}
+\item{i}{splitting point index}
+
+\item{current_bin}{A matrix containing the current bin}
 
 \item{R}{resolution}
 }
 \value{
-A tibble with bin values:
+A Matrix with bin values:
 \describe{
 \item{candidate}{position of the new splitting point}
 \item{vb1}{left-bin value}

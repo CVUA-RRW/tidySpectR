@@ -4,11 +4,11 @@
 #' @importFrom dplyr all_of
 #' @importFrom tidyr pivot_wider
 #' @keywords internal
-data2wide <- function(x, ids = 'id', ...) {
-    pivot_wider(x, names_from = all_of(ids), values_from = values)
+data2wide <- function(x, names = 'id', values = 'values', ...) {
+    pivot_wider(x, names_from = all_of(names), values_from = all_of(values))
 } 
 
-#' Pivot_wider on collection$data
+#' Pivot_longer on collection$data wide format
 #' @param x wide data tibble
 #' @param ... not currently used
 #' @importFrom dplyr starts_with

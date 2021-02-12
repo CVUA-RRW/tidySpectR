@@ -7,7 +7,7 @@
 divide_bin(current_bin, R, vnoise)
 }
 \arguments{
-\item{current_bin}{A \code{collection} object containing the current bin}
+\item{current_bin}{A matrix containing the current bin}
 
 \item{R}{resolution}
 

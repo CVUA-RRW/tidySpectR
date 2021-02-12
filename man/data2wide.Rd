@@ -4,7 +4,7 @@
 \alias{data2wide}
 \title{Pivot_wider on collection$data}
 \usage{
-data2wide(x, ids = "id", ...)
+data2wide(x, names = "id", values = "values", ...)
 }
 \arguments{
 \item{x}{data tibble}

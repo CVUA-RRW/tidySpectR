@@ -7,13 +7,7 @@
 bin_value(dat, R)
 }
 \arguments{
-\item{dat}{a date frame or tibble with the columns:
-\describe{
-\item{id}{unique identifier}
-\item{bin_start}{left border of the bin}
-\item{bin_end}{right border of the bin}
-\item{values}{bin intensity}
-}}
+\item{dat}{A matrix containing the current bin}
 
 \item{R}{resolution}
 }

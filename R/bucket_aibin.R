@@ -49,7 +49,7 @@ bucket_aibin <- function(x, ...)
 #' spectra <- normalized %>% extract(0, 7.2)
 #' noise <- normalized %>% mask(0, 7.2, overlaps = 'remove')
 #' 
-#' # Sit back and relax
+#' 
 #' bucketted <- bucket_aibin(spectra, 0.2, noise)
 #' 
 #' # Multiprocessing example
@@ -61,49 +61,73 @@ bucket_aibin <- function(x, ...)
 #'
 #' stopCluster(cl)
 #'}
+#' @importFrom dplyr arrange
 bucket_aibin.collection <- function(x, R, noise_region,...){
+    # Speed up : convert tibble to data.tables internally?
     # Determine Vnoise
-    vnoise <- find_vnoise(noise_region, R)
-    
+    noise_region <- noise_region$data %>%
+                    data2wide() %>%
+                    arrange(bins) %>%
+                    as.matrix()
+                    
+    vnoise <- find_vnoise(noise_region, 
+                          R)
+                          
     # Run the algorithm on the spectra region using the Vnoise value determined above
-    splits <- recursive_split(x, R, vnoise)
+    spectra <- x$data %>%
+                    data2wide() %>%
+                    arrange(bins) %>%
+                    as.matrix()
+                    
+    splits <- recursive_split(spectra, 
+                              R, 
+                              vnoise)
     
+    # Applying buckets
     new_obj <- bucket_from_breaks(x, splits)
     new_obj$bucketted <- "Adaptive inteligent binning"
-    
+
     return(new_obj)
 }
 
 #' Find the max bin value in the noise region
 #' 
-#' @param noise_region A `collection` object containing the noise region
+#' @param noise_region A matrix containing the noise region
 #' @param R resolution
 #' @returns A dbl, maximum bin value in the noise region
 #' @keywords internal
 #' @importFrom purrr map2_dbl
 find_vnoise <- function(noise_region, R){
-    noise_bins <- recursive_split(noise_region, R, vnoise = 0)
-    bin_start <- noise_bins[-length(noise_bins)]
-    bin_end <- noise_bins[-1]
+    noise_bins <- recursive_split(noise_region, R, vnoise = 0) %>% 
+                  sort()
     
-    vnoise <- map2_dbl(bin_start, bin_end,
-                    ~ {bucket <- extract(noise_region, bin_start, bin_end)
-                    bin_value(bucket$data, R)}) %>%
-              max()
+    left_bins <- noise_bins[-length(noise_bins)]
+    right_bins <- noise_bins[-1]
+    
+    # Calculate bin values for all buckets
+    vnoise <- 
+        map2_dbl(
+            left_bins, 
+            right_bins,
+            function(.x, .y, R){
+                bucket <- noise_region[noise_region[,'bin_start'] >= .x & noise_region[,'bin_end'] <= .y,]
+                bin_value(bucket, R)
+            },
+            R) %>%
+        max()
               
     return(vnoise)
 }
 
 #' Recursively split the spectra with the adaptive inteligent binning algorithm
 #' 
-#' @param current_bin A `collection` object containing the current bin
+#' @param current_bin A matrix containing the current bin
 #' @param R resolution
 #' @param vnoise Maximal bin value for the noise region.
 #' @param breaks A vector of double that will be populated with the 
 #'   binning positions
 #' @returns A vector of dbl contianing the split positions
 #' @keywords internal
-#' @importFrom dplyr last
 recursive_split <- function(current_bin, R, vnoise, breaks = NULL){
     while(TRUE){
         # Try to split the bin
@@ -113,64 +137,63 @@ recursive_split <- function(current_bin, R, vnoise, breaks = NULL){
             # If the bin cannot be split, append the right limit of the bin to 
             # the binning point and return the whole vector
             # this will be a splitting binning point
-            breaks <- pull_breaks(current_bin) %>% 
-                        last() %>%
-                        append(breaks) %>%
-                        sort()
+            breaks <- current_bin[,'bin_end'] %>%
+                        max() %>%
+                        append(breaks)
             return(breaks)
+            
         } else {
             # Extract the left-most bin of the split
-            sub_bin <- extract(current_bin, -Inf, new_split)
+            sub_bin <- current_bin[current_bin[, 'bin_end'] <= new_split, ]
             
-            # Keep splittin' 
+             # Keep splittin' 
             # recursive call, will return when unsplitable bin is found
             breaks <- recursive_split(sub_bin, R, vnoise, breaks)
             
             # Moving on to the next bin
-            current_bin <- extract(current_bin, last(breaks), Inf)
+            current_bin <- current_bin[current_bin[, 'bin_start'] >= max(breaks), ]
         }
     }
 }
 
 #' Find a new division splitting position for the current bin
 #' 
-#' @param current_bin A `collection` object containing the current bin
+#' @param current_bin A matrix containing the current bin
 #' @param R resolution
 #' @param vnoise Maximal bin value for the noise region.
 #' @return A dbl, the new optimal splitting position or FALSE if not splitting is possible
 #' @keywords internal
-#' @importFrom purrr map_dfr
-#' @importFrom dplyr slice_max
-#' @importFrom furrr future_map_dfr furrr_options
+#' @importFrom dplyr arrange 
+#' @importFrom furrr future_imap furrr_options
 divide_bin <- function(current_bin, R, vnoise){
-    vb <- bin_value(current_bin$data, R)
+    vb <- bin_value(current_bin, R)
     
     # Get candidate bin limits
     # Consider all limits in the interval minus the first and last
-    candidates <- pull_breaks(current_bin)
-    candidates <- candidates[-1]
-    candidates <- candidates[-length(candidates)]
+    candidates <- current_bin[, 'bin_start'][-1]
     
     # Get bin values for each candidates
-    split_values <- future_map_dfr(candidates, 
-                                    ~ sub_bins_values(.x,
-                                    current_bin, 
-                                    R),
-                                    .options = furrr_options(packages= c("tibble", 
-                                                                         "dplyr")))
-    
+    split_values <- future_imap(candidates, 
+                                ~ sub_bins_values(.x, .y,
+                                current_bin, 
+                                R),
+                                .options = furrr_options(packages= "matrixStats"))
+                                
+    split_values <- do.call(rbind, split_values)
+                           
     # Find candidate which maximizes Vbsum
-    new_split <- slice_max(split_values, vbsum) %>%
-                 slice_min(candidate) # in case of mutliple occurences of max(vbsum)
-    
+    new_split <- split_values[order(split_values[,'vbsum'], 
+                                    split_values[,'candidate'], 
+                                    decreasing = TRUE), ][1, , drop = FALSE]
+
     # Is it worth spliting?
-    if ( bin_eval_test(vbmax = new_split$vbsum, 
+    if (bin_eval_test(vbmax = new_split[, 'vbsum'], 
                   vb = vb, 
-                  vb1max = new_split$vb1, 
-                  vb2max = new_split$vb2,
+                  vb1max = new_split[, 'vb1'], 
+                  vb2max = new_split[, 'vb2'],
                   vnoise = vnoise)
                   ){
-        return(pull(new_split, candidate))
+        return(new_split[,'candidate'])
     } else {
         return(FALSE)
     }
@@ -179,26 +202,26 @@ divide_bin <- function(current_bin, R, vnoise){
 #' Calculate the bin values for each splits of the current bin
 #'
 #' @param x spliting point
-#' @param current_bin A `collection` object containing the current bin
+#' @param i splitting point index
+#' @param current_bin A matrix containing the current bin
 #' @param R resolution
-#' @return A tibble with bin values:
+#' @return A Matrix with bin values:
 #' \describe{
 #'   \item{candidate}{position of the new splitting point}
 #'   \item{vb1}{left-bin value}
 #'   \item{vb2}{right-bin value}
 #'   \item{vbsum}{sum of the left and righ bin values}
 #' }
-#' @importFrom tibble tibble
 #' @keywords internal
-sub_bins_values <- function(x, current_bin, R){
-    left_bin <- extract(current_bin, -Inf, x)
-    right_bin <- extract(current_bin, x, Inf)
-    vb1 <- bin_value(left_bin$data, R)
-    vb2 <- bin_value(right_bin$data, R)
-    tibble(candidate = x,
-           vb1 = vb1,
-           vb2 = vb2,
-           vbsum = vb1 + vb2)
+sub_bins_values <- function(x, i, current_bin, R){
+    left_bin <- current_bin[1:i, , drop = FALSE]
+    right_bin <- current_bin[(i+1):nrow(current_bin), , drop = FALSE]
+    vb1 <- bin_value(left_bin, R)
+    vb2 <- bin_value(right_bin, R)
+
+    matrix(c(x, vb1, vb2, vb1 + vb2), 
+           ncol = 4,
+           dimnames = list(NULL, c('candidate', 'vb1', 'vb2', 'vbsum')))
 }
 
 #' Calculate bin value (Vb) 
@@ -206,64 +229,26 @@ sub_bins_values <- function(x, current_bin, R){
 #' Computes the inner product for each sample,
 #'   then the bin value over all samples.
 #'
-#' @param dat a date frame or tibble with the columns:
-#' \describe{
-#'   \item{id}{unique identifier}
-#'   \item{bin_start}{left border of the bin}
-#'   \item{bin_end}{right border of the bin}
-#'   \item{values}{bin intensity}
-#' }
+#' @param dat A matrix containing the current bin
 #' @param R resolution
 #' @returns A dbl, the bin value
-#' @importFrom dplyr group_by group_modify ungroup pull n
+#' @importFrom matrixStats colMaxs
 #' @keywords internal
-bin_value <- function(dat, R) {
-    dat %>% 
-        group_by(id) %>%
-        group_modify(~ bin_value_inner_product(.x, .y, R)) %>%
-        ungroup() %>%
-        summarise(bin_value = sum(product) / n()) %>%
-        pull(bin_value)
-}
-
-#' Computes the inner product of the bin value equation 
-#'   for a dataset with a single sample
-#'
-#' @param dat A tibble or dat frame with columns
-#' \describe{
-#'   \item{bin_start}{left border of the bin}
-#'   \item{bin_end}{right border of the bin}
-#'   \item{values}{bin intensity}
-#' }
-#' @param id will be ignored
-#' @param R resolution
-#' @returns a tibble with column product containing 
-#'   the inner product of the bin value equation for 1 sample
-#' @importFrom dplyr slice_min pull
-#' @importFrom tibble tibble
-#' @keywords internal
-bin_value_inner_product <- function(dat, id, R){
-    int_left <- dat %>%
-                slice_min(bin_start) %>%
-                pull(values)
+bin_value <-function(dat, R){
+    vals <- dat[, 4:ncol(dat), drop = FALSE]
+    first <- vals[1, ]
+    last <- vals[NROW(vals), ]
+    maximum <- colMaxs(vals)
     
-    int_right <- dat %>%
-                slice_max(bin_end) %>%
-                pull(values)
-                
-    int_max <- dat %>% 
-               pull(values) %>%
-               max()
-               
-    inner_product <- ((int_max - int_left)*(int_max - int_right))^R
-    return(tibble(product = inner_product))
+    inner_product <- ((maximum - first) * (maximum - last)) ^ R
+    vb <- mean(inner_product)
 }
 
 #' Bin Evaluation Criterion
 #'
 #' Evaluates whether a bin can be split or not
 #'
-#' @param vbmax maximum of left and right bin values sum
+#' @param vbmax sum of maximums of left and right bin values 
 #' @param vb original bin value
 #' @param vb1max max bin value of left bin
 #' @param vb2max max bin value of right bin
@@ -271,9 +256,7 @@ bin_value_inner_product <- function(dat, id, R){
 #' @return TRUE if splitting improves bin value, FALSE otherwise
 #' @keywords internal
 bin_eval_test <- function(vbmax, vb, vb1max, vb2max, vnoise){
-    if ((vbmax > vb) & (vb1max > vnoise) & (vb2max > vnoise)){
-        TRUE
-    } else {
-        FALSE
-    }
+    all(vbmax > vb,
+        vb1max > vnoise,
+        vb2max > vnoise)
 }

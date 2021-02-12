@@ -20,9 +20,8 @@ bucket_from_breaks <- function(x, ...)
 #'   overlapping on the higher limit. This can results in a slight left-shift of the spectra. 
 #'   Use with care.
 #' 
-#' @importFrom dplyr arrange
-#' @importFrom purrr map2_dfr
-#' @importFrom furrr future_map2_dfr
+#' @importFrom dplyr mutate group_by summarise rowwise across
+#' @importFrom tidyr separate
 #' @export
 #' @examples
 #' library(tidySpectR)
@@ -47,37 +46,30 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
         breaks <- append(breaks, highest)
     }
     
-    breaks <- sort(breaks)
+    breaks <- sort(breaks) %>% unique()
     
     # Bucket
-    bin_start <- breaks[-length(breaks)]
-    bin_end <- breaks[2:length(breaks)]
     
     new_obj <- x
     
     dat <- x$data %>%
             data2wide()
+            
+    bucketted <- dat %>%
+                 mutate(bin_index = cut(bin_end, breaks, include.lowest = TRUE, right = FALSE)) %>% 
+                 group_by(bin_index) %>% 
+                 summarise(across(-starts_with("bin"), sum), .groups = "drop") %>%
+                 separate(bin_index, c(NA, "bin_start", "bin_end", NA), 
+                          sep = "([,\\[\\]\\(\\)])",
+                          remove = TRUE, 
+                          convert = TRUE) %>%
+                 rowwise() %>%
+                 mutate(bins = mean(c(bin_start, bin_end)), .before = 1)
 
-    new_obj$data <- future_map2_dfr(bin_start,
-                    bin_end,
-                    bin_sum,
-                    dat)
+    new_obj$data <- wide2long(bucketted)
                     
     # Set bucketing flag
     new_obj$bucketted <- 'custom'
     
     return(new_obj)
-}
-
-#' @importFrom dplyr filter group_by summarise across starts_with
-#' @importFrom tibble add_column
-bin_sum <- function(lower, higher, data){
-    data %>% 
-    filter(bin_end >= lower & bin_end < higher) %>%
-    summarise(across(-starts_with("bin"),
-                     sum)) %>%
-    add_column(bins = mean(c(lower,higher)), .before = 1) %>%
-    add_column(bin_start = lower, .after = 1) %>%
-    add_column(bin_end = higher, .after = 2) %>%
-    wide2long()
 }

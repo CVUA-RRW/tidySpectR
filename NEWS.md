@@ -1,5 +1,7 @@
 # tidySpectR (development version)
 
+ * Optimized aibin
+
 ## Version 0.1.2
 
  * Added a `subsample´ method to extract a subset of spectra from a collection
