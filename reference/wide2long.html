@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Recursively split the spectra with the adaptive inteligent binning algorithm — recursive_split • tidySpectR</title>
+<title>Pivot_longer on collection$data wide format — wide2long • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Recursively split the spectra with the adaptive inteligent binning algorithm — recursive_split" />
-<meta property="og:description" content="Recursively split the spectra with the adaptive inteligent binning algorithm" />
+<meta property="og:title" content="Pivot_longer on collection$data wide format — wide2long" />
+<meta property="og:description" content="Pivot_longer on collection$data wide format" />
 
 
 
@@ -126,42 +126,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Recursively split the spectra with the adaptive inteligent binning algorithm</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/bucket_aibin.R'><code>R/bucket_aibin.R</code></a></small>
-    <div class="hidden name"><code>recursive_split.Rd</code></div>
+    <h1>Pivot_longer on collection$data wide format</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/internals.R'><code>R/internals.R</code></a></small>
+    <div class="hidden name"><code>wide2long.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Recursively split the spectra with the adaptive inteligent binning algorithm</p>
+    <p>Pivot_longer on collection$data wide format</p>
     </div>
 
-    <pre class="usage"><span class='fu'>recursive_split</span><span class='op'>(</span><span class='va'>current_bin</span>, <span class='va'>R</span>, <span class='va'>vnoise</span>, breaks <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>wide2long</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>current_bin</th>
-      <td><p>A matrix containing the current bin</p></td>
+      <th>x</th>
+      <td><p>wide data tibble</p></td>
     </tr>
     <tr>
-      <th>R</th>
-      <td><p>resolution</p></td>
-    </tr>
-    <tr>
-      <th>vnoise</th>
-      <td><p>Maximal bin value for the noise region.</p></td>
-    </tr>
-    <tr>
-      <th>breaks</th>
-      <td><p>A vector of double that will be populated with the
-binning positions</p></td>
+      <th>...</th>
+      <td><p>not currently used</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A vector of dbl contianing the split positions</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

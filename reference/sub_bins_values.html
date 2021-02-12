@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
     <p>Calculate the bin values for each splits of the current bin</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sub_bins_values</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>current_bin</span>, <span class='va'>R</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sub_bins_values</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>current_bin</span>, <span class='va'>R</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,8 +145,12 @@
       <td><p>spliting point</p></td>
     </tr>
     <tr>
+      <th>i</th>
+      <td><p>splitting point index</p></td>
+    </tr>
+    <tr>
       <th>current_bin</th>
-      <td><p>A <code>collection</code> object containing the current bin</p></td>
+      <td><p>A matrix containing the current bin</p></td>
     </tr>
     <tr>
       <th>R</th>
@@ -156,7 +160,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with bin values:</p><dl>
+    <p>A Matrix with bin values:</p><dl>
 <dt>candidate</dt><dd><p>position of the new splitting point</p></dd>
 <dt>vb1</dt><dd><p>left-bin value</p></dd>
 <dt>vb2</dt><dd><p>right-bin value</p></dd>

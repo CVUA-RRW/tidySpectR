@@ -22,9 +22,6 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/bin_value.html</loc>
   </url>
   <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/bin_value_inner_product.html</loc>
-  </url>
-  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/bucket_aibin.html</loc>
   </url>
   <url>
@@ -38,6 +35,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/collection.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/data2wide.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/divide_bin.html</loc>
@@ -116,6 +116,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.collection.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/wide2long.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//articles/plotting.html</loc>
