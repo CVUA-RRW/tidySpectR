@@ -28,7 +28,8 @@ Imports:
     ggplot2,
     furrr,
     ropls,
-    matrixStats
+    matrixStats,
+    Rcpp
 Suggests: 
     testthat,
     tidyverse,
@@ -47,3 +48,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+LinkingTo: 
+    Rcpp

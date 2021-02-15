@@ -45,6 +45,8 @@
 #'   of the predictor variations that are correlated and orthogonal to the response.
 #'   This allows to remove systematic variation that are not correlated to the response.
 #'
+#' The OPLS algorithm is implemented only for binary outcomes!
+#'
 #' OPLS calculation uses the implementation of the R package:
 #' \url{https://bioconductor.org/packages/release/bioc/html/ropls.html}
 #'

@@ -46,6 +46,7 @@ limited to bins that are borderline noise and most likely has limited effect in
 the downstream analysis.
 }
 \examples{
+\dontrun{
 library(tidySpectR)
 
 # First we normalize the dataset and extract noise and sepctra regions
@@ -54,11 +55,10 @@ normalized <- fa_nmr \%>\%
 spectra <- normalized \%>\% extract(0, 7.2)
 noise <- normalized \%>\% mask(0, 7.2, overlaps = 'remove')
 
-# Sit back and relax
+
 bucketted <- bucket_aibin(spectra, 0.2, noise)
 
 # Multiprocessing example
-\dontrun{
 library(future)
 cl <- makeClusterPSOCK(6)
 plan(cluster, workers = cl)
