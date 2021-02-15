@@ -196,8 +196,7 @@ May 15;80(10):3783-90. doi: 10.1021/ac7025964.
 <a href='https://pubmed.ncbi.nlm.nih.gov/18419139/'>https://pubmed.ncbi.nlm.nih.gov/18419139/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
 
 <span class='co'># First we normalize the dataset and extract noise and sepctra regions</span>
 <span class='va'>normalized</span> <span class='op'>&lt;-</span> <span class='va'>fa_nmr</span> <span class='op'>%&gt;%</span> 
@@ -205,18 +204,8 @@ May 15;80(10):3783-90. doi: 10.1021/ac7025964.
 <span class='va'>spectra</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='extract.html'>extract</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>7.2</span><span class='op'>)</span>
 <span class='va'>noise</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mask.html'>mask</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>7.2</span>, overlaps <span class='op'>=</span> <span class='st'>'remove'</span><span class='op'>)</span>
 
-
 <span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.2</span>, <span class='va'>noise</span><span class='op'>)</span>
 
-<span class='co'># Multiprocessing example</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/HenrikBengtsson/future'>future</a></span><span class='op'>)</span>
-<span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/future/man/re-exports.html'>makeClusterPSOCK</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></span><span class='op'>(</span><span class='va'>cluster</span>, workers <span class='op'>=</span> <span class='va'>cl</span><span class='op'>)</span>
-
-<span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.2</span>, <span class='va'>noise</span><span class='op'>)</span>
-
-<span class='fu'>stopCluster</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span>
-<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
