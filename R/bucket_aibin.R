@@ -44,7 +44,6 @@ bucket_aibin <- function(x, ...)
 #'   the downstream analysis.
 #' @export
 #' @examples
-#' \dontrun{
 #' library(tidySpectR)
 #' 
 #' # First we normalize the dataset and extract noise and sepctra regions
@@ -53,18 +52,8 @@ bucket_aibin <- function(x, ...)
 #' spectra <- normalized %>% extract(0, 7.2)
 #' noise <- normalized %>% mask(0, 7.2, overlaps = 'remove')
 #' 
-#' 
-#' bucketted <- bucket_aibin(spectra, 0.2, noise)
-#' 
-#' # Multiprocessing example
-#' library(future)
-#' cl <- makeClusterPSOCK(6)
-#' plan(cluster, workers = cl)
-#'
 #' bucketted <- bucket_aibin(spectra, 0.2, noise)
 #'
-#' stopCluster(cl)
-#'}
 #' @importFrom dplyr arrange
 bucket_aibin.collection <- function(x, R, noise_region,...){
     # Speed up : convert tibble to data.tables internally?
@@ -85,7 +74,11 @@ bucket_aibin.collection <- function(x, R, noise_region,...){
                     
     splits <- recc_split(spectra, 
                          R, 
-                         vnoise)
+                         vnoise,
+                         0,
+                         nrow(spectra),
+                         c(nrow(spectra))
+                         )
     
     # Applying buckets
     new_obj <- bucket_from_breaks(x, splits)
