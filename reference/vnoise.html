@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate bin value (Vb) — bin_value • tidySpectR</title>
+<title>Find the max bin value in the noise region — vnoise • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate bin value (Vb) — bin_value" />
-<meta property="og:description" content="Calculate bin value (Vb)" />
+<meta property="og:title" content="Find the max bin value in the noise region — vnoise" />
+<meta property="og:description" content="Find the max bin value in the noise region" />
 
 
 
@@ -126,43 +126,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate bin value (Vb)</h1>
+    <h1>Find the max bin value in the noise region</h1>
     <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
-    <div class="hidden name"><code>bin_value.Rd</code></div>
+    <div class="hidden name"><code>vnoise.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate bin value (Vb)</p>
+    <p>Find the max bin value in the noise region</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bin_value</span><span class='op'>(</span><span class='va'>bin</span>, <span class='va'>r</span>, <span class='va'>left</span>, <span class='va'>right</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>vnoise</span><span class='op'>(</span><span class='va'>bin</span>, <span class='va'>r</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bin</th>
-      <td><p>A matrix containing the whole spectral range.
+      <td><p>A matrix containing the noise region
 Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)</p></td>
     </tr>
     <tr>
-      <th>r</th>
+      <th>R</th>
       <td><p>resolution</p></td>
-    </tr>
-    <tr>
-      <th>left, right</th>
-      <td><p>index of bin_end for the current bin
-(C++ index 0 to length-1).</p></td>
-    </tr>
-    <tr>
-      <th>noise</th>
-      <td><p>noise value</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dbl, the bin value</p>
+    <p>A dbl, maximum bin value in the noise region</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
