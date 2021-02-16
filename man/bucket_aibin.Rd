@@ -39,7 +39,7 @@ In order to limit splitting in local minima of noisy regions a minimal quality
 value is computed from the user-provided noise-region.
 }
 \note{
-The amount of created bins is not directly dpeending of a high or low R.
+The amount of created bins is not directly depending of a high or low R.
 If a maximal splitting is looked for, you should try several different values
 in the possible rangeof R (see references). However the differences in binning should
 limited to bins that are borderline noise and most likely has limited effect in
@@ -51,10 +51,11 @@ library(tidySpectR)
 # First we normalize the dataset and extract noise and sepctra regions
 normalized <- fa_nmr \%>\% 
                   normalize_internalStandard(3.58, 3.64)
-spectra <- normalized \%>\% extract(0, 7.2)
-noise <- normalized \%>\% mask(0, 7.2, overlaps = 'remove')
+spectra <- normalized \%>\% extract(0.5, 7.2)
+noise <- normalized \%>\% extract(7.5, Inf)
 
-bucketted <- bucket_aibin(spectra, 0.2, noise)
+bucketted <- bucket_aibin(spectra, 0.5, noise)
+bucketted
 
 }
 \references{

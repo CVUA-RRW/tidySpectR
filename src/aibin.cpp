@@ -3,18 +3,6 @@
 
 using namespace Rcpp;
 
-// C++ implementation of the Adaptive Inteligent Binning
-// See man page of the R wrapper
-
-//' Inner product
-//'
-//' Calculate the inner product of the bin Value Equation 
-//' @keywords internal
-double inner_product(NumericVector v, double r){
-  double p = pow( ( max(v) - v[0] ) * ( max(v) - v[v.length() - 1] ) , r );
-  return p;
-}
-
 //' Calculate bin value (Vb)
 //'
 //' @param bin A matrix containing the whole spectral range.
@@ -33,10 +21,12 @@ double bin_value(NumericMatrix bin,
   
   // sample wise inner product will be stored in vector
   NumericVector v = (bin.ncol() -3);
+  NumericMatrix subbin = bin( Range(left, right) , _ );
   
   for(int i=0; i<bin.ncol() -3 ; ++i){
-    NumericMatrix subbin = bin( Range(left, right) , _ );
-    v[i] = inner_product( subbin( _ , i ) , r);
+    NumericVector sampleval = subbin( _ , i );
+    double vbsample = pow( ( max(sampleval) - sampleval[0] ) * ( max(sampleval) - sampleval[sampleval.length() - 1] ) , r );
+    v[i] = vbsample;
   }
   return mean(v);
 }
@@ -52,6 +42,7 @@ double bin_value(NumericMatrix bin,
 //' @returns A dbl, the new optimal splitting position or 
 //'   NAN if not splitting is possible
 //' @keywords internal
+// [[Rcpp::export]]
 double divide_bin(NumericMatrix bin, 
                   double r, 
                   double noise,
@@ -124,26 +115,49 @@ IntegerVector recc_split(NumericMatrix bin,
   }
 }
 
-//' Find the max bin value in the noise region
-//' 
-//' @param bin A matrix containing the noise region
+//' Bucket a spectral region. 
+//'
+//' @param bin A matrix containing the whole spectral range.
 //'   Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)
-//' @param R resolution
-//' @returns A dbl, maximum bin value in the noise region
+//' @param r resolution
+//' @returns A vector of splitting indices 
 //' @keywords internal
-// [[Rcpp::export]]
-double vnoise(NumericMatrix bin, double r){
-    // Bucket noise region
-    IntegerVector init_breaks = IntegerVector::create(bin.nrow());
-    IntegerVector breaks = recc_split(bin, r, 0, 0, bin.nrow(), init_breaks);
-    IntegerVector breaks_sorted = breaks.sort();
-    
-    // Get max bin value
-    NumericVector vb = (breaks_sorted.length());
-    for (int i=1; i<breaks_sorted.length(); ++i){
-      vb[i] = bin_value(bin, r, breaks_sorted[i-1], breaks_sorted[i]);
-    }
-    
-    return max(vb);
+IntegerVector aibinning_wrapper(NumericMatrix bin, double r, double vnoise){
+  IntegerVector init_breaks = IntegerVector::create(bin.nrow()-1);
+  IntegerVector breaks = recc_split(bin, r, vnoise, 0, bin.nrow()-1, init_breaks);
+  IntegerVector breaks_sorted = breaks.sort();
+  return breaks_sorted;
 }
 
+//' Adaptive Intelligent Binning Algorithm
+//'
+//' Entry point from R for the C++ implementation
+//'
+//' @param spectra, noise A mtrix containing spectra or nosie regions.
+//'   Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)
+//' @param R resolution (0>R>=1)
+//' @returns vector of dbl containing the split position in the orignal axis unit.
+//' @keywords internal
+// [[Rcpp::export]]
+NumericVector aibin_cpp(NumericMatrix spectra,
+                        NumericMatrix noise,
+                        double r){
+  // Split noise
+  IntegerVector noisebreaks = aibinning_wrapper(noise, r, 0);
+
+  // Get max bin value
+  NumericVector vb = (noisebreaks.length());
+  for (int i=1; i<noisebreaks.length(); ++i){
+    vb[i] = bin_value(noise, r, noisebreaks[i-1], noisebreaks[i]);
+  }
+  double vnoise = max(vb);
+
+  // Bucket spectra
+  IntegerVector breaks = aibinning_wrapper(spectra, r, vnoise);
+
+  // Convert indices to values
+  NumericVector bin_ends = spectra( _ , 2 );
+  NumericVector splitpos = bin_ends[breaks];
+  
+  return splitpos;
+  }

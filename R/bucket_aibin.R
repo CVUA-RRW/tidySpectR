@@ -1,7 +1,3 @@
-#' @useDynLib tidySpectR, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
-NULL
-
 #' Applies Adaptive Inteligent Binning on a collection
 #' 
 #' Adaptive Inteligent Binning (aibin) recursively finds bin edges 
@@ -37,7 +33,7 @@ bucket_aibin <- function(x, ...)
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
-#' @note The amount of created bins is not directly dpeending of a high or low R.
+#' @note The amount of created bins is not directly depending of a high or low R.
 #'   If a maximal splitting is looked for, you should try several different values 
 #'   in the possible rangeof R (see references). However the differences in binning should
 #'   limited to bins that are borderline noise and most likely has limited effect in 
@@ -49,39 +45,30 @@ bucket_aibin <- function(x, ...)
 #' # First we normalize the dataset and extract noise and sepctra regions
 #' normalized <- fa_nmr %>% 
 #'                   normalize_internalStandard(3.58, 3.64)
-#' spectra <- normalized %>% extract(0, 7.2)
-#' noise <- normalized %>% mask(0, 7.2, overlaps = 'remove')
+#' spectra <- normalized %>% extract(0.5, 7.2)
+#' noise <- normalized %>% extract(7.5, Inf)
 #' 
-#' bucketted <- bucket_aibin(spectra, 0.2, noise)
+#' bucketted <- bucket_aibin(spectra, 0.5, noise)
+#' bucketted
 #'
 #' @importFrom dplyr arrange
 bucket_aibin.collection <- function(x, R, noise_region,...){
-    # Speed up : convert tibble to data.tables internally?
-    # Determine Vnoise
+    # Convert data to proper format
     noise_region <- noise_region$data %>%
                     data2wide() %>%
                     arrange(bins) %>%
                     as.matrix()
-                    
-    vnoise <- vnoise(noise_region, 
-                     R)
-                          
-    # Run the algorithm on the spectra region using the Vnoise value determined above
+    
     spectra <- x$data %>%
                data2wide() %>%
                arrange(bins) %>%
                as.matrix()
-                    
-    splits <- recc_split(spectra, 
-                         R, 
-                         vnoise,
-                         0,
-                         nrow(spectra),
-                         c(nrow(spectra))
-                         )
+    
+    # Call Cpp function
+    breaks <- aibin_cpp(spectra, noise_region, R)
     
     # Applying buckets
-    new_obj <- bucket_from_breaks(x, splits)
+    new_obj <- bucket_from_breaks(x, breaks)
     new_obj$bucketted <- "Adaptive inteligent binning"
 
     return(new_obj)

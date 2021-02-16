@@ -1,5 +1,8 @@
-#' @importFrom utils globalVariables
+#' @useDynLib tidySpectR, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
 
+#' @importFrom utils globalVariables
 utils::globalVariables(
     c(
         # collection variables
