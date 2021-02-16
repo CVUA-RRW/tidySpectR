@@ -74,7 +74,7 @@ newly created bin." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
       </span>
     </div>
 
@@ -181,7 +181,7 @@ will be split and the process will be repeated on the newly created bins.</p>
 value is computed from the user-provided noise-region.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The amount of created bins is not directly dpeending of a high or low R.
+    <p>The amount of created bins is not directly depending of a high or low R.
 If a maximal splitting is looked for, you should try several different values
 in the possible rangeof R (see references). However the differences in binning should
 limited to bins that are borderline noise and most likely has limited effect in
@@ -201,11 +201,16 @@ May 15;80(10):3783-90. doi: 10.1021/ac7025964.
 <span class='co'># First we normalize the dataset and extract noise and sepctra regions</span>
 <span class='va'>normalized</span> <span class='op'>&lt;-</span> <span class='va'>fa_nmr</span> <span class='op'>%&gt;%</span> 
                   <span class='fu'><a href='normalize_internalStandard.html'>normalize_internalStandard</a></span><span class='op'>(</span><span class='fl'>3.58</span>, <span class='fl'>3.64</span><span class='op'>)</span>
-<span class='va'>spectra</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='extract.html'>extract</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>7.2</span><span class='op'>)</span>
-<span class='va'>noise</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mask.html'>mask</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>7.2</span>, overlaps <span class='op'>=</span> <span class='st'>'remove'</span><span class='op'>)</span>
+<span class='va'>spectra</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='extract.html'>extract</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>7.2</span><span class='op'>)</span>
+<span class='va'>noise</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='extract.html'>extract</a></span><span class='op'>(</span><span class='fl'>7.5</span>, <span class='cn'>Inf</span><span class='op'>)</span>
 
-<span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.2</span>, <span class='va'>noise</span><span class='op'>)</span>
-
+<span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.5</span>, <span class='va'>noise</span><span class='op'>)</span>
+<span class='va'>bucketted</span>
+</div><div class='output co'>#&gt; Spectra collection containing 6 entries.
+#&gt; Number of bins: 164 
+#&gt; Normalized: Internal standard (3.58-3.64) 
+#&gt; Bucketted: Adaptive inteligent binning 
+#&gt; Labels: conventional organic </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extracts a spectral region — extract • tidySpectR</title>
+<title>Adaptive Intelligent Binning Algorithm — aibin_cpp • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extracts a spectral region — extract" />
-<meta property="og:description" content="extract extracts a spectral region" />
+<meta property="og:title" content="Adaptive Intelligent Binning Algorithm — aibin_cpp" />
+<meta property="og:description" content="Entry point from R for the C++ implementation" />
 
 
 
@@ -126,61 +126,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extracts a spectral region</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/mask_extract.R'><code>R/mask_extract.R</code></a></small>
-    <div class="hidden name"><code>extract.Rd</code></div>
+    <h1>Adaptive Intelligent Binning Algorithm</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
+    <div class="hidden name"><code>aibin_cpp.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>extract</code> extracts a spectral region</p>
+    <p>Entry point from R for the C++ implementation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for collection</span>
-<span class='fu'>extract</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>from</span>, <span class='va'>to</span>, overlaps <span class='op'>=</span> <span class='st'>"keep"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>aibin_cpp</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='va'>noise</span>, <span class='va'>r</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A<code>collection</code> object</p></td>
+      <th>spectra, </th>
+      <td><p>noise A mtrix containing spectra or nosie regions.
+Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further arguments passed to or from other methods(not
-currenctly used).</p></td>
-    </tr>
-    <tr>
-      <th>from, to</th>
-      <td><p>Coordinates of the region to extract.
-Use -Inf or Inf to extract up to an end of the spectra.</p></td>
-    </tr>
-    <tr>
-      <th>overlaps</th>
-      <td><p>What to do with the bins ovelapping the edge of the mask.
-Use either <code>keep</code> of <code>remove</code>.</p></td>
+      <th>R</th>
+      <td><p>resolution (0&gt;R&gt;=1)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An updated version of <code>collection</code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>vector of dbl containing the split position in the orignal axis unit.</p>
 
-    <p>The upper limit in not included: [min, max).</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
-
-<span class='co'># Removing edges</span>
-<span class='fu'>extract</span><span class='op'>(</span><span class='va'>fa_nmr</span>, from <span class='op'>=</span> <span class='fl'>7.2</span>, to <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Spectra collection containing 6 entries.
-#&gt; Number of bins: 1801 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: FALSE 
-#&gt; Labels: conventional organic </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
