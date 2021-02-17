@@ -13,7 +13,7 @@ Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)}
 \item{R}{resolution (0>R>=1)}
 }
 \value{
-vector of dbl containing the split position in the orignal axis unit.
+vector of integers containing the split indices.
 }
 \description{
 Entry point from R for the C++ implementation

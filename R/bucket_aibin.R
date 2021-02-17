@@ -67,6 +67,9 @@ bucket_aibin.collection <- function(x, R, noise_region,...){
     # Call Cpp function
     breaks <- aibin_cpp(spectra, noise_region, R)
     
+    # Convert indices to values
+    breaks <- spectra[breaks+1, 'bin_end'] # C++ indices are 0-based
+    
     # Applying buckets
     new_obj <- bucket_from_breaks(x, breaks)
     new_obj$bucketted <- "Adaptive inteligent binning"

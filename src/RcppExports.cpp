@@ -51,7 +51,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // aibin_cpp
-NumericVector aibin_cpp(NumericMatrix spectra, NumericMatrix noise, double r);
+IntegerVector aibin_cpp(NumericMatrix spectra, NumericMatrix noise, double r);
 RcppExport SEXP _tidySpectR_aibin_cpp(SEXP spectraSEXP, SEXP noiseSEXP, SEXP rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

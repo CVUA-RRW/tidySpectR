@@ -31,11 +31,11 @@ bucket_from_breaks <- function(x, ...)
 bucket_from_breaks.collection <- function(x, breaks, ...){
 # Adding limits if nescessary
     lowest <- x %>% 
-                pull_breaks() %>%
+                pull_limits() %>%
                 min()
                 
     highest <- x %>% 
-                pull_breaks() %>%
+                pull_limits() %>%
                 max()
                 
     if (!lowest %in% breaks){
@@ -55,8 +55,9 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
     dat <- x$data %>%
             data2wide()
             
+    ### cut cuts the floats ! bugged bugged bugged FIXME
     bucketted <- dat %>%
-                 mutate(bin_index = cut(bin_end, breaks, include.lowest = TRUE, right = FALSE)) %>% 
+                 mutate(bin_index = cut(bin_end, breaks, include.lowest = TRUE, right = FALSE, dig.lab = 12)) %>% 
                  group_by(bin_index) %>% 
                  summarise(across(-starts_with("bin"), sum), .groups = "drop") %>%
                  separate(bin_index, c(NA, "bin_start", "bin_end", NA), 

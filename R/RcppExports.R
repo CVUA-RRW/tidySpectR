@@ -61,7 +61,7 @@ recc_split <- function(bin, r, noise, left, right, indices) {
 #' @param spectra, noise A mtrix containing spectra or nosie regions.
 #'   Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)
 #' @param R resolution (0>R>=1)
-#' @returns vector of dbl containing the split position in the orignal axis unit.
+#' @returns vector of integers containing the split indices.
 #' @keywords internal
 aibin_cpp <- function(spectra, noise, r) {
     .Call(`_tidySpectR_aibin_cpp`, spectra, noise, r)

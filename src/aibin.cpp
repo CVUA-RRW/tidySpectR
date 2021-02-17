@@ -136,10 +136,10 @@ IntegerVector aibinning_wrapper(NumericMatrix bin, double r, double vnoise){
 //' @param spectra, noise A mtrix containing spectra or nosie regions.
 //'   Cols 0-2  are : bins, bin_start, bin_end, then come samples (col-wise)
 //' @param R resolution (0>R>=1)
-//' @returns vector of dbl containing the split position in the orignal axis unit.
+//' @returns vector of integers containing the split indices.
 //' @keywords internal
 // [[Rcpp::export]]
-NumericVector aibin_cpp(NumericMatrix spectra,
+IntegerVector aibin_cpp(NumericMatrix spectra,
                         NumericMatrix noise,
                         double r){
   // Split noise
@@ -154,10 +154,6 @@ NumericVector aibin_cpp(NumericMatrix spectra,
 
   // Bucket spectra
   IntegerVector breaks = aibinning_wrapper(spectra, r, vnoise);
-
-  // Convert indices to values
-  NumericVector bin_ends = spectra( _ , 2 );
-  NumericVector splitpos = bin_ends[breaks];
   
-  return splitpos;
+  return breaks;
   }
