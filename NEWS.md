@@ -1,6 +1,8 @@
 # tidySpectR (development version)
 
- * Optimized aibin
+## Version 0.1.3
+
+ * Ported bucket_aibin code to C++ for performance increase
 
 ## Version 0.1.2
 
