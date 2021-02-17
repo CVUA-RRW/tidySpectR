@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -323,7 +323,9 @@
             <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span> <span class="op">%&gt;%</span>
             <span class="fu"><a href="../reference/normalize_internalStandard.html">normalize_internalStandard</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
             <span class="co"># Applying the bucket limits:</span>
-            <span class="fu"><a href="../reference/bucket_from_breaks.html">bucket_from_breaks</a></span><span class="op">(</span><span class="va">buckets</span><span class="op">)</span> </code></pre></div>
+            <span class="fu"><a href="../reference/bucket_from_breaks.html">bucket_from_breaks</a></span><span class="op">(</span><span class="va">buckets</span><span class="op">)</span> 
+<span class="co">#&gt; Warning: Expected 4 pieces. Missing pieces filled with `NA` in 167 rows [1, 2,</span>
+<span class="co">#&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</span></code></pre></div>
 <p>And done! Let’s check that we got the same thing out of both processes:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">spectra</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
@@ -332,7 +334,10 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">new_dat</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
-<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span></code></pre></div>
+<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span>
+<span class="co">#&gt; Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning -</span>
+<span class="co">#&gt; Inf</span></code></pre></div>
 <p><img src="simple_case_study_files/figure-html/compare-2.png" width="700"></p>
 </div>
 </div>
