@@ -142,7 +142,7 @@ newly created bin.</p>
     <pre class="usage"><span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for collection</span>
-<span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>R</span>, <span class='va'>noise_region</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>R</span>, <span class='va'>noise_region</span>, snr <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +164,12 @@ currenctly used).</p></td>
     <tr>
       <th>noise_region</th>
       <td><p>A<code>collection</code> object containing a noise_region</p></td>
+    </tr>
+    <tr>
+      <th>snr</th>
+      <td><p>Signal to noise ratio for bucketting. snr should a real &gt;=1.
+Factor by which to multiply the noise bin value. Can be useful to limit overbucketing
+of high-resolution data or in case of very smooth and low noise.</p></td>
     </tr>
     </table>
 
@@ -205,13 +211,8 @@ May 15;80(10):3783-90. doi: 10.1021/ac7025964.
 <span class='va'>noise</span> <span class='op'>&lt;-</span> <span class='va'>normalized</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='extract.html'>extract</a></span><span class='op'>(</span><span class='fl'>7.5</span>, <span class='cn'>Inf</span><span class='op'>)</span>
 
 <span class='va'>bucketted</span> <span class='op'>&lt;-</span> <span class='fu'>bucket_aibin</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='fl'>0.5</span>, <span class='va'>noise</span><span class='op'>)</span>
-<span class='va'>bucketted</span>
-</div><div class='output co'>#&gt; Spectra collection containing 6 entries.
-#&gt; Number of bins: 164 
-#&gt; Limits: 0.4999788 7.203979 
-#&gt; Normalized: Internal standard (3.58-3.64) 
-#&gt; Bucketted: Adaptive inteligent binning 
-#&gt; Labels: conventional organic </div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in aibin_cpp(spectra, noise_region, R): argument "snr" is missing, with no default</span></div><div class='input'><span class='va'>bucketted</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'bucketted' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
