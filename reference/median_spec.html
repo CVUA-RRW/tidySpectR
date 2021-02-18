@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • tidySpectR</title>
+<title>Median spectrum — median_spec • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Median spectrum — median_spec" />
+<meta property="og:description" content="Median spectrum" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -125,57 +126,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Median spectrum</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/internals.R'><code>R/internals.R</code></a></small>
+    <div class="hidden name"><code>median_spec.Rd</code></div>
     </div>
 
-    <div id="tidyspectr-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#tidyspectr-development-version" class="anchor"></a>tidySpectR (development version)</h1>
-<ul>
-<li>Added probabilistic quotient normalization method</li>
-</ul>
-<div id="version-013" class="section level2">
-<h2 class="hasAnchor">
-<a href="#version-013" class="anchor"></a>Version 0.1.3</h2>
-<ul>
-<li>Ported bucket_aibin code to C++ for performance increase</li>
-</ul>
-</div>
-<div id="version-012" class="section level2">
-<h2 class="hasAnchor">
-<a href="#version-012" class="anchor"></a>Version 0.1.2</h2>
-<ul>
-<li>Added a `subsample´ method to extract a subset of spectra from a collection</li>
-<li>Added the <code>pull_limits</code>getter to retrieve X-axis limits</li>
-<li>Added <code>step_opls_denoise</code> to filter structural noise</li>
-</ul>
-</div>
-<div id="version-011" class="section level2">
-<h2 class="hasAnchor">
-<a href="#version-011" class="anchor"></a>Version 0.1.1</h2>
-<ul>
-<li>Added <code>add_labels</code> to reference</li>
-<li>Fixed <code>normalize_aibin</code>
-</li>
-<li>All <code>bucket_</code> methods now support multiprocessing.</li>
-<li>In order to better integrate multiprocessing, Cluster definition has been removed from ther methods body. Cluster now need to be defined manually be the user (see for example <code>bucket_aibin</code> documentation.</li>
-</ul>
-</div>
-<div id="version-010" class="section level2">
-<h2 class="hasAnchor">
-<a href="#version-010" class="anchor"></a>Version 0.1.0</h2>
-<p>First release!</p>
-</div>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Median spectrum</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>median_spec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>data tibble (long form)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>not currently used</p></td>
+    </tr>
+    </table>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

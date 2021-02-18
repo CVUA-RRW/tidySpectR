@@ -19,9 +19,6 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/average_spectrum.html</loc>
   </url>
   <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/bin_value.html</loc>
-  </url>
-  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/bucket_aibin.html</loc>
   </url>
   <url>
@@ -40,9 +37,6 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/data2wide.html</loc>
   </url>
   <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/divide_bin.html</loc>
-  </url>
-  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/extract.html</loc>
   </url>
   <url>
@@ -58,10 +52,16 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/mask.html</loc>
   </url>
   <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/median_spec.html</loc>
+  </url>
+  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/normalize_factor.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/normalize_internalStandard.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/normalize_probQuotient.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/normalize_totalSpectrum.html</loc>
@@ -85,7 +85,7 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_numbin.html</loc>
   </url>
   <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/recc_split.html</loc>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/reduce_resolution.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/reexports.html</loc>
