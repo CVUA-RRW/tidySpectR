@@ -7,7 +7,7 @@
 \usage{
 bucket_aibin(x, ...)
 
-\method{bucket_aibin}{collection}(x, R, noise_region, ...)
+\method{bucket_aibin}{collection}(x, R, noise_region, snr = 1, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object to bucket}
@@ -19,6 +19,10 @@ currenctly used).}
 0 > R >= 1.}
 
 \item{noise_region}{A\code{collection} object containing a noise_region}
+
+\item{snr}{Signal to noise ratio for bucketting. snr should a real >=1.
+Factor by which to multiply the noise bin value. Can be useful to limit overbucketing
+of high-resolution data or in case of very smooth and low noise.}
 }
 \value{
 An updated version of x

@@ -30,6 +30,9 @@ bucket_aibin <- function(x, ...)
 #' @param R resolution value, strictly positive and typically in the interval
 #'   0 > R >= 1. 
 #' @param noise_region A`collection` object containing a noise_region
+#' @param snr Signal to noise ratio for bucketting. snr should a real >=1.
+#'   Factor by which to multiply the noise bin value. Can be useful to limit overbucketing 
+#'   of high-resolution data or in case of very smooth and low noise.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
@@ -52,7 +55,7 @@ bucket_aibin <- function(x, ...)
 #' bucketted
 #'
 #' @importFrom dplyr arrange
-bucket_aibin.collection <- function(x, R, noise_region,...){
+bucket_aibin.collection <- function(x, R, noise_region, snr = 1,...){
     # Convert data to proper format
     noise_region <- noise_region$data %>%
                     data2wide() %>%

@@ -4,7 +4,7 @@
 \alias{aibin_cpp}
 \title{Adaptive Intelligent Binning Algorithm}
 \usage{
-aibin_cpp(spectra, noise, r)
+aibin_cpp(spectra, noise, r, snr)
 }
 \arguments{
 \item{spectra, }{noise A mtrix containing spectra or nosie regions.

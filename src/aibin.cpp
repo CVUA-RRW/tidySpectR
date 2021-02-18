@@ -138,7 +138,8 @@ IntegerVector aibinning_wrapper(NumericMatrix bin, double r, double vnoise){
 // [[Rcpp::export]]
 IntegerVector aibin_cpp(NumericMatrix spectra,
                         NumericMatrix noise,
-                        double r){
+                        double r,
+                        double snr){
   // Split noise
   IntegerVector noisebreaks = aibinning_wrapper(noise, r, 0);
 
@@ -147,7 +148,7 @@ IntegerVector aibin_cpp(NumericMatrix spectra,
   for (int i=1; i<noisebreaks.length(); ++i){
     vb[i] = bin_value(noise, r, noisebreaks[i-1], noisebreaks[i]);
   }
-  double vnoise = max(vb);
+  double vnoise = max(vb) * snr;
 
   // Bucket spectra
   IntegerVector breaks = aibinning_wrapper(spectra, r, vnoise);

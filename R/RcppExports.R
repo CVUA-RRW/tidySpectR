@@ -57,7 +57,7 @@ NULL
 #' @param R resolution (0>R>=1)
 #' @returns vector of integers containing the split indices.
 #' @keywords internal
-aibin_cpp <- function(spectra, noise, r) {
-    .Call(`_tidySpectR_aibin_cpp`, spectra, noise, r)
+aibin_cpp <- function(spectra, noise, r, snr) {
+    .Call(`_tidySpectR_aibin_cpp`, spectra, noise, r, snr)
 }
 

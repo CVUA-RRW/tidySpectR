@@ -6,21 +6,22 @@
 using namespace Rcpp;
 
 // aibin_cpp
-IntegerVector aibin_cpp(NumericMatrix spectra, NumericMatrix noise, double r);
-RcppExport SEXP _tidySpectR_aibin_cpp(SEXP spectraSEXP, SEXP noiseSEXP, SEXP rSEXP) {
+IntegerVector aibin_cpp(NumericMatrix spectra, NumericMatrix noise, double r, double snr);
+RcppExport SEXP _tidySpectR_aibin_cpp(SEXP spectraSEXP, SEXP noiseSEXP, SEXP rSEXP, SEXP snrSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type spectra(spectraSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type noise(noiseSEXP);
     Rcpp::traits::input_parameter< double >::type r(rSEXP);
-    rcpp_result_gen = Rcpp::wrap(aibin_cpp(spectra, noise, r));
+    Rcpp::traits::input_parameter< double >::type snr(snrSEXP);
+    rcpp_result_gen = Rcpp::wrap(aibin_cpp(spectra, noise, r, snr));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tidySpectR_aibin_cpp", (DL_FUNC) &_tidySpectR_aibin_cpp, 3},
+    {"_tidySpectR_aibin_cpp", (DL_FUNC) &_tidySpectR_aibin_cpp, 4},
     {NULL, NULL, 0}
 };
 
