@@ -42,11 +42,11 @@ breaks <- pull_breaks(binned)
 # a bin at the ends of the spectra
 breaks[1]
 breaks[length(breaks)]
-pull_limits(fa_nmr)
+pull_limits(extract(fa_nmr, 0.5, 7.2))
 
 breaks <- breaks[-1] # remove first break
 breaks <- breaks[-length(breaks)] # remove last break
-processed <- bucket_from_breaks(fa_nmr, breaks)
+processed <- bucket_from_breaks(extract(fa_nmr, 0.5, 7.2), breaks)
 
 # Full resolution bucketted spectra
 processed
