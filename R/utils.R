@@ -24,11 +24,12 @@ reduce_resolution <- function(x, ...)
 #' binned <- bucket_aibin(reduced)
 #' breaks <- pull_breaks(binned)
 #' 
-#' # last break does not match spectra limit, leaving it so would create a bin at the right end of the spectra
+#' # last break does not match spectra limit, leaving it so would create a bin at the ends of the spectra
 #' breaks[1]
 #' breaks[length(breaks)]
 #' pull_limits(fa_nmr)
 #'
+#' breaks <- breaks[-1] # remove first break
 #' breaks <- breaks[-length(breaks)] # remove last break
 #' processed <- bucket_from_breaks(breaks)
 #'
