@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   plotting: plotting.html
   simple_case_study: simple_case_study.html
-last_built: 2021-02-18T08:16Z
+last_built: 2021-02-18T08:46Z
 urls:
   reference: https://cvua-rrw.github.io/tidySpectR//reference
   article: https://cvua-rrw.github.io/tidySpectR//articles
