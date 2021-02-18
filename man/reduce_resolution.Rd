@@ -24,6 +24,7 @@ Reduce the resolution of Spectra
 \note{
 Reducing resolution of the spectra before computation intensive steps
 like AI binning can significantly improve their speed, while minimally affecting the output.
+
 You should however be careful with the choice of k and in the caase of subsequent binning
 make sure to remove the outter limits of the returned results as these will not match
 the outter limits of the full resolution spectra.
@@ -32,16 +33,20 @@ the outter limits of the full resolution spectra.
 library(tidySpectR)
 # Speeding up AI binning
 reduced <- reduce_resolution(fa_nmr, k=2)
-binned <- bucket_aibin(reduced)
+binned <- bucket_aibin(extract(reduced,0.5, 7.2), 
+                       0.5, 
+                       mask(reduced, -Inf, 8))
 breaks <- pull_breaks(binned)
 
-# last break does not match spectra limit, leaving it so would create a bin at the right end of the spectra
+# last break does not match spectra limit, leaving it so would create 
+# a bin at the ends of the spectra
 breaks[1]
 breaks[length(breaks)]
 pull_limits(fa_nmr)
 
+breaks <- breaks[-1] # remove first break
 breaks <- breaks[-length(breaks)] # remove last break
-processed <- bucket_from_breaks(breaks)
+processed <- bucket_from_breaks(fa_nmr, breaks)
 
 # Full resolution bucketted spectra
 processed
