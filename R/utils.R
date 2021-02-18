@@ -1,5 +1,48 @@
 # Misc functions for the handling of collection objects
 
+#' Reduce the resolution of Spectra
+#'
+#' @aliases reduce_resolution reduce_resolution.collection
+#' @param x A`collection` object to normalize
+#' @param ... further arguments passed to or from other methods(not
+#'   currently used).
+reduce_resolution <- function(x, ...)
+    UseMethod("reduce_resolution")
+
+#' @rdname reduce_resolution
+#' @param k an integer expressing the reduction in resolution.
+#'   For example `k=2`will keep every second point, `k=3` every third.
+#' @note Reducing resolution of the spectra before computation intensive steps 
+#'   like AI binning can significantly improve their speed, while minimally affecting the output.
+#' You should however be careful with the choice of k and in the caase of subsequent binning 
+#'   make sure to remove the outter limits of the returned results as these will not match
+#'   the outter limits of the full resolution spectra.
+#' @examples
+#' library(tidySpectR)
+#' # Speeding up AI binning
+#' reduced <- reduce_resolution(fa_nmr, k=2)
+#' binned <- bucket_aibin(reduced)
+#' breaks <- pull_breaks(binned)
+#' 
+#' # last break does not match spectra limit, leaving it so would create a bin at the right end of the spectra
+#' breaks[1]
+#' breaks[length(breaks)]
+#' pull_limits(fa_nmr)
+#'
+#' breaks <- breaks[-length(breaks)] # remove last break
+#' processed <- bucket_from_breaks(breaks)
+#'
+#' # Full resolution bucketted spectra
+#' processed
+#' @importFrom dplyr slice row_number
+reduce_resolution.collection <- function(x, k, ...){
+    new_obj <- x
+    new_obj$data <- data2wide(x$data) %>%
+           slice(which(row_number() %% k == 1)) %>%
+           wide2long()
+    return(new_obj)
+}
+
 #' Calculate the average spectrum 
 #'
 #' Averages spectra 

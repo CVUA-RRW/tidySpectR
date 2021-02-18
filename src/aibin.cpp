@@ -13,7 +13,6 @@ using namespace Rcpp;
 //'   (C++ index 0 to length-1). 
 //' @returns A dbl, the bin value
 //' @keywords internal
-// [[Rcpp::export]]
 double bin_value(NumericMatrix bin, 
                  double r,
                  int left,
@@ -42,7 +41,6 @@ double bin_value(NumericMatrix bin,
 //' @returns A dbl, the new optimal splitting position or 
 //'   NAN if not splitting is possible
 //' @keywords internal
-// [[Rcpp::export]]
 double divide_bin(NumericMatrix bin, 
                   double r, 
                   double noise,
@@ -86,7 +84,6 @@ double divide_bin(NumericMatrix bin,
 //' @param indices storage of splitting indices, should be initializied with `right`.
 //' @returns A vector of splitting indices 
 //' @keywords internal
-// [[Rcpp::export]]
 IntegerVector recc_split(NumericMatrix bin, 
                          double r, 
                          double noise, 

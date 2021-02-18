@@ -1,5 +1,7 @@
 # tidySpectR (development version)
 
+ * Added probabilistic quotient normalization method
+
 ## Version 0.1.3
 
  * Ported bucket_aibin code to C++ for performance increase
