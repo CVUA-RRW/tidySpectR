@@ -144,7 +144,11 @@ prep.step_opls_denoise <- function(x, training, info = NULL, ...){
     predictors <- training[, col_names]
     outcomes <- select(training, x$outcome) %>% as.matrix()
     
-    model <- opls(predictors, outcomes, predI = 1, orthoI = 1)
+    invisible(
+        capture.output(
+            model <- opls(predictors, outcomes, predI = 1, orthoI = 1)
+        )
+    )
     
     Wortho <- getWeightMN(model, orthoL = TRUE)
     Portho <- getLoadingMN(model, orthoL = TRUE)
