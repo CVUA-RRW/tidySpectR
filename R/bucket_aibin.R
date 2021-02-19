@@ -68,7 +68,7 @@ bucket_aibin.collection <- function(x, R, noise_region, snr = 1,...){
                as.matrix()
     
     # Call Cpp function
-    breaks <- aibin_cpp(spectra, noise_region, R)
+    breaks <- aibin_cpp(spectra, noise_region, R, snr)
     
     # Convert indices to values
     breaks <- spectra[breaks+1, 'bin_end'] # C++ indices are 0-based

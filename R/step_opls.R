@@ -183,7 +183,7 @@ bake.step_opls_denoise <- function(object, new_data, ...){
 print.step_opls_denoise <-
   function(x, width = max(20, options()$width - 30), ...) {
     cat("OPLS denoising for ", sep = "")
-    printer(names(x$Wortho), x$terms, x$trained, width = width)
+    printer(rownames(x$Wortho), x$terms, x$trained, width = width)
     invisible(x)
   }
   
@@ -192,7 +192,7 @@ print.step_opls_denoise <-
 #' @export
 tidy.step_opls_denoise <- function(x, ...) {
   if (is_trained(x)) {
-    res <- tibble(terms = c(names(x$Wortho)),
+    res <- tibble(terms = c(rownames(x$Wortho)),
                   statistic = rep(c("orthogonal weigths", "orthogonal loadings"), each = length(x$Wortho)),
                   value = c(x$Wortho, x$Portho))
   } else {
