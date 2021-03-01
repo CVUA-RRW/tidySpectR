@@ -1,6 +1,9 @@
 # tidySpectR (development version)
 
  * Added probabilistic quotient normalization method
+ * `add_labels` now only add labels to existing IDs
+ * Added a SNR argument to `bucket_aibin` to eliminate over-bucketting of noise in the spectral regions
+ * Supressed printing of QC results inherited from the `opls`function in the `step_opls_denoise` method
 
 ## Version 0.1.3
 

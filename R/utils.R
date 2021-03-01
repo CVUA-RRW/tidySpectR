@@ -247,10 +247,16 @@ add_labels <- function(x, ...)
 #' add_labels(fa_nmr, newlabs, ids_from= "names", labels_from= "conditions")
 add_labels.collection <- function(x, labels, ids_from, labels_from, ...){
     new_obj <- x
+    ids <- x$data %>% 
+           pull(id) %>%
+           unique() %>%
+           tibble(id = .)
+           
     new_obj$labels <- tibble(id = pull(labels, var = ids_from),
-                         label = pull(labels, var = labels_from)) %>%
-                  mutate(id = as.factor(id),
-                         label = as.factor(label))
+                             label = pull(labels, var = labels_from)) %>%
+                      mutate(id = as.factor(id),
+                             label = as.factor(label)) %>%
+                      semi_join(ids, by = "id")
     
     return(new_obj)
 }
