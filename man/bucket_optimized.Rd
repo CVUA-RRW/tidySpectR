@@ -34,7 +34,7 @@ searching local minima in the average spectrum.
 \examples{
 library(tidySpectR)
 
-bucket_optimized(fa_nmr, initial_width = 0.01, slackness = 0.5)
+bucket_optimized(fa_nmr, initial_width = 0.1, slackness = 0.2)
 }
 \references{
 Sousa SAA, Magalhaes A, Ferreira MMC. Optimized bucketing for NMR spectra:

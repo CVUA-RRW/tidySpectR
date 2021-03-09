@@ -31,7 +31,7 @@ bucket_optimized <- function(x, ...)
 #' @examples
 #' library(tidySpectR)
 #'
-#' bucket_optimized(fa_nmr, initial_width = 0.01, slackness = 0.5)
+#' bucket_optimized(fa_nmr, initial_width = 0.1, slackness = 0.2)
 bucket_optimized.collection <- function(x, initial_width, slackness, ...){
     average <- x %>% 
                average_spectrum(group = "all")
@@ -40,7 +40,7 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
     J <- average$data %>% nrow()
     
     # distance between points
-    sampling_interval <- (last(x$data$bins) -first(x$data$bins)) / (J - 1) 
+    sampling_interval <- (max(x$data$bins) - min(x$data$bins)) / (J - 1) 
     
     # N is the number of points per initial bucket
     N <- as.integer(initial_width / sampling_interval)
