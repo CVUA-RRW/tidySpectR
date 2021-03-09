@@ -15,10 +15,13 @@ reference:
     - print.collection
     - tidy.collection
     - starts_with("pull_")
-    - autoplot.collection
-    - average_spectrum
     - subsample
     - reduce_resolution
+  - title: Summarizing data
+    contents:
+    - average_spectrum
+    - median_spectrum
+    - autoplot.collection
   - title: Masking and extracting data
     contents:
     - mask

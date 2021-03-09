@@ -234,7 +234,7 @@ add_labels <- function(x, ...)
 #' @return An updated version of `collection`.
 #' @details Pre-existing labels will be overwritten.
 #' @importFrom tibble tibble
-#' @importFrom dplyr pull mutate
+#' @importFrom dplyr pull mutate semi_join
 #' @export
 #' @examples
 #' library(tidySpectR)

@@ -1,5 +1,6 @@
 # tidySpectR (development version)
 
+ * Fixed an issue caused by large slackness in `bucket_optimized`
  * Added probabilistic quotient normalization method
  * `add_labels` now only add labels to existing IDs
  * Added a SNR argument to `bucket_aibin` to eliminate over-bucketting of noise in the spectral regions

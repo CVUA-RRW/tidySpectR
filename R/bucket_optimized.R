@@ -29,11 +29,9 @@ bucket_optimized <- function(x, ...)
 #' @importFrom purrr map_dfr
 #' @export
 #' @examples
-#' \dontrun{
 #' library(tidySpectR)
 #'
 #' bucket_optimized(fa_nmr, initial_width = 0.01, slackness = 0.5)
-#' }
 bucket_optimized.collection <- function(x, initial_width, slackness, ...){
     average <- x %>% 
                average_spectrum(group = "all")
@@ -77,6 +75,8 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
 find_local_min <- function(i, data, N, s){
     start <- N*i-s
     end <- N*i+s-1 # correcting for R indexing
+    if (start < 0){start <- 0}
+    # if (end < 0){end <- 0}
     # Return local minimum position 
     data %>% 
     slice(start:end) %>%
