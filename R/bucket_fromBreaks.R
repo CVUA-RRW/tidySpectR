@@ -59,7 +59,7 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
     bucketted <- dat %>%
                  mutate(bin_index = cut(bin_end, breaks, include.lowest = TRUE, right = FALSE, dig.lab = 12)) %>% 
                  group_by(bin_index) %>% 
-                 summarise(across(-starts_with("bin"), sum), .groups = "drop") %>%
+                 summarise(across(-starts_with("bin"), ~sum(.x, na.rm = TRUE)), .groups = "drop") %>%
                  separate(bin_index, c(NA, "bin_start", "bin_end", NA), 
                           sep = "([,\\[\\]\\(\\)])",
                           remove = TRUE, 
