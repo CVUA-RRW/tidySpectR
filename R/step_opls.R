@@ -134,6 +134,7 @@ step_opls_denoise_new <-
 
 #' @importFrom ropls opls getWeightMN getLoadingMN
 #' @importFrom dplyr select
+#' @importFrom utils capture.output
 #' @export
 prep.step_opls_denoise <- function(x, training, info = NULL, ...){
 

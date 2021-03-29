@@ -69,6 +69,7 @@ median_spectrum <- function(x, ...)
 #'
 #' @importFrom dplyr group_by summarise mutate select arrange inner_join
 #' @importFrom tibble add_column tibble
+#' @importFrom stats median
 #' @export
 #' @examples
 #' library(tidySpectR)
