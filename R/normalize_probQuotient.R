@@ -2,7 +2,7 @@
 #' 
 #' Probabilistic Quoteint Normalization estimates for each spectra the 
 #'   the most likely quotient derived form the ratio of the signal distribution
-#'   and that oif a reference (median) spectrum.
+#'   and that of a reference spectrum.
 #'
 #' @aliases normalize_probQuotient normalize_ProbQuotient.collection
 #' @export
@@ -19,20 +19,32 @@ normalize_probQuotient <- function(x, ...)
     UseMethod("normalize_probQuotient")
 
 #' @rdname normalize_probQuotient
+#' @param x A`collection` object
+#' @param ref A reference spectra. Will use the median spectrum of the 
+#'   collection if set to `NULL`.
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return An updated version of `collection`.
 #' @export
 #' @examples
 #' library(tidySpectR)
 #'
 #' normalize_probQuotient(fa_nmr)
+#'
+#' # Provifding a reference spectrum
+#' med <- median_spectrum(fa_nmr)
+#' normalize_probQuotient(fa_nmr, ref = med)
+#'
 #' @importFrom dplyr select summarise starts_with across everything
 #' @importFrom tidyr pivot_longer
-normalize_probQuotient.collection <- function(x, ...){
+normalize_probQuotient.collection <- function(x, ref = NULL, ...){
     # Perform integral normalization
     norm <- normalize_totalSpectrum(x)
     
     # Calculate ref (median) spectrum
-    ref <- median_spec(norm$data) %>%
-           arrange("bins")
+    if (is.null(ref)){
+        ref <- median_spectrum(norm) 
+    }
     
     # Calculate median quotient of all variables
     norm_mat <- data2wide(norm$data) %>%

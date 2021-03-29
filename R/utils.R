@@ -53,6 +53,65 @@ reduce_resolution.collection <- function(x, k, ...){
 
 #' Calculate the average spectrum 
 #'
+#' Calculates median of spectra 
+#' 
+#' @aliases median_spectrum median_spectrum.collection
+#' @export
+median_spectrum <- function(x, ...)
+    UseMethod("median_spectrum")
+
+#' @rdname median_spectrum
+#' @param x A`collection` object
+#' @param group How to perform grouping. Either `all`or `labels`
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return An updated version of `collection`.
+#'
+#' @importFrom dplyr group_by summarise mutate select arrange inner_join
+#' @importFrom tibble add_column tibble
+#' @export
+#' @examples
+#' library(tidySpectR)
+#'
+#' median_spectrum(fa_nmr)
+#'
+#' median_spectrum(fa_nmr, group = 'labels')
+median_spectrum.collection <- function(x, group = 'all', ...){
+    new_obj <- x
+    if (group == 'all'){
+        new_obj$data <- x$dat %>% 
+                        group_by(bins, bin_start, bin_end) %>%
+                        summarise(values = median(values), .groups= 'drop') %>%
+                        add_column(id = "all", .before = 1) %>% 
+                        mutate(id = as.factor(id))
+                        
+        new_obj$labels <- tibble(id = "all", label = NA) %>%
+                          mutate(id = as.factor(id),
+                                 label = as.factor(label))
+                                 
+    } else if (group == 'labels'){
+        new_obj$data <- x$dat %>% 
+                        inner_join(x$labels, by = 'id') %>%
+                        group_by(bins, bin_start, bin_end, label) %>%
+                        summarise(values = median(values), .groups= 'drop') %>%
+                        mutate(id = label, .before = 1) %>%
+                        select(-label) %>%
+                        arrange(id, bins)
+        
+        new_obj$labels <- tibble(id = unique(new_obj$data$id),
+                                 label = NA) %>%
+                          mutate(id = as.factor(id),
+                                 label = as.factor(label))
+    
+    } else{
+        rlang::abort("Invalid value for `group`, use either `all` or `labels`")
+    }
+    
+    return(new_obj)
+}
+
+#' Calculate the average spectrum 
+#'
 #' Averages spectra 
 #' 
 #' @aliases average_spectrum average_spectrum.collection

@@ -20,17 +20,3 @@ wide2long <- function(x, ...){
         names_to = "id",
         values_to = "values")
 }
-
-#' Median spectrum
-#' @param x data tibble (long form)
-#' @param ... not currently used
-#' @keywords internal
-#' @importFrom stats median
-median_spec <- function(x, ...){
-    x %>% 
-    group_by(bins, bin_start, bin_end) %>%
-    summarise(values = median(values), .groups= 'drop') %>%
-    add_column(id = "median", .before = 1) %>% 
-    mutate(id = as.factor(id)) %>%
-    arrange("bins")
-}

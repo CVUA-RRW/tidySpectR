@@ -8,23 +8,34 @@
 \usage{
 normalize_probQuotient(x, ...)
 
-\method{normalize_probQuotient}{collection}(x, ...)
+\method{normalize_probQuotient}{collection}(x, ref = NULL, ...)
 }
 \arguments{
-\item{x}{A\code{collection} object to normalize}
+\item{x}{A\code{collection} object}
 
 \item{...}{further arguments passed to or from other methods(not
-currently used).}
+currenctly used).}
+
+\item{ref}{A reference spectra. Will use the median spectrum of the
+collection if set to \code{NULL}.}
+}
+\value{
+An updated version of \code{collection}.
 }
 \description{
 Probabilistic Quoteint Normalization estimates for each spectra the
 the most likely quotient derived form the ratio of the signal distribution
-and that oif a reference (median) spectrum.
+and that of a reference spectrum.
 }
 \examples{
 library(tidySpectR)
 
 normalize_probQuotient(fa_nmr)
+
+# Provifding a reference spectrum
+med <- median_spectrum(fa_nmr)
+normalize_probQuotient(fa_nmr, ref = med)
+
 }
 \references{
 Dieterle, F., Ross, A., Schlotterbeck, G., & Senn, H. (2006). Probabilistic
