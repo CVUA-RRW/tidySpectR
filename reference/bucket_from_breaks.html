@@ -73,7 +73,7 @@ values within each bin." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4.9000</span>
       </span>
     </div>
 
@@ -166,9 +166,8 @@ currenctly used).</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If omitted, the spectra limits will be added to the breaks.</p>
-<p>Buckets will include the bin overlapping on the lower limit and exclude the bin
-overlapping on the higher limit. This can results in a slight left-shift of the spectra.
-Use with care.</p>
+<p>Bins will be grouped considering their center, inclusion criteria is
+(lower_limit, higher_limit].</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
@@ -176,8 +175,8 @@ Use with care.</p>
 <span class='va'>breaks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>8</span>, <span class='fl'>7.5</span>, <span class='fl'>7</span>, <span class='fl'>5</span>, <span class='fl'>0</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='fu'>bucket_from_breaks</span><span class='op'>(</span><span class='va'>fa_nmr</span>, <span class='va'>breaks</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
-#&gt; Number of bins: 6 
-#&gt; Limits: 0 10 
+#&gt; Number of bins: 5 
+#&gt; Limits: 0 8.999979 
 #&gt; Normalized: FALSE 
 #&gt; Bucketted: custom 
 #&gt; Labels: conventional organic </div></pre>

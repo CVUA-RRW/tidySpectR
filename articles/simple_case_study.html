@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4.9000</span>
       </span>
     </div>
 
@@ -244,22 +244,12 @@
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Processed spectra"</span><span class="op">)</span></code></pre></div>
 <p><img src="simple_case_study_files/figure-html/bucket-1.png" width="700"></p>
 <p>And here are the processed spectra!</p>
-<p>Note that the spectra in this dataset were pre-bucketted. In real life the data would be several time bigger and the bucketting process can be pretty slow. We could speed it up using multiprocessing:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HenrikBengtsson/future">future</a></span><span class="op">)</span>
-
-<span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future/man/re-exports.html">makeClusterPSOCK</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="va">cluster</span>, workers <span class="op">=</span> <span class="va">cl</span><span class="op">)</span>
-
-<span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bucket_uniform.html">bucket_uniform</a></span><span class="op">(</span><span class="va">spectra</span>, width <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span>
-
-<span class="fu">stopCluster</span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="multivariate-data-analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multivariate-data-analysis" class="anchor"></a>Multivariate data analysis</h2>
 <p>Now that we have processed our spectra we can go on to the modelling part. For this we will rely on the <a href="https://www.tidymodels.org/">tidymodels</a> workflow. First we will scale the spectra using Pareto scaling and perform PCA on the predictors.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Export the spectra in a tidy format </span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
 
@@ -301,7 +291,7 @@
 <span class="co">#&gt;  v1 </span>
 <span class="co">#&gt; 100 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Degrees of Freedom (per dimension): 1.921827 </span>
+<span class="co">#&gt; Degrees of Freedom (per dimension): 1.92434 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Training Misclassification Error: 0.33333 ( N = 6 )</span></code></pre></div>
 <p>It looks like we managed to missclassify one sample, this would probably improve by increasing the sample number and optimizing the preprocessing.</p>
@@ -311,7 +301,7 @@
 <a href="#process-new-samples" class="anchor"></a>Process new samples</h2>
 <p>When you go to production, you’ll want to use the same pre-processing steps on new samples. While this is straigthford for all the read masking operations it can become difficult when you use more sophisticated bucketting algorithms.</p>
 <p>Fortunately it is possible to extract the bucketting values from existing collections and apply them to new ones.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="va">fa_nmr</span>
 
 <span class="co"># Extracting the bucket limits from the previous analysis</span>
@@ -323,21 +313,16 @@
             <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span> <span class="op">%&gt;%</span>
             <span class="fu"><a href="../reference/normalize_internalStandard.html">normalize_internalStandard</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
             <span class="co"># Applying the bucket limits:</span>
-            <span class="fu"><a href="../reference/bucket_from_breaks.html">bucket_from_breaks</a></span><span class="op">(</span><span class="va">buckets</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Expected 4 pieces. Missing pieces filled with `NA` in 167 rows [1, 2,</span>
-<span class="co">#&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</span></code></pre></div>
+            <span class="fu"><a href="../reference/bucket_from_breaks.html">bucket_from_breaks</a></span><span class="op">(</span><span class="va">buckets</span><span class="op">)</span> </code></pre></div>
 <p>And done! Let’s check that we got the same thing out of both processes:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">spectra</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
 <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Original data"</span><span class="op">)</span></code></pre></div>
 <p><img src="simple_case_study_files/figure-html/compare-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">new_dat</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
-<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span>
-<span class="co">#&gt; Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning -</span>
-<span class="co">#&gt; Inf</span></code></pre></div>
+<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span></code></pre></div>
 <p><img src="simple_case_study_files/figure-html/compare-2.png" width="700"></p>
 </div>
 </div>
