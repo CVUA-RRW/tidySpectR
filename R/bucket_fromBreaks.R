@@ -16,9 +16,8 @@ bucket_from_breaks <- function(x, ...)
 #' @return An updated version of `collection`.
 #' @details If omitted, the spectra limits will be added to the breaks.
 #'
-#' Buckets will include the bin overlapping on the lower limit and exclude the bin 
-#'   overlapping on the higher limit. This can results in a slight left-shift of the spectra. 
-#'   Use with care.
+#' Bins will be grouped considering their center, inclusion criteria is
+#'   (lower_limit, higher_limit].
 #' 
 #' @importFrom dplyr mutate group_by summarise rowwise across
 #' @importFrom tidyr separate
@@ -29,25 +28,27 @@ bucket_from_breaks <- function(x, ...)
 #' breaks = c(10, 8, 7.5, 7, 5, 0, -1)
 #' bucket_from_breaks(fa_nmr, breaks)
 bucket_from_breaks.collection <- function(x, breaks, ...){
-# Adding limits if nescessary
-    lowest <- x %>% 
-                pull_limits() %>%
-                min()
-                
-    highest <- x %>% 
-                pull_limits() %>%
-                max()
-                
-    if (!lowest %in% breaks){
-        breaks <- append(breaks, lowest)
+    # tol <- options()$digits
+    # Adding limits if nescessary
+    x_breaks <- pull_breaks(x)
+    x_min <- min(x_breaks)
+    x_max <- max(x_breaks)
+    
+    breaks <- sort(breaks)
+    
+    if (min(x_breaks) != first(breaks)){
+        breaks <- append(breaks, min(x_breaks))
     }
     
-    if (!highest %in% breaks){
-        breaks <- append(breaks, highest)
+    if (max(x_breaks) != last(breaks)){
+        breaks <- append(breaks, max(x_breaks))
     }
     
-    breaks <- sort(breaks) %>% unique()
+    breaks <- sort(breaks[breaks >= x_min & breaks <= x_max],
+                   decreasing = FALSE) %>% 
+              unique()
     
+    # breaks <- append(breaks, c(-Inf, Inf)) %>% sort()
     # Bucket
     
     new_obj <- x
@@ -55,18 +56,14 @@ bucket_from_breaks.collection <- function(x, breaks, ...){
     dat <- x$data %>%
             data2wide()
             
-    ### cut cuts the floats ! bugged bugged bugged FIXME
-    bucketted <- dat %>%
-                 mutate(bin_index = cut(bin_end, breaks, include.lowest = TRUE, right = FALSE, dig.lab = 12)) %>% 
-                 group_by(bin_index) %>% 
-                 summarise(across(-starts_with("bin"), ~sum(.x, na.rm = TRUE)), .groups = "drop") %>%
-                 separate(bin_index, c(NA, "bin_start", "bin_end", NA), 
-                          sep = "([,\\[\\]\\(\\)])",
-                          remove = TRUE, 
-                          convert = TRUE) %>%
-                 rowwise() %>%
-                 mutate(bins = mean(c(bin_start, bin_end)), .before = 1)
-
+    bucketted <- dat %>% 
+                rowwise() %>%
+                mutate(bin_start = max(breaks[breaks <= bins]),
+                       bin_end = min(breaks[breaks > bins])) %>%
+                mutate(bins = mean(c(bin_start, bin_end))) %>%
+                group_by(bins, bin_start, bin_end) %>%
+                summarise(across(-starts_with("bin"), ~sum(.x, na.rm = TRUE)), .groups = "drop")
+           
     new_obj$data <- wide2long(bucketted)
                     
     # Set bucketing flag

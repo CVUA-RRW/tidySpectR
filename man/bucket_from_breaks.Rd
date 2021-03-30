@@ -27,9 +27,8 @@ values within each bin.
 \details{
 If omitted, the spectra limits will be added to the breaks.
 
-Buckets will include the bin overlapping on the lower limit and exclude the bin
-overlapping on the higher limit. This can results in a slight left-shift of the spectra.
-Use with care.
+Bins will be grouped considering their center, inclusion criteria is
+(lower_limit, higher_limit].
 }
 \examples{
 library(tidySpectR)

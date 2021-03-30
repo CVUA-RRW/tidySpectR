@@ -226,7 +226,8 @@ pull_breaks.collection <- function(x, ...){
                 sort() %>%
                 last()
     breaks_low %>% 
-        append(highest) 
+        append(highest) %>%
+        sort()
 }
 
 #' Pull the ids of a spectra collection

@@ -161,20 +161,6 @@ spectra %>%
 
 And here are the processed spectra!
 
-Note that the spectra in this dataset were pre-bucketted. In real life the data would be several time
-bigger and the bucketting process can be pretty slow. We could speed it up using multiprocessing:
-
-```{r multi, eval = FALSE}
-library(future)
-
-cl <- makeClusterPSOCK(8)
-plan(cluster, workers = cl)
-
-spectra <- bucket_uniform(spectra, width = 0.04)
-
-stopCluster(cl)
-```
-
 ## Multivariate data analysis
 
 Now that we have processed our spectra we can go on to the modelling part.
