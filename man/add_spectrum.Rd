@@ -2,7 +2,6 @@
 % Please edit documentation in R/collection.R
 \name{add_spectrum}
 \alias{add_spectrum}
-\alias{add_spctrum}
 \alias{add_spectrum.collection}
 \title{Add a single spectrum to a collection object}
 \usage{

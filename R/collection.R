@@ -20,8 +20,10 @@ collection <- function(...)
 #' @details The collection is empty on creation, use `add_spectrum` to 
 #'   populate it. It is recommended to populate a collection using `purrr::walk`
 #'   on a list of files (see `add_spectrum`).
+#' @importFrom tibble tibble
 #' @export
 collection.default <- function(...){
+    
     x <- list(data = tibble(), 
               normalized= FALSE, 
               bucketted = FALSE, 
@@ -34,7 +36,7 @@ collection.default <- function(...){
 #' 
 #' Adds an new entry to an existing colleciton object.
 #'
-#' @aliases add_spctrum add_spectrum.collection
+#' @aliases add_spectrum add_spectrum.collection
 #' @export
 add_spectrum <- function(x, ...)
     UseMethod("add_spectrum")
@@ -190,4 +192,37 @@ print.collection <- function(x, ...){
     cat("Labels:", levels(x$labels$label), "\n")
     
     invisible(x)
+}
+
+#' Tidy a spectra collection
+#'
+#' `tidy` will return a dataframe containing the spectral 
+#'   information in its current state.
+#'
+#' @name tidy.collection
+#'
+#' @param x A `collection` object.
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return A tibble with a variable number columns
+#'   depending on the binning of the data:
+#'   \item{id}{Unique sample identifier}
+#'   \item{label}{Label for the sample}
+#'   \item{bins}{Bin centers}
+#' @importFrom dplyr inner_join relocate select mutate ungroup
+#' @importFrom tidyr pivot_wider
+#' @examples
+#' library(tidySpectR)
+#'
+#' tidy(fa_nmr)
+#' @rdname tidy.collection
+#' @export
+tidy.collection <- function(x, ...){
+    x$data %>%
+        select(id, bins, values) %>%
+        mutate(bins = as.factor(bins)) %>%
+        pivot_wider(names_from = bins, values_from = values) %>%
+        inner_join(x$labels, by = 'id') %>%
+        relocate(label, .after = 1) %>%
+        ungroup()
 }
