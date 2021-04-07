@@ -73,6 +73,12 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/print.collection.html</loc>
   </url>
   <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/process.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/processing_step.html</loc>
+  </url>
+  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_breaks.html</loc>
   </url>
   <url>
@@ -83,6 +89,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_numbin.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/rand_id.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/reduce_resolution.html</loc>
@@ -110,6 +119,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.collection.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.processing_step.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/wide2long.html</loc>

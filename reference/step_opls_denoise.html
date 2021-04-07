@@ -74,7 +74,7 @@ transfomation on the columns." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@ transfomation on the columns.</p>
   Wortho <span class='op'>=</span> <span class='cn'>NULL</span>,
   Portho <span class='op'>=</span> <span class='cn'>NULL</span>,
   skip <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  id <span class='op'>=</span> <span class='fu'>rand_id</span><span class='op'>(</span><span class='st'>"opls_denoise"</span><span class='op'>)</span>
+  id <span class='op'>=</span> <span class='fu'><a href='rand_id.html'>rand_id</a></span><span class='op'>(</span><span class='st'>"opls_denoise"</span><span class='op'>)</span>
 <span class='op'>)</span>
 
 <span class='co'># S3 method for step_opls_denoise</span>
@@ -244,7 +244,7 @@ doi:10.1021/acs.jproteome.5b00354 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://dx.doi.org/10.1021/acs.jproteome.5b00354'>ropls</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ────────────────────────────────────── tidymodels 0.1.2 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>broom    </span><span> 0.7.5      </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>purrr    </span><span> 0.3.4 </span>
+</div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ────────────────────────────────────── tidymodels 0.1.2 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>broom    </span><span> 0.7.6      </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>purrr    </span><span> 0.3.4 </span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>dials    </span><span> 0.0.9      </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>recipes  </span><span> 0.1.15</span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>dplyr    </span><span> 1.0.5      </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>rsample  </span><span> 0.0.9 </span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>ggplot2  </span><span> 3.3.3      </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tidyr    </span><span> 1.1.3 </span>
@@ -273,10 +273,10 @@ doi:10.1021/acs.jproteome.5b00354 
      <span class='fu'>step_opls_denoise</span><span class='op'>(</span><span class='fu'>all_predictors</span><span class='op'>(</span><span class='op'>)</span>, outcome <span class='op'>=</span> <span class='st'>"genderFc"</span><span class='op'>)</span> 
 <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>rec</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 6</span><span>
-#&gt;   number operation type         trained skip  id                
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>      1 step      normalize    FALSE   FALSE normalize_yUXKh   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>      2 step      opls_denoise FALSE   FALSE opls_denoise_fHYTa</div><div class='input'><span class='va'>rec</span> <span class='op'>%&gt;%</span> <span class='fu'>prep</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>bake</span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+#&gt;   number operation type         trained skip  id                 
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>      1 step      normalize    FALSE   FALSE normalize_HYTay    
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>      2 step      opls_denoise FALSE   FALSE opls_denoise_204178</div><div class='input'><span class='va'>rec</span> <span class='op'>%&gt;%</span> <span class='fu'>prep</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>bake</span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 183 x 110</span><span>
 #&gt;    genderFc `(2-methoxyethox… `(gamma)Glu-Leu… `1-Methyluric a… `1-Methylxanthi…
 #&gt;       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
