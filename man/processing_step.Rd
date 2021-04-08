@@ -7,20 +7,22 @@
 \usage{
 processing_step(...)
 
-\method{processing_step}{default}(fun_call, type = "none", id = rand_id("none"), ...)
+\method{processing_step}{default}(fun, arglist, type = "none", name = "none", ...)
 }
 \arguments{
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
 
-\item{fun_call}{A function call created with as.list(match.call())}
+\item{fun}{either a function or a non-empty character string naming the function to be called.}
+
+\item{arglist}{a list of arguments to the function call. The names attribute of args gives the argument names.}
 
 \item{type}{A string description of the step}
 
-\item{id}{A unique id associated with the step}
+\item{name}{A name associated with the step. Will be converted to a unique id.}
 }
 \value{
-An object of calss \code{processing_step}
+An object of class \code{processing_step}
 }
 \description{
 A \code{processing_step} stores the function call and associated
@@ -30,15 +32,13 @@ point a a different collection object.
 \examples{
 library(tidySpectR)
 
-do_something <- function(x, y, z){
-     print("doing something")
-     as.list(match.call())
-}
+# Creating a masking step
+stp <- 
+   processing_step(
+     fun = mask, 
+     arglist = list(from = 5, to = Inf),
+     type = "masking", 
+     name = "masking")
 
-fun_call <- do_something(1,2,3)
-# Remove unwanted arguments
-fun_call$x <- NULL
-fun_call
-
-processing_step(fun_call, "test", "test_01")
+stp
 }

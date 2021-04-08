@@ -17,11 +17,14 @@ reference:
     - starts_with("pull_")
     - subsample
     - reduce_resolution
-  - title: Summarizing data
+  - title: Summarizing collections 
     contents:
     - average_spectrum
     - median_spectrum
     - autoplot.collection
+  - title: Reproducible processing
+    contents:
+    - starts_with("process")
   - title: Masking and extracting data
     contents:
     - mask

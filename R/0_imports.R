@@ -35,7 +35,9 @@ utils::globalVariables(
         "product", "vbsum", "candidate",
         
         # bucket from breaks
-        "bin_index"
+        "bin_index",
         
+        # processing
+        "type", "method"
     )
 )

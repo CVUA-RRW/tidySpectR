@@ -21,16 +21,13 @@ Tidy a \code{processing_step}
 \examples{
 library(tidySpectR)
 
-do_something <- function(x, y, z){
-     print("doing something")
-     as.list(match.call())
-}
+# Creating a masking step
+stp <- 
+   processing_step(
+     fun = mask, 
+     arglist = list(from = 5, to = Inf),
+     type = "masking", 
+     name = "masking")
 
-fun_call <- do_something(1,2,3)
-# Remove unwanted arguments
-fun_call$x <- NULL
-fun_call
-
-stp <- processing_step(fun_call, "test", "test_01")
 tidy(stp)
 }

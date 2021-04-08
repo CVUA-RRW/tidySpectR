@@ -1,5 +1,9 @@
 # tidySpectR (development version)
 
+## Version 0.2.0
+ * Added the `processing_step` class and associated methods to store 
+function calls to processing steps of `collection` objects.
+
 ## Version 0.1.4
 
  * Fixed an issue caused by large slackness in `bucket_optimized`

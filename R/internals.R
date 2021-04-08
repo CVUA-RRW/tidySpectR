@@ -20,3 +20,19 @@ wide2long <- function(x, ...){
         names_to = "id",
         values_to = "values")
 }
+
+#' Generate random id
+#' @param id A base string to expand with random digits
+#' @param ... currently unused
+#' @importFrom stringr str_pad
+#' @importFrom stats runif
+#' @keywords internal
+rand_id <- function(id, ...){
+    paste0(
+        id, 
+        "_", 
+        str_pad(
+            floor(
+                runif(1, min = 0, max = 999999)), 
+        6, pad = "0"))
+}
