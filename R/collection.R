@@ -27,11 +27,38 @@ collection.default <- function(...){
     x <- list(data = tibble(), 
               normalized= FALSE, 
               bucketted = FALSE, 
-              labels = NULL)
+              labels = NULL,
+              processor = processing_template())
     class(x) <- "collection"
     return(x)
 }
 
+#' Exports a processor object
+#'
+#' @aliases export_processor export_processor.collection
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @export
+export_processor <- function(...)
+    UseMethod("export_processor")
+
+#' @rdname export_processor
+#'
+#' @param x A `collection` object
+#' @return A `processing_template` object
+#' @examples
+#' library(tidySpectR)
+#' 
+#' fa_nmr %>% 
+#'   mask(from = 5, to = Inf) %>%
+#'   bucket_uniform(N = 10) %>%
+#'   export_processor() %>%
+#'   tidy()
+#' @export
+export_processor.collection <- function(x, ...){
+    return(x$processor)
+}
+    
 #' Add a single spectrum to a collection object
 #' 
 #' Adds an new entry to an existing colleciton object.
@@ -194,12 +221,7 @@ print.collection <- function(x, ...){
     invisible(x)
 }
 
-#' Tidy a spectra collection
-#'
-#' `tidy` will return a dataframe containing the spectral 
-#'   information in its current state.
-#'
-#' @name tidy.collection
+#' @rdname collection
 #'
 #' @param x A `collection` object.
 #' @param ... further arguments passed to or from other methods(not
@@ -215,7 +237,6 @@ print.collection <- function(x, ...){
 #' library(tidySpectR)
 #'
 #' tidy(fa_nmr)
-#' @rdname tidy.collection
 #' @export
 tidy.collection <- function(x, ...){
     x$data %>%

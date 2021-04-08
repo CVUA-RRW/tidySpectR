@@ -1,6 +1,9 @@
 #' Stores a template for processing of `collection` objects
 #'
-#'#' @param ... further arguments passed to or from other methods(not
+#' Processing steps specification are stored in a template 
+#' object. This will be typically handled internally.
+#' 
+#' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @aliases processing_template processing_template.default
 #' @export
@@ -8,8 +11,6 @@ processing_template <- function(...)
     UseMethod("processing_template")
 
 #' @rdname processing_template
-#' @param ... further arguments passed to or from other methods(not
-#'   currenctly used).
 #' @return A list-like object storing processing steps.
 #' @importFrom tibble tibble
 #' @export
@@ -100,9 +101,7 @@ process.processing_template <- function(x, collection, verbose = FALSE, ...) {
     return(collection)
 }
 
-#' Tidy a `processing_template`
-#' 
-#' @name tidy.processing_template
+#' @rdname processing_template
 #' @param x A `processing_step`object
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
@@ -116,7 +115,6 @@ process.processing_template <- function(x, collection, verbose = FALSE, ...) {
 #'             new_step(bucket_uniform, list(N = 10), type = "bucket") 
 #' 
 #' tidy(template)
-#' @rdname tidy.processing_template
 #' @export
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble rowid_to_column

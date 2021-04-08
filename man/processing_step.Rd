@@ -3,11 +3,14 @@
 \name{processing_step}
 \alias{processing_step}
 \alias{processing_step.default}
+\alias{tidy.processing_step}
 \title{Stores specifications of a \code{collection} processing step}
 \usage{
 processing_step(...)
 
 \method{processing_step}{default}(fun, arglist, type = "none", name = "none", ...)
+
+\method{tidy}{processing_step}(x, ...)
 }
 \arguments{
 \item{...}{further arguments passed to or from other methods(not
@@ -20,11 +23,19 @@ currenctly used).}
 \item{type}{A string description of the step}
 
 \item{name}{A name associated with the step. Will be converted to a unique id.}
+
+\item{x}{A \code{processing_step}object}
 }
 \value{
 An object of class \code{processing_step}
+
+A tibble representation of x
 }
 \description{
+Processing steps specification are stored in a step
+object. This will be typically handled internally.
+}
+\details{
 A \code{processing_step} stores the function call and associated
 arguments to reproduce a processing step at a later time
 point a a different collection object.
@@ -41,4 +52,15 @@ stp <-
      name = "masking")
 
 stp
+library(tidySpectR)
+
+# Creating a masking step
+stp <- 
+   processing_step(
+     fun = mask, 
+     arglist = list(from = 5, to = Inf),
+     type = "masking", 
+     name = "masking")
+
+tidy(stp)
 }

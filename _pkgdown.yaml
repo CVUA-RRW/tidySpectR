@@ -24,7 +24,9 @@ reference:
     - autoplot.collection
   - title: Reproducible processing
     contents:
+    - export_processor
     - starts_with("process")
+    - new_step
   - title: Masking and extracting data
     contents:
     - mask

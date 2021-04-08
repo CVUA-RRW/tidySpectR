@@ -1,5 +1,8 @@
 #' Stores specifications of a `collection` processing step
 #'
+#' Processing steps specification are stored in a step 
+#' object. This will be typically handled internally.
+#' 
 #' A `processing_step` stores the function call and associated
 #'   arguments to reproduce a processing step at a later time
 #'   point a a different collection object.
@@ -71,9 +74,7 @@ process.processing_step <- function(x, collection, ...){
     do.call(x$fun, arglist)
 }
 
-#' Tidy a `processing_step`
-#' 
-#' @name tidy.processing_step
+#' @rdname processing_step
 #' @param x A `processing_step`object
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
@@ -90,7 +91,6 @@ process.processing_step <- function(x, collection, ...){
 #'      name = "masking")
 #' 
 #' tidy(stp)
-#' @rdname tidy.processing_step
 #' @export
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest_wider

@@ -3,20 +3,37 @@
 \name{processing_template}
 \alias{processing_template}
 \alias{processing_template.default}
+\alias{tidy.processing_template}
 \title{Stores a template for processing of \code{collection} objects}
 \usage{
 processing_template(...)
 
 \method{processing_template}{default}(...)
+
+\method{tidy}{processing_template}(x, ...)
 }
 \arguments{
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
+
+\item{x}{A \code{processing_step}object}
 }
 \value{
 A list-like object storing processing steps.
+
+A tibble representation of x
 }
 \description{
-#' @param ... further arguments passed to or from other methods(not
-currenctly used).
+Processing steps specification are stored in a template
+object. This will be typically handled internally.
+}
+\examples{
+library(tidySpectR)
+
+# Creating a masking step
+template <- processing_template() \%>\%
+            new_step(mask, list(from = 5, to = Inf), type = "mask") \%>\%
+            new_step(bucket_uniform, list(N = 10), type = "bucket") 
+
+tidy(template)
 }
