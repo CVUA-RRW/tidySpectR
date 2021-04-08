@@ -37,6 +37,9 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/data2wide.html</loc>
   </url>
   <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/export_processor.html</loc>
+  </url>
+  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/extract.html</loc>
   </url>
   <url>
@@ -122,15 +125,6 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/subsample.html</loc>
-  </url>
-  <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.collection.html</loc>
-  </url>
-  <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.processing_step.html</loc>
-  </url>
-  <url>
-    <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.processing_template.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/wide2long.html</loc>

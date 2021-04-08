@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stores specifications of a collection processing step — processing_step • tidySpectR</title>
+<title>Exports a processor object — export_processor • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Stores specifications of a collection processing step — processing_step" />
-<meta property="og:description" content="Processing steps specification are stored in a step
-object. This will be typically handled internally." />
+<meta property="og:title" content="Exports a processor object — export_processor" />
+<meta property="og:description" content="Exports a processor object" />
 
 
 
@@ -127,23 +126,19 @@ object. This will be typically handled internally." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stores specifications of a <code>collection</code> processing step</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/processing_step.R'><code>R/processing_step.R</code></a></small>
-    <div class="hidden name"><code>processing_step.Rd</code></div>
+    <h1>Exports a processor object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/collection.R'><code>R/collection.R</code></a></small>
+    <div class="hidden name"><code>export_processor.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Processing steps specification are stored in a step
-object. This will be typically handled internally.</p>
+    <p>Exports a processor object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>processing_step</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>export_processor</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for default</span>
-<span class='fu'>processing_step</span><span class='op'>(</span><span class='va'>fun</span>, <span class='va'>arglist</span>, type <span class='op'>=</span> <span class='st'>"none"</span>, name <span class='op'>=</span> <span class='st'>"none"</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for processing_step</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='co'># S3 method for collection</span>
+<span class='fu'>export_processor</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,64 +149,25 @@ object. This will be typically handled internally.</p>
 currenctly used).</p></td>
     </tr>
     <tr>
-      <th>fun</th>
-      <td><p>either a function or a non-empty character string naming the function to be called.</p></td>
-    </tr>
-    <tr>
-      <th>arglist</th>
-      <td><p>a list of arguments to the function call. The names attribute of args gives the argument names.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>A string description of the step</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>A name associated with the step. Will be converted to a unique id.</p></td>
-    </tr>
-    <tr>
       <th>x</th>
-      <td><p>A <code>processing_step</code>object</p></td>
+      <td><p>A <code>collection</code> object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>processing_step</code></p>
-<p>A tibble representation of x</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>A <code>processing_step</code> stores the function call and associated
-arguments to reproduce a processing step at a later time
-point a a different collection object.</p>
+    <p>A <code>processing_template</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
 
-<span class='co'># Creating a masking step</span>
-<span class='va'>stp</span> <span class='op'>&lt;-</span> 
-   <span class='fu'>processing_step</span><span class='op'>(</span>
-     fun <span class='op'>=</span> <span class='va'>mask</span>, 
-     arglist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>,
-     type <span class='op'>=</span> <span class='st'>"masking"</span>, 
-     name <span class='op'>=</span> <span class='st'>"masking"</span><span class='op'>)</span>
-
-<span class='va'>stp</span>
-</div><div class='output co'>#&gt; mask(from = 5, to = Inf)</div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
-
-<span class='co'># Creating a masking step</span>
-<span class='va'>stp</span> <span class='op'>&lt;-</span> 
-   <span class='fu'>processing_step</span><span class='op'>(</span>
-     fun <span class='op'>=</span> <span class='va'>mask</span>, 
-     arglist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>,
-     type <span class='op'>=</span> <span class='st'>"masking"</span>, 
-     name <span class='op'>=</span> <span class='st'>"masking"</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>stp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
-#&gt;   type    method  from    to id            
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> masking mask       5   </span><span style='color: #BB0000;'>Inf</span><span> masking_570044</div></span></pre>
+<span class='va'>fa_nmr</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='mask.html'>mask</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='bucket_uniform.html'>bucket_uniform</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>export_processor</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 x 1</span><span>
+#&gt; </span><span style='color: #949494;'># … with 1 variable: num &lt;int&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
