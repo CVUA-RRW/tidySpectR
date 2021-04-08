@@ -55,6 +55,9 @@
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/median_spectrum.html</loc>
   </url>
   <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/new_step.html</loc>
+  </url>
+  <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/normalize_factor.html</loc>
   </url>
   <url>
@@ -77,6 +80,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/processing_step.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/processing_template.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/pull_breaks.html</loc>
@@ -122,6 +128,9 @@
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.processing_step.html</loc>
+  </url>
+  <url>
+    <loc>https://cvua-rrw.github.io/tidySpectR//reference/tidy.processing_template.html</loc>
   </url>
   <url>
     <loc>https://cvua-rrw.github.io/tidySpectR//reference/wide2long.html</loc>

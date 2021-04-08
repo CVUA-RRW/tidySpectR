@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Applies a processing_step on a collection object — process.processing_step • tidySpectR</title>
+<title>Tidy a processing_template — tidy.processing_template • tidySpectR</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Applies a processing_step on a collection object — process.processing_step" />
-<meta property="og:description" content="Applies a processing_step on a collection object
-Process a collection object
-Applies a processing_template on a collection object" />
+<meta property="og:title" content="Tidy a processing_template — tidy.processing_template" />
+<meta property="og:description" content="Tidy a processing_template" />
 
 
 
@@ -128,77 +126,50 @@ Applies a processing_template on a collection object" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Applies a <code>processing_step</code> on a <code>collection</code> object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/processing_step.R'><code>R/processing_step.R</code></a>, <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/processing_template.R'><code>R/processing_template.R</code></a></small>
-    <div class="hidden name"><code>process.Rd</code></div>
+    <h1>Tidy a <code>processing_template</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/CVUA-RRW/tidySpectR/blob/master/R/processing_template.R'><code>R/processing_template.R</code></a></small>
+    <div class="hidden name"><code>tidy.processing_template.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Applies a <code>processing_step</code> on a <code>collection</code> object</p>
-<p>Process a <code>collection</code> object</p>
-<p>Applies a <code>processing_template</code> on a <code>collection</code> object</p>
+    <p>Tidy a <code>processing_template</code></p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for processing_step</span>
-<span class='fu'>process</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>collection</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>process</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for processing_template</span>
-<span class='fu'>process</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>collection</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for processing_template</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code>processing_template</code> object</p></td>
-    </tr>
-    <tr>
-      <th>collection</th>
-      <td><p>a <code>collection</code> to process</p></td>
+      <td><p>A <code>processing_step</code>object</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>further arguments passed to or from other methods(not
 currenctly used).</p></td>
     </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Set to TRUE to show progress</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble representation of x</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
 
 <span class='co'># Creating a masking step</span>
-<span class='va'>stp</span> <span class='op'>&lt;-</span> 
-   <span class='fu'><a href='processing_step.html'>processing_step</a></span><span class='op'>(</span>
-     fun <span class='op'>=</span> <span class='va'>mask</span>, 
-     arglist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>,
-     type <span class='op'>=</span> <span class='st'>"masking"</span>, 
-     name <span class='op'>=</span> <span class='st'>"masking"</span><span class='op'>)</span>
-
-<span class='fu'>process</span><span class='op'>(</span><span class='va'>stp</span>, <span class='va'>fa_nmr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Spectra collection containing 6 entries.
-#&gt; Number of bins: 1251 
-#&gt; Limits: -2.123166e-05 5.003979 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: FALSE 
-#&gt; Labels: conventional organic </div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
-
 <span class='va'>template</span> <span class='op'>&lt;-</span> <span class='fu'><a href='processing_template.html'>processing_template</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
             <span class='fu'><a href='new_step.html'>new_step</a></span><span class='op'>(</span><span class='va'>mask</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"mask"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
             <span class='fu'><a href='new_step.html'>new_step</a></span><span class='op'>(</span><span class='va'>bucket_uniform</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"bucket"</span><span class='op'>)</span> 
-<span class='fu'>process</span><span class='op'>(</span><span class='va'>template</span>, <span class='va'>fa_nmr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Spectra collection containing 6 entries.
-#&gt; Number of bins: 10 
-#&gt; Limits: -2.123166e-05 5.003979 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: Uniform (number=10) 
-#&gt; Labels: conventional organic </div></pre>
+
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>template</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 4</span><span>
+#&gt;     num type   method         id           
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 mask   mask           mask_365812  
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2 bucket bucket_uniform bucket_310016</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
