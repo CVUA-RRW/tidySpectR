@@ -185,20 +185,23 @@ currenctly used).</p></td>
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 1251 
 #&gt; Limits: -2.123166e-05 5.003979 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: FALSE 
-#&gt; Labels: conventional organic </div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 1 : mask </div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/CVUA-RRW/tidySpectR'>tidySpectR</a></span><span class='op'>)</span>
 
 <span class='va'>template</span> <span class='op'>&lt;-</span> <span class='fu'><a href='processing_template.html'>processing_template</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-            <span class='fu'><a href='new_step.html'>new_step</a></span><span class='op'>(</span><span class='va'>mask</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"mask"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-            <span class='fu'><a href='new_step.html'>new_step</a></span><span class='op'>(</span><span class='va'>bucket_uniform</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"bucket"</span><span class='op'>)</span> 
+            <span class='fu'><a href='new_step.html'>new_step</a></span><span class='op'>(</span><span class='va'>mask</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>5</span>, to <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>, name <span class='op'>=</span> <span class='st'>"mask"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+            <span class='fu'><a href='new_step.html'>new_step</a></span><span class='op'>(</span><span class='va'>bucket_uniform</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>N <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>, name <span class='op'>=</span> <span class='st'>"bucket"</span><span class='op'>)</span> 
 <span class='fu'>process</span><span class='op'>(</span><span class='va'>template</span>, <span class='va'>fa_nmr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 10 
 #&gt; Limits: -2.123166e-05 5.003979 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: Uniform (number=10) 
-#&gt; Labels: conventional organic </div></pre>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 2 : mask 
+#&gt; Step 2 / 2 : uniform_binning </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

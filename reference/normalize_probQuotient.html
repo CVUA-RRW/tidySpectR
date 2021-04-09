@@ -142,7 +142,7 @@ and that of a reference spectrum.</p>
     <pre class="usage"><span class='fu'>normalize_probQuotient</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for collection</span>
-<span class='fu'>normalize_probQuotient</span><span class='op'>(</span><span class='va'>x</span>, ref <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>normalize_probQuotient</span><span class='op'>(</span><span class='va'>x</span>, ref <span class='op'>=</span> <span class='cn'>NULL</span>, skip <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,6 +160,11 @@ currenctly used).</p></td>
       <th>ref</th>
       <td><p>A reference spectra. Will use the median spectrum of the
 collection if set to <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>skip</th>
+      <td><p>Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.</p></td>
     </tr>
     </table>
 
@@ -181,18 +186,20 @@ Biological Mixtures. Application in1H NMR Metabonomics. Analytical Chemistry,
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 2250 
 #&gt; Limits: -2.123166e-05 8.999979 
-#&gt; Normalized: Probabilistic quotient 
-#&gt; Bucketted: FALSE 
-#&gt; Labels: conventional organic </div><div class='input'>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 1 : probabilisticQuotient_normalization </div><div class='input'>
 <span class='co'># Provifding a reference spectrum</span>
 <span class='va'>med</span> <span class='op'>&lt;-</span> <span class='fu'><a href='median_spectrum.html'>median_spectrum</a></span><span class='op'>(</span><span class='va'>fa_nmr</span><span class='op'>)</span>
 <span class='fu'>normalize_probQuotient</span><span class='op'>(</span><span class='va'>fa_nmr</span>, ref <span class='op'>=</span> <span class='va'>med</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 2250 
 #&gt; Limits: -2.123166e-05 8.999979 
-#&gt; Normalized: Probabilistic quotient 
-#&gt; Bucketted: FALSE 
-#&gt; Labels: conventional organic </div><div class='input'>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 1 : probabilisticQuotient_normalization </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

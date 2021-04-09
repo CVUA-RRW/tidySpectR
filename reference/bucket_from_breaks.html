@@ -140,7 +140,7 @@ values within each bin.</p>
     <pre class="usage"><span class='fu'>bucket_from_breaks</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for collection</span>
-<span class='fu'>bucket_from_breaks</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>breaks</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>bucket_from_breaks</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>breaks</span>, skip <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,6 +157,11 @@ currenctly used).</p></td>
     <tr>
       <th>breaks</th>
       <td><p>A vector of breaking values</p></td>
+    </tr>
+    <tr>
+      <th>skip</th>
+      <td><p>Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.</p></td>
     </tr>
     </table>
 
@@ -177,9 +182,10 @@ currenctly used).</p></td>
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 5 
 #&gt; Limits: 0 8.999979 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: custom 
-#&gt; Labels: conventional organic </div></pre>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 1 : cutsom_bucketting </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

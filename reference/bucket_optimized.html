@@ -140,7 +140,7 @@ Bucketting Algorithm</p>
     <pre class="usage"><span class='fu'>bucket_optimized</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for collection</span>
-<span class='fu'>bucket_optimized</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>initial_width</span>, <span class='va'>slackness</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>bucket_optimized</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>initial_width</span>, <span class='va'>slackness</span>, skip <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,6 +162,11 @@ currenctly used).</p></td>
       <th>slackness</th>
       <td><p>fraction of initial width that defines
 how far the boundary can move while searching for a local minimum</p></td>
+    </tr>
+    <tr>
+      <th>skip</th>
+      <td><p>Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.</p></td>
     </tr>
     </table>
 
@@ -186,9 +191,10 @@ https://doi.org/10.1016/j.chemolab.2013.01.006
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 244 
 #&gt; Limits: -2.123166e-05 8.999979 
-#&gt; Normalized: FALSE 
-#&gt; Bucketted: Optimized Bucketting (width=0.1, slackness=0.2) 
-#&gt; Labels: conventional organic </div></pre>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 1 : optimized_binning </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

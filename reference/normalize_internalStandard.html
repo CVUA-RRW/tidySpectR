@@ -142,7 +142,7 @@ the selected peak intensity in independent of the experimental conditions.</p>
     <pre class="usage"><span class='fu'>normalize_internalStandard</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for collection</span>
-<span class='fu'>normalize_internalStandard</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>normalize_internalStandard</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>from</span>, <span class='va'>to</span>, skip <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +159,11 @@ the selected peak intensity in independent of the experimental conditions.</p>
       <th>from, to</th>
       <td><p>Coordinates of the region to use as standard.</p></td>
     </tr>
+    <tr>
+      <th>skip</th>
+      <td><p>Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -172,9 +177,10 @@ the selected peak intensity in independent of the experimental conditions.</p>
 </div><div class='output co'>#&gt; Spectra collection containing 6 entries.
 #&gt; Number of bins: 2250 
 #&gt; Limits: -2.123166e-05 8.999979 
-#&gt; Normalized: Internal standard (3-3.5) 
-#&gt; Bucketted: FALSE 
-#&gt; Labels: conventional organic </div></pre>
+#&gt; Labels: conventional organic 
+#&gt; 
+#&gt; Processing:
+#&gt; Step 1 / 1 : internalStandard_normalization </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
