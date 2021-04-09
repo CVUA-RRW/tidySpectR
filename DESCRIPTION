@@ -1,5 +1,5 @@
 Package: tidySpectR
-Title: Tidy Chemometrics
+Title: An R package for tidy chemometrics
 Version: 0.2.0.9000
 Authors@R: 
     person(given = "Gregoire",
