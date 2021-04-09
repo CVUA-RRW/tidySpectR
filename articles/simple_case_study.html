@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySpectR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -395,18 +395,25 @@
 <span class="co">#&gt; # A tibble: 5 x 4</span>
 <span class="co">#&gt;     num name                      method          id                            </span>
 <span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;                     &lt;chr&gt;           &lt;chr&gt;                         </span>
-<span class="co">#&gt; 1     1 extract                   extract         extract_784380                </span>
-<span class="co">#&gt; 2     2 mask                      mask            mask_806106                   </span>
-<span class="co">#&gt; 3     3 mask                      mask            mask_728485                   </span>
+<span class="co">#&gt; 1     1 extract                   extract         extract_458834                </span>
+<span class="co">#&gt; 2     2 mask                      mask            mask_155001                   </span>
+<span class="co">#&gt; 3     3 mask                      mask            mask_936382                   </span>
 <span class="co">#&gt; 4     4 internalStandard_normali… normalize_fact… internalStandard_normalizatio…</span>
-<span class="co">#&gt; 5     5 uniform_binning           bucket_from_br… uniform_binning_653656</span>
+<span class="co">#&gt; 5     5 uniform_binning           bucket_from_br… uniform_binning_352099</span>
 
 <span class="va">processor</span><span class="op">$</span><span class="va">steps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 6</span>
 <span class="co">#&gt;   name    method   from    to overlaps id            </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;         </span>
-<span class="co">#&gt; 1 extract extract   0.5   7.2 keep     extract_784380</span>
+<span class="co">#&gt; 1 extract extract   0.5   7.2 keep     extract_458834</span>
 
+<span class="va">processor</span><span class="op">$</span><span class="va">steps</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;   name                   method        factors         id                       </span>
+<span class="co">#&gt;   &lt;chr&gt;                  &lt;chr&gt;         &lt;list&gt;          &lt;chr&gt;                    </span>
+<span class="co">#&gt; 1 internalStandard_norm… normalize_fa… &lt;tibble[,2] [6… internalStandard_normali…</span>
+
+<span class="co"># One can access function arguments:</span>
 <span class="va">processor</span><span class="op">$</span><span class="va">steps</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">factors</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
