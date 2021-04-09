@@ -19,6 +19,8 @@ bucket_optimized <- function(x, ...)
 #' @param initial_width Initial bin width to optimize
 #' @param slackness fraction of initial width that defines 
 #'   how far the boundary can move while searching for a local minimum
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -32,7 +34,7 @@ bucket_optimized <- function(x, ...)
 #' library(tidySpectR)
 #'
 #' bucket_optimized(fa_nmr, initial_width = 0.1, slackness = 0.2)
-bucket_optimized.collection <- function(x, initial_width, slackness, ...){
+bucket_optimized.collection <- function(x, initial_width, slackness, skip = FALSE, ...){
     average <- x %>% 
                average_spectrum(group = "all")
     
@@ -55,10 +57,15 @@ bucket_optimized.collection <- function(x, initial_width, slackness, ...){
     breaks <- map_dfr(T, find_local_min, x$data, N, s) %>%
               pull(bins)
     
-    new_obj <- x %>%
-               bucket_from_breaks(breaks)
+    new_obj <- bucket_from_breaks(x, breaks, skip = TRUE)
     
-    new_obj$bucketted <- paste0("Optimized Bucketting (width=", initial_width, ", slackness=", slackness, ")")
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(bucket_from_breaks, 
+                                      list(breaks = breaks), 
+                                      name = "optimized_binning")
+    }
     
     return(new_obj)
 }

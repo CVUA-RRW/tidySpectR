@@ -31,7 +31,6 @@ reference:
     contents:
     - mask
     - extract
-    - filter_noise
   - title: Normalization methods
     contents:
     - starts_with("normalize")

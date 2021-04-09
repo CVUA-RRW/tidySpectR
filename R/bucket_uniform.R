@@ -12,6 +12,8 @@ bucket_uniform <- function(x, ...)
 #' @param x A`collection` object
 #' @param width Bin width
 #' @param N Number of bins to create
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -26,7 +28,7 @@ bucket_uniform <- function(x, ...)
 #' bucket_uniform(fa_nmr, width= 0.1)
 #'
 #' bucket_uniform(fa_nmr, N = 100)
-bucket_uniform.collection <- function(x, width = NULL, N = NULL, ...){
+bucket_uniform.collection <- function(x, width = NULL, N = NULL, skip = FALSE, ...){
     # getting spectra limits
     lowest <- x %>% 
                 pull_breaks() %>%
@@ -49,10 +51,15 @@ bucket_uniform.collection <- function(x, width = NULL, N = NULL, ...){
         bucketting <- paste0("Uniform (number=", as.character(N), ")")
     }
     
-    new_obj <- x %>%
-               bucket_from_breaks(breaks)
+    new_obj <- bucket_from_breaks(x, breaks, skip = TRUE)
     
-    new_obj$bucketted <- bucketting
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(bucket_from_breaks, 
+                                      list(breaks = breaks), 
+                                      name = "uniform_binning")
+    }
     
     return(new_obj)
 }

@@ -7,7 +7,7 @@
 \usage{
 normalize_internalStandard(x, ...)
 
-\method{normalize_internalStandard}{collection}(x, from, to, ...)
+\method{normalize_internalStandard}{collection}(x, from, to, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
@@ -15,6 +15,9 @@ normalize_internalStandard(x, ...)
 \item{...}{arguments to be passed to \code{extract}}
 
 \item{from, to}{Coordinates of the region to use as standard.}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

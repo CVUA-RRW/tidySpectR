@@ -33,6 +33,8 @@ bucket_aibin <- function(x, ...)
 #' @param snr Signal to noise ratio for bucketting. snr should a real >=1.
 #'   Factor by which to multiply the noise bin value. Can be useful to limit overbucketing 
 #'   of high-resolution data or in case of very smooth and low noise.
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @returns An updated version of x
@@ -55,7 +57,7 @@ bucket_aibin <- function(x, ...)
 #' bucketted
 #'
 #' @importFrom dplyr arrange
-bucket_aibin.collection <- function(x, R, noise_region, snr = 1,...){
+bucket_aibin.collection <- function(x, R, noise_region, snr = 1, skip = FALSE, ...){
     # Convert data to proper format
     noise_region <- noise_region$data %>%
                     data2wide() %>%
@@ -74,8 +76,15 @@ bucket_aibin.collection <- function(x, R, noise_region, snr = 1,...){
     breaks <- spectra[breaks+1, 'bin_end'] # C++ indices are 0-based
     
     # Applying buckets
-    new_obj <- bucket_from_breaks(x, breaks)
-    new_obj$bucketted <- "Adaptive inteligent binning"
+    new_obj <- bucket_from_breaks(x, breaks, skip = TRUE)
 
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(bucket_from_breaks, 
+                                      list(breaks = breaks), 
+                                      name = "aibin")
+    }
+    
     return(new_obj)
 }

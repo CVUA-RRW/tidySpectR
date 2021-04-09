@@ -12,6 +12,8 @@ normalize_internalStandard <- function(x, ...)
 #' @rdname normalize_internalStandard
 #' @param x A`collection` object
 #' @param from,to Coordinates of the region to use as standard. 
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... arguments to be passed to `extract`
 #' @return An updated version of `collection`.
 #' @importFrom dplyr group_by summarise
@@ -20,16 +22,22 @@ normalize_internalStandard <- function(x, ...)
 #' library(tidySpectR)
 #' 
 #' normalize_internalStandard(fa_nmr, from = 3, to = 3.5)
-normalize_internalStandard.collection <- function(x, from, to, ...){
+normalize_internalStandard.collection <- function(x, from, to, skip = FALSE, ...){
     factors <- x %>% 
                extract(from, to, ...) %>%
                .$data %>%
                group_by(id) %>%
                summarise(factors = 1 / sum(values))
                
-    new_obj <- x %>% normalize_factor(factors)
+    new_obj <- normalize_factor(x, factors, skip = TRUE)
     
-    new_obj$normalized <- paste0("Internal standard (", from, "-", to, ")")
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(normalize_factor, 
+                                      list(factors = factors), 
+                                      name = "internalStandard_normalization")
+    }
     
     return(new_obj)
 }

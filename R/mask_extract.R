@@ -13,6 +13,8 @@ mask <- function(x, ...)
 #'   Use -Inf or Inf to shorten the spectra.
 #' @param overlaps What to do with the bins ovelapping the edge of the mask.
 #'   Use either `keep` of `remove`.
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -28,7 +30,7 @@ mask <- function(x, ...)
 #'
 #' # Masking region
 #' mask(fa_nmr, from = 3.5, to = 3, overlaps = 'remove')
-mask.collection <- function(x, from, to, overlaps = 'keep', ...){
+mask.collection <- function(x, from, to, overlaps = 'keep', skip = FALSE, ...){
 
     if (!overlaps %in% c('keep', 'remove')){
         rlang::abort("Invalid value for `overlaps`")
@@ -51,6 +53,16 @@ mask.collection <- function(x, from, to, overlaps = 'keep', ...){
         rlang::warn("Returning an empty dataset")
     }
     
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(mask, 
+                                      list(from = from,
+                                           to = to,
+                                           overlaps = overlaps), 
+                                      name = "mask")
+    }
+    
     return(new_obj)
 }
 
@@ -69,6 +81,8 @@ extract <- function(x, ...)
 #'   Use -Inf or Inf to extract up to an end of the spectra.
 #' @param overlaps What to do with the bins ovelapping the edge of the mask.
 #'   Use either `keep` of `remove`.
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -80,7 +94,7 @@ extract <- function(x, ...)
 #'
 #' # Removing edges
 #' extract(fa_nmr, from = 7.2, to = -0.5)
-extract.collection <- function(x, from, to, overlaps = 'keep', ...){
+extract.collection <- function(x, from, to, overlaps = 'keep', skip = FALSE, ...){
 
     if (!overlaps %in% c('keep', 'remove')){
         rlang::abort("Invalid value for `overlaps`")
@@ -101,6 +115,16 @@ extract.collection <- function(x, from, to, overlaps = 'keep', ...){
     
     if (length(new_obj$data) == 0){
         rlang::warn("Returning an empty dataset")
+    }
+    
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(extract, 
+                                      list(from = from,
+                                           to = to,
+                                           overlaps = overlaps), 
+                                      name = "extract")
     }
     
     return(new_obj)

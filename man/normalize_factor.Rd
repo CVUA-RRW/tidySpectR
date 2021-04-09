@@ -7,7 +7,7 @@
 \usage{
 normalize_factor(x, ...)
 
-\method{normalize_factor}{collection}(x, factors, ...)
+\method{normalize_factor}{collection}(x, factors, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
@@ -16,6 +16,9 @@ normalize_factor(x, ...)
 currenctly used).}
 
 \item{factors}{A tibble with columns \code{id} and \code{factors}}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

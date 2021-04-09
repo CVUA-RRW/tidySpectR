@@ -7,7 +7,7 @@
 \usage{
 bucket_from_breaks(x, ...)
 
-\method{bucket_from_breaks}{collection}(x, breaks, ...)
+\method{bucket_from_breaks}{collection}(x, breaks, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
@@ -16,6 +16,9 @@ bucket_from_breaks(x, ...)
 currenctly used).}
 
 \item{breaks}{A vector of breaking values}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

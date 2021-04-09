@@ -38,6 +38,6 @@ utils::globalVariables(
         "bin_index",
         
         # processing
-        "type", "method"
+        "type", "method", "name"
     )
 )

@@ -11,6 +11,8 @@ normalize_totalSpectrum <- function(x, ...)
 
 #' @rdname normalize_totalSpectrum
 #' @param x A`collection` object
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -20,14 +22,20 @@ normalize_totalSpectrum <- function(x, ...)
 #' library(tidySpectR)
 #' 
 #' normalize_totalSpectrum(fa_nmr)
-normalize_totalSpectrum.collection <- function(x, ...){
+normalize_totalSpectrum.collection <- function(x, skip = FALSE, ...){
     factors <- x$data %>%
                 group_by(id) %>%
                 summarise(factors = 1 / sum(values))
                 
-    new_obj <- x %>% normalize_factor(factors)
+    new_obj <- normalize_factor(x, factors, skip = TRUE)
     
-    new_obj$normalized <- "Total spectrum"
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(normalize_factor, 
+                                      list(factors = factors), 
+                                      name = "totalSpectrum_normalization")
+    }
     
     return(new_obj)
 }

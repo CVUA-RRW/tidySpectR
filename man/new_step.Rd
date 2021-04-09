@@ -7,7 +7,7 @@
 \usage{
 new_step(...)
 
-\method{new_step}{processing_template}(x, fun, arglist, type = "none", name = NULL, ...)
+\method{new_step}{processing_template}(x, fun, arglist, name = "none", id = NULL, ...)
 }
 \arguments{
 \item{...}{further arguments passed to or from other methods(not
@@ -19,9 +19,9 @@ currenctly used).}
 
 \item{arglist}{a list of arguments to the function call. The names attribute of args gives the argument names.}
 
-\item{type}{A string description of the step}
+\item{name}{A string description of the step}
 
-\item{name}{A name associated with the step. Will be converted to a unique id.}
+\item{id}{An id associated with the step. Will be converted to a unique id.}
 }
 \value{
 A list-like object storing processing steps.
@@ -33,7 +33,7 @@ Add a new \code{processing_step}
 library(tidySpectR)
 
 template <- processing_template() \%>\%
-            new_step(mask, list(from = 5, to = Inf), type = "mask") \%>\%
-            new_step(bucket_uniform, list(N = 10), type = "bucket")
+            new_step(mask, list(from = 5, to = Inf), name = "mask") \%>\%
+            new_step(bucket_uniform, list(N = 10), name = "bucket")
 template
 }

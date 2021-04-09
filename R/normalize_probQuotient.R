@@ -22,6 +22,8 @@ normalize_probQuotient <- function(x, ...)
 #' @param x A`collection` object
 #' @param ref A reference spectra. Will use the median spectrum of the 
 #'   collection if set to `NULL`.
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -37,7 +39,7 @@ normalize_probQuotient <- function(x, ...)
 #'
 #' @importFrom dplyr select summarise starts_with across everything
 #' @importFrom tidyr pivot_longer
-normalize_probQuotient.collection <- function(x, ref = NULL, ...){
+normalize_probQuotient.collection <- function(x, ref = NULL, skip = FALSE, ...){
     # Perform integral normalization
     norm <- normalize_totalSpectrum(x)
     
@@ -55,8 +57,15 @@ normalize_probQuotient.collection <- function(x, ref = NULL, ...){
                  pivot_longer(everything(), names_to = "id", values_to = "factors")
 
     # Normalize
-    new_obj <- normalize_factor(x, quotients)
-    new_obj$normalized <- "Probabilistic quotient"
+    new_obj <- normalize_factor(x, quotients, skip = TRUE)
+    
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(normalize_factor, 
+                                      list(factors = quotients), 
+                                      name = "probabilisticQuotient_normalization")
+    }
     
     return(new_obj)
 }

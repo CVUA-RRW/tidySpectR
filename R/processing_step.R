@@ -17,8 +17,8 @@ processing_step <- function(...)
 #' 
 #' @param fun either a function or a non-empty character string naming the function to be called.
 #' @param arglist a list of arguments to the function call. The names attribute of args gives the argument names.
-#' @param type A string description of the step
-#' @param name A name associated with the step. Will be converted to a unique id.
+#' @param name A string description of the step
+#' @param id An id associated with the step. Will be converted to a unique id.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An object of class `processing_step`
@@ -36,15 +36,15 @@ processing_step <- function(...)
 #' 
 #' stp
 #' @importFrom rlang is_callable
-processing_step.default <- function(fun, arglist, type= "none", name = "none", ...){
+processing_step.default <- function(fun, arglist, name= "none", id = "none", ...){
     
     if (!is.character(fun)){
         fun = as.character(substitute(fun))
     }
     
     process <- 
-        list(id = rand_id(name),
-             type = type,
+        list(id = rand_id(id),
+             name = name,
              fun = fun,
              arglist = arglist)
     
@@ -95,21 +95,26 @@ process.processing_step <- function(x, collection, ...){
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest_wider
 tidy.processing_step <- function(x, ...){
-    tibble(type = x$type,
+    tibble(name = x$name,
            method = x$fun,
            args = list(x$arglist),
            id = x$id) %>% 
     unnest_wider(args)
 } 
 
-#' @export
-#' @importFrom rlang call2
-print.processing_step <- function(x, ...){
-    funcall <-
-        do.call(
-            rlang::call2, 
-            append(x$fun, x$arglist)
-        )
-    print(funcall)
-    invisible(x)
-}
+# @export
+# @importFrom rlang call2
+# print.processing_step <- function(x, print_args = FALSE, ...){
+    # if (print_args){
+        # funcall <-
+            # do.call(
+                # rlang::call2, 
+                # append(x$fun, x$arglist)
+            # )
+        # print(funcall)
+    # } else {
+        # cat(x$fun, "\n")
+    # }
+    
+    # invisible(x)
+# }

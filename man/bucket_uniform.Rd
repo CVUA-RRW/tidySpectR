@@ -7,7 +7,7 @@
 \usage{
 bucket_uniform(x, ...)
 
-\method{bucket_uniform}{collection}(x, width = NULL, N = NULL, ...)
+\method{bucket_uniform}{collection}(x, width = NULL, N = NULL, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
@@ -18,6 +18,9 @@ currenctly used).}
 \item{width}{Bin width}
 
 \item{N}{Number of bins to create}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

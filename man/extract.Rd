@@ -7,7 +7,7 @@
 \usage{
 extract(x, ...)
 
-\method{extract}{collection}(x, from, to, overlaps = "keep", ...)
+\method{extract}{collection}(x, from, to, overlaps = "keep", skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
@@ -20,6 +20,9 @@ Use -Inf or Inf to extract up to an end of the spectra.}
 
 \item{overlaps}{What to do with the bins ovelapping the edge of the mask.
 Use either \code{keep} of \code{remove}.}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

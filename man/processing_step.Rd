@@ -8,7 +8,7 @@
 \usage{
 processing_step(...)
 
-\method{processing_step}{default}(fun, arglist, type = "none", name = "none", ...)
+\method{processing_step}{default}(fun, arglist, name = "none", id = "none", ...)
 
 \method{tidy}{processing_step}(x, ...)
 }
@@ -20,9 +20,9 @@ currenctly used).}
 
 \item{arglist}{a list of arguments to the function call. The names attribute of args gives the argument names.}
 
-\item{type}{A string description of the step}
+\item{name}{A string description of the step}
 
-\item{name}{A name associated with the step. Will be converted to a unique id.}
+\item{id}{An id associated with the step. Will be converted to a unique id.}
 
 \item{x}{A \code{processing_step}object}
 }

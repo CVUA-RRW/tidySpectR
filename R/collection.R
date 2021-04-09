@@ -25,8 +25,6 @@ collection <- function(...)
 collection.default <- function(...){
     
     x <- list(data = tibble(), 
-              normalized= FALSE, 
-              bucketted = FALSE, 
               labels = NULL,
               processor = processing_template())
     class(x) <- "collection"
@@ -214,9 +212,9 @@ print.collection <- function(x, ...){
     cat("Spectra collection containing", entries, "entries.\n")
     cat("Number of bins:", num_bin, "\n")
     cat("Limits:", pull_limits(x), "\n")
-    cat("Normalized:", x$normalized, "\n")
-    cat("Bucketted:", x$bucketted, "\n")
     cat("Labels:", levels(x$labels$label), "\n")
+    cat("\nProcessing:\n")
+    print(x$processor)
     
     invisible(x)
 }

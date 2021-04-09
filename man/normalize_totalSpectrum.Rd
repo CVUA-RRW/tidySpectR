@@ -7,13 +7,16 @@
 \usage{
 normalize_totalSpectrum(x, ...)
 
-\method{normalize_totalSpectrum}{collection}(x, ...)
+\method{normalize_totalSpectrum}{collection}(x, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
 
 \item{...}{further arguments passed to or from other methods(not
 currenctly used).}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

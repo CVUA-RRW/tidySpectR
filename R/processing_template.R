@@ -36,28 +36,28 @@ new_step <- function(...)
 #' @param x A `processing_template` object
 #' @param fun either a function or a non-empty character string naming the function to be called.
 #' @param arglist a list of arguments to the function call. The names attribute of args gives the argument names.
-#' @param type A string description of the step
-#' @param name A name associated with the step. Will be converted to a unique id.
+#' @param name A string description of the step
+#' @param id An id associated with the step. Will be converted to a unique id.
 #' @return A list-like object storing processing steps.
 #' @export
 #' @examples
 #' library(tidySpectR)
 #' 
 #' template <- processing_template() %>%
-#'             new_step(mask, list(from = 5, to = Inf), type = "mask") %>%
-#'             new_step(bucket_uniform, list(N = 10), type = "bucket")
+#'             new_step(mask, list(from = 5, to = Inf), name = "mask") %>%
+#'             new_step(bucket_uniform, list(N = 10), name = "bucket")
 #' template
-new_step.processing_template <- function(x, fun, arglist, type = "none", name = NULL , ...){
+new_step.processing_template <- function(x, fun, arglist, name = "none", id = NULL , ...){
     
-    if (is.null(name)){
-        name <- type
+    if (is.null(id)){
+        id <- name
     }
     
     if (!is.character(fun)){
         fun = as.character(substitute(fun))
     }
     
-    stp <- processing_step(fun, arglist, type = type, name = name)
+    stp <- processing_step(fun, arglist, name = name, id = id)
     
     x$steps <- append(x$steps, list(stp))
     
@@ -80,8 +80,8 @@ process <- function(...)
 #' library(tidySpectR)
 #' 
 #' template <- processing_template() %>%
-#'             new_step(mask, list(from = 5, to = Inf), type = "mask") %>%
-#'             new_step(bucket_uniform, list(N = 10), type = "bucket") 
+#'             new_step(mask, list(from = 5, to = Inf), name = "mask") %>%
+#'             new_step(bucket_uniform, list(N = 10), name = "bucket") 
 #' process(template, fa_nmr)
 #' @export
 process.processing_template <- function(x, collection, verbose = FALSE, ...) {
@@ -91,9 +91,8 @@ process.processing_template <- function(x, collection, verbose = FALSE, ...) {
     for (stp in x$steps){
         
         if (verbose){
-            cat("Step ", i , "/", length(x$steps)," : ")
-            print(stp)
-        i <- i+1
+            cat("Step", i , "/", length(x$steps),":", stp$name, "\n")
+            i <- i+1
         }
         
         collection <- process(stp, collection)
@@ -111,8 +110,8 @@ process.processing_template <- function(x, collection, verbose = FALSE, ...) {
 #' 
 #' # Creating a masking step
 #' template <- processing_template() %>%
-#'             new_step(mask, list(from = 5, to = Inf), type = "mask") %>%
-#'             new_step(bucket_uniform, list(N = 10), type = "bucket") 
+#'             new_step(mask, list(from = 5, to = Inf), name = "mask") %>%
+#'             new_step(bucket_uniform, list(N = 10), name = "bucket") 
 #' 
 #' tidy(template)
 #' @export
@@ -120,9 +119,22 @@ process.processing_template <- function(x, collection, verbose = FALSE, ...) {
 #' @importFrom tibble rowid_to_column
 tidy.processing_template <- function(x, ...){
     lapply(x$steps, tidy) %>% 
-    lapply(select, type, method, id) %>%
+    lapply(select, name, method, id) %>%
     bind_rows() %>%
     rowid_to_column(var= "num")
 }
 
-# print.processing_template
+#' Print processing_template
+#' @aliases print.processing_template
+#' @param x A `processing_step`object
+#' @param ... further arguments passed to or from other methods(not
+#'   currenctly used).
+#' @return The original object (invisibly)
+#' @export
+print.processing_template <- function(x, ...){
+    i <- 1
+    for (stp in x$steps){
+        cat("Step", i , "/", length(x$steps),":", stp$name, "\n")
+        i <- i+1
+    }
+}

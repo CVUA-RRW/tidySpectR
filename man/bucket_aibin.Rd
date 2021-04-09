@@ -7,7 +7,7 @@
 \usage{
 bucket_aibin(x, ...)
 
-\method{bucket_aibin}{collection}(x, R, noise_region, snr = 1, ...)
+\method{bucket_aibin}{collection}(x, R, noise_region, snr = 1, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object to bucket}
@@ -23,6 +23,9 @@ currenctly used).}
 \item{snr}{Signal to noise ratio for bucketting. snr should a real >=1.
 Factor by which to multiply the noise bin value. Can be useful to limit overbucketing
 of high-resolution data or in case of very smooth and low noise.}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of x

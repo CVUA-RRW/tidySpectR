@@ -7,7 +7,7 @@
 \usage{
 bucket_optimized(x, ...)
 
-\method{bucket_optimized}{collection}(x, initial_width, slackness, ...)
+\method{bucket_optimized}{collection}(x, initial_width, slackness, skip = FALSE, ...)
 }
 \arguments{
 \item{x}{A\code{collection} object}
@@ -19,6 +19,9 @@ currenctly used).}
 
 \item{slackness}{fraction of initial width that defines
 how far the boundary can move while searching for a local minimum}
+
+\item{skip}{Skip the creation of of processor step. If TRUE, this step will not be added to
+the list of processing steps. Typically reserved for nested function calls.}
 }
 \value{
 An updated version of \code{collection}.

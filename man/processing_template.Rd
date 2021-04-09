@@ -32,8 +32,8 @@ library(tidySpectR)
 
 # Creating a masking step
 template <- processing_template() \%>\%
-            new_step(mask, list(from = 5, to = Inf), type = "mask") \%>\%
-            new_step(bucket_uniform, list(N = 10), type = "bucket") 
+            new_step(mask, list(from = 5, to = Inf), name = "mask") \%>\%
+            new_step(bucket_uniform, list(N = 10), name = "bucket") 
 
 tidy(template)
 }

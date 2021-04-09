@@ -10,6 +10,8 @@ normalize_factor <- function(x, ...)
 #' @rdname normalize_factor
 #' @param x A`collection` object
 #' @param factors A tibble with columns `id` and `factors`
+#' @param skip Skip the creation of of processor step. If TRUE, this step will not be added to
+#'   the list of processing steps. Typically reserved for nested function calls.
 #' @param ... further arguments passed to or from other methods(not
 #'   currenctly used).
 #' @return An updated version of `collection`.
@@ -30,7 +32,7 @@ normalize_factor <- function(x, ...)
 #' norm <- tibble(id = ids, factors = runif(length(ids)))
 #'
 #' normalize_factor(fa_nmr, norm)
-normalize_factor.collection <- function(x, factors, ...) {
+normalize_factor.collection <- function(x, factors, skip = FALSE, ...) {
     new_obj <- x
     
     new_obj$data <- x$data %>%
@@ -44,7 +46,13 @@ normalize_factor.collection <- function(x, factors, ...) {
                         }, factors) %>% 
                     ungroup()
     
-    new_obj$normalized <- "Custom factors"
+    # Add processing step 
+    if (!skip){
+        new_obj$processor <- new_obj$processor %>%
+                             new_step(normalize_factor, 
+                                      list(factors = factors), 
+                                      name = "factor_normalization")
+    }
     
     return(new_obj)
 }
