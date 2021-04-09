@@ -1,6 +1,6 @@
 # tidySpectR (development version)
 
-## Version 0.2.0
+## Version 0.2.1
  * Added the `processing_step` and `processing_template` classes and associated methods to store 
 function calls to processing steps of `collection` objects.
  * Added the $processor argument to `collection` objects to store a `processing_template`.

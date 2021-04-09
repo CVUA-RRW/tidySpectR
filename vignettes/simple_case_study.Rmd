@@ -238,6 +238,9 @@ tidy(processor)
 
 processor$steps[[1]] %>% tidy()
 
+processor$steps[[4]] %>% tidy()
+
+# One can access function arguments:
 processor$steps[[4]] %>% tidy() %>% pull(factors)
 ```
 

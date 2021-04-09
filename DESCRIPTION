@@ -1,6 +1,6 @@
 Package: tidySpectR
 Title: An R package for tidy chemometrics
-Version: 0.2.0.9000
+Version: 0.2.1
 Authors@R: 
     person(given = "Gregoire",
            family = "Denay",
