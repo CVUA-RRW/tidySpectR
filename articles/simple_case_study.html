@@ -99,7 +99,9 @@
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>In this example we will process the example data <code>fa_nmr</code> to build a simple PC-LDA classificator. As this dataset includes only three spectra of each category don’t expect wonders, the aim of this vignette is simply to guide you through a workflow.</p>
-<p>##Pre processing NMR spectra</p>
+<div id="pre-processing-nmr-spectra" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pre-processing-nmr-spectra" class="anchor"></a>Pre processing NMR spectra</h2>
 <div id="creating-a-collection-from-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-collection-from-files" class="anchor"></a>Creating a collection from files</h3>
@@ -190,24 +192,39 @@
 <span class="co">#&gt;     extract</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">fa_nmr</span><span class="op">)</span></code></pre></div>
-<p>First remove the water and solvent (MeOD in this case) peaks and trim the edges of the spectra to the interessant region.</p>
+<p>The <code>fa_nmr</code> toy dataset is provided ywith the package. Let’s have a look:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">fa_nmr</span>
+<span class="co">#&gt; Spectra collection containing 6 entries.</span>
+<span class="co">#&gt; Number of bins: 2250 </span>
+<span class="co">#&gt; Limits: -2.123166e-05 8.999979 </span>
+<span class="co">#&gt; Labels: conventional organic </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Processing:</span>
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, offset_y <span class="op">=</span> <span class="fl">1e+09</span>, offset_x <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/dataset-1.png" width="960"></p>
+<p>First remove the water and solvent (MeOD in this case) peaks and trim the edges of the spectra to the interessant region.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="va">fa_nmr</span>
 
 <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">4.6</span>, <span class="fl">4.66</span><span class="op">)</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Water peak"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/filtering-1.png" width="700"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p><img src="simple_case_study_files/figure-html/filtering-1.png" width="960"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"MeOD peak"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/filtering-2.png" width="700"></p>
+<p><img src="simple_case_study_files/figure-html/filtering-2.png" width="960"></p>
 <p>This looks good so we can proceed to masking the peaks, these will be effectivally removed from the dataset (not set to zero).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="va">spectra</span> <span class="op">%&gt;%</span> 
-    <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">7.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span> <span class="fl">0.5</span>, <span class="fl">7.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">4.6</span>, <span class="fl">4.66</span><span class="op">)</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span></code></pre></div>
 </div>
@@ -216,42 +233,89 @@
 <a href="#normalization" class="anchor"></a>Normalization</h3>
 <p>We can now proceed to normalizing the spectra using normalization to a given peak. You could also normalize with external values (Osmolarity, concentrations, …), check the <code>normalize_factor</code> method for that.</p>
 <p>First we will check the normalization peak to be sure that we include all of it.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectra</span> <span class="op">%&gt;%</span>
     <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Normalization peak (raw)"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/normraw-1.png" width="700"></p>
+<p><img src="simple_case_study_files/figure-html/normraw-1.png" width="960"></p>
 <p>Looking good, let’s proceed and check the result.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalize_internalStandard.html">normalize_internalStandard</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span>
 
 <span class="va">spectra</span> <span class="op">%&gt;%</span>
     <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Normalization peak (after normalization)"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/norm-1.png" width="700"></p>
+<p><img src="simple_case_study_files/figure-html/norm-1.png" width="960"></p>
 </div>
 <div id="bucketting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bucketting" class="anchor"></a>Bucketting</h3>
 <p>We can now bucket (or “bin”) the spectra. In this example we will use a very simple uniform binning but more sophisticated methods are implemented.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bucket_uniform.html">bucket_uniform</a></span><span class="op">(</span><span class="va">spectra</span>, width <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span>
 
 <span class="va">spectra</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"label_average"</span>, offset_x <span class="op">=</span> <span class="fl">0.5</span>, offset_y <span class="op">=</span> <span class="fl">5</span> <span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Processed spectra"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/bucket-1.png" width="700"></p>
+<p><img src="simple_case_study_files/figure-html/bucket-1.png" width="960"></p>
 <p>And here are the processed spectra!</p>
+</div>
 </div>
 <div id="multivariate-data-analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multivariate-data-analysis" class="anchor"></a>Multivariate data analysis</h2>
 <p>Now that we have processed our spectra we can go on to the modelling part. For this we will rely on the <a href="https://www.tidymodels.org/">tidymodels</a> workflow. First we will scale the spectra using Pareto scaling and perform PCA on the predictors.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>Note that this package implements only a couple of chemotrics-oriented steps to use with recipes. Check out the tidymodels website to learn more about recipes.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Export the spectra in a tidy format </span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 168</span>
+<span class="co">#&gt;   id         label      `0.51997876833874… `0.55997876833874… `0.59997876833874…</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;fct&gt;                   &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 201993059… conventio…              0.607              0.632               4.56</span>
+<span class="co">#&gt; 2 201993062… conventio…              0.554              0.530               4.03</span>
+<span class="co">#&gt; 3 201995046… conventio…              0.679              0.661               5.23</span>
+<span class="co">#&gt; 4 201981241… organic                 0.644              0.627               4.42</span>
+<span class="co">#&gt; 5 201981241… organic                 0.715              0.704               5.14</span>
+<span class="co">#&gt; 6 201981241… organic                 0.560              0.518               3.71</span>
+<span class="co">#&gt; # … with 163 more variables: 0.639978768338749 &lt;dbl&gt;, 0.679978768338749 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   0.719978768338749 &lt;dbl&gt;, 0.759978768338749 &lt;dbl&gt;, 0.799978768338749 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   0.839978768338749 &lt;dbl&gt;, 0.879978768338749 &lt;dbl&gt;, 0.919978768338749 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   0.959978768338749 &lt;dbl&gt;, 0.999978768338749 &lt;dbl&gt;, 1.03997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.07997876833875 &lt;dbl&gt;, 1.11997876833875 &lt;dbl&gt;, 1.15997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.19997876833875 &lt;dbl&gt;, 1.23997876833875 &lt;dbl&gt;, 1.27997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.31997876833875 &lt;dbl&gt;, 1.35997876833875 &lt;dbl&gt;, 1.39997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.43997876833875 &lt;dbl&gt;, 1.47997876833875 &lt;dbl&gt;, 1.51997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.55997876833875 &lt;dbl&gt;, 1.59997876833875 &lt;dbl&gt;, 1.63997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.67997876833875 &lt;dbl&gt;, 1.71997876833875 &lt;dbl&gt;, 1.75997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.79997876833875 &lt;dbl&gt;, 1.83997876833875 &lt;dbl&gt;, 1.87997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   1.91997876833875 &lt;dbl&gt;, 1.95997876833875 &lt;dbl&gt;, 1.99997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.03997876833875 &lt;dbl&gt;, 2.07997876833875 &lt;dbl&gt;, 2.11997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.15997876833875 &lt;dbl&gt;, 2.19997876833875 &lt;dbl&gt;, 2.23997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.27997876833875 &lt;dbl&gt;, 2.31997876833875 &lt;dbl&gt;, 2.35997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.39997876833875 &lt;dbl&gt;, 2.43997876833875 &lt;dbl&gt;, 2.47997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.51997876833875 &lt;dbl&gt;, 2.55997876833875 &lt;dbl&gt;, 2.59997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.63997876833875 &lt;dbl&gt;, 2.67997876833875 &lt;dbl&gt;, 2.71997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.75997876833875 &lt;dbl&gt;, 2.79997876833875 &lt;dbl&gt;, 2.83997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.87997876833875 &lt;dbl&gt;, 2.91997876833875 &lt;dbl&gt;, 2.95997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   2.99997876833875 &lt;dbl&gt;, 3.03997876833875 &lt;dbl&gt;, 3.07997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.11997876833875 &lt;dbl&gt;, 3.15997876833875 &lt;dbl&gt;, 3.19997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.23997876833875 &lt;dbl&gt;, 3.27997876833875 &lt;dbl&gt;, 3.31997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.39997876833875 &lt;dbl&gt;, 3.43997876833875 &lt;dbl&gt;, 3.47997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.51997876833875 &lt;dbl&gt;, 3.55997876833875 &lt;dbl&gt;, 3.59997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.63997876833875 &lt;dbl&gt;, 3.67997876833875 &lt;dbl&gt;, 3.71997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.75997876833875 &lt;dbl&gt;, 3.79997876833875 &lt;dbl&gt;, 3.83997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.87997876833875 &lt;dbl&gt;, 3.91997876833875 &lt;dbl&gt;, 3.95997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   3.99997876833875 &lt;dbl&gt;, 4.03997876833875 &lt;dbl&gt;, 4.07997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   4.11997876833875 &lt;dbl&gt;, 4.15997876833875 &lt;dbl&gt;, 4.19997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   4.23997876833875 &lt;dbl&gt;, 4.27997876833875 &lt;dbl&gt;, 4.31997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   4.35997876833875 &lt;dbl&gt;, 4.39997876833875 &lt;dbl&gt;, 4.43997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   4.47997876833875 &lt;dbl&gt;, 4.51997876833875 &lt;dbl&gt;, 4.55997876833875 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   4.59997876833875 &lt;dbl&gt;, 4.67997876833875 &lt;dbl&gt;, …</span>
 
 <span class="va">rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">label</span> <span class="op">~</span><span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span>
         <span class="fu"><a href="https://recipes.tidymodels.org/reference/roles.html">update_role</a></span><span class="op">(</span><span class="va">id</span>, new_role <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -299,31 +363,88 @@
 <div id="process-new-samples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#process-new-samples" class="anchor"></a>Process new samples</h2>
-<p>When you go to production, you’ll want to use the same pre-processing steps on new samples. While this is straigthford for all the read masking operations it can become difficult when you use more sophisticated bucketting algorithms.</p>
-<p>Fortunately it is possible to extract the bucketting values from existing collections and apply them to new ones.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="va">fa_nmr</span>
-
-<span class="co"># Extracting the bucket limits from the previous analysis</span>
-<span class="va">buckets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_breaks.html">pull_breaks</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
-
-
-<span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu">tidySpectR</span><span class="fu">::</span><span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">new_dat</span>, <span class="fl">0.5</span>, <span class="fl">7.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-            <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">4.6</span>, <span class="fl">4.66</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-            <span class="fu"><a href="../reference/mask.html">mask</a></span><span class="op">(</span><span class="fl">3.33</span>, <span class="fl">3.39</span><span class="op">)</span> <span class="op">%&gt;%</span>
-            <span class="fu"><a href="../reference/normalize_internalStandard.html">normalize_internalStandard</a></span><span class="op">(</span><span class="fl">3.57</span>, <span class="fl">3.65</span><span class="op">)</span> <span class="op">%&gt;%</span>
-            <span class="co"># Applying the bucket limits:</span>
-            <span class="fu"><a href="../reference/bucket_from_breaks.html">bucket_from_breaks</a></span><span class="op">(</span><span class="va">buckets</span><span class="op">)</span> </code></pre></div>
-<p>And done! Let’s check that we got the same thing out of both processes:</p>
+<p>When you go to production, you’ll want to use the same pre-processing steps on new samples. While this is straigthforward for all the read masking operations it can become difficult when using more sophisticated bucketting or normalization algorithms.</p>
+<p>This package provides a <code>processing_template</code> class to deal with reproducible processing. Each <code>collection</code> object contains a <code>processing_template</code> object that automatically saves processing steps and their arguments.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">spectra</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
-<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Original data"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/compare-1.png" width="700"></p>
+<code class="sourceCode R"><span class="co"># See what happened to spectra already</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
+<span class="co">#&gt; Spectra collection containing 6 entries.</span>
+<span class="co">#&gt; Number of bins: 166 </span>
+<span class="co">#&gt; Limits: 0.4999788 7.203979 </span>
+<span class="co">#&gt; Labels: conventional organic </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Processing:</span>
+<span class="co">#&gt; Step 1 / 5 : extract </span>
+<span class="co">#&gt; Step 2 / 5 : mask </span>
+<span class="co">#&gt; Step 3 / 5 : mask </span>
+<span class="co">#&gt; Step 4 / 5 : internalStandard_normalization </span>
+<span class="co">#&gt; Step 5 / 5 : uniform_binning</span>
+
+<span class="co"># Exporting the processing template from a processed collection </span>
+<span class="va">processor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/export_processor.html">export_processor</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">processor</span><span class="op">)</span>
+<span class="co">#&gt; Step 1 / 5 : extract </span>
+<span class="co">#&gt; Step 2 / 5 : mask </span>
+<span class="co">#&gt; Step 3 / 5 : mask </span>
+<span class="co">#&gt; Step 4 / 5 : internalStandard_normalization </span>
+<span class="co">#&gt; Step 5 / 5 : uniform_binning</span></code></pre></div>
+<p><code>processing_template</code> objects also have a tidy method with relevant information and allow access to each single step:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">processor</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 5 x 4</span>
+<span class="co">#&gt;     num name                      method          id                            </span>
+<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;                     &lt;chr&gt;           &lt;chr&gt;                         </span>
+<span class="co">#&gt; 1     1 extract                   extract         extract_784380                </span>
+<span class="co">#&gt; 2     2 mask                      mask            mask_806106                   </span>
+<span class="co">#&gt; 3     3 mask                      mask            mask_728485                   </span>
+<span class="co">#&gt; 4     4 internalStandard_normali… normalize_fact… internalStandard_normalizatio…</span>
+<span class="co">#&gt; 5     5 uniform_binning           bucket_from_br… uniform_binning_653656</span>
+
+<span class="va">processor</span><span class="op">$</span><span class="va">steps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 x 6</span>
+<span class="co">#&gt;   name    method   from    to overlaps id            </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;         </span>
+<span class="co">#&gt; 1 extract extract   0.5   7.2 keep     extract_784380</span>
+
+<span class="va">processor</span><span class="op">$</span><span class="va">steps</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">factors</span><span class="op">)</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt;   id           factors</span>
+<span class="co">#&gt;   &lt;fct&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 20199305928 1.06e- 9</span>
+<span class="co">#&gt; 2 20199306281 9.48e-10</span>
+<span class="co">#&gt; 3 20199504645 1.41e- 9</span>
+<span class="co">#&gt; 4 20198124123 1.10e- 9</span>
+<span class="co">#&gt; 5 20198124124 1.35e- 9</span>
+<span class="co">#&gt; 6 20198124125 9.62e-10</span></code></pre></div>
+<p>We can now apply the processing to a new <code>collection</code> object (or reuse the fa_nmr dataset) and compare to <code>spectra</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">new_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process.processing_step.html">process</a></span><span class="op">(</span><span class="va">processor</span>, <span class="va">fa_nmr</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_data</span><span class="op">)</span>
+<span class="co">#&gt; Spectra collection containing 6 entries.</span>
+<span class="co">#&gt; Number of bins: 166 </span>
+<span class="co">#&gt; Limits: 0.4999788 7.203979 </span>
+<span class="co">#&gt; Labels: conventional organic </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Processing:</span>
+<span class="co">#&gt; Step 1 / 5 : extract </span>
+<span class="co">#&gt; Step 2 / 5 : mask </span>
+<span class="co">#&gt; Step 3 / 5 : mask </span>
+<span class="co">#&gt; Step 4 / 5 : factor_normalization </span>
+<span class="co">#&gt; Step 5 / 5 : cutsom_bucketting</span></code></pre></div>
+<p>And done! Let’s check that we got the same thing out of both processes:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">spectra</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Original data"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/compare-1.png" width="960"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">new_dat</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
-<span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span></code></pre></div>
-<p><img src="simple_case_study_files/figure-html/compare-2.png" width="700"></p>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">new_data</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span><span class="op">+</span> 
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"New data"</span><span class="op">)</span></code></pre></div>
+<p><img src="simple_case_study_files/figure-html/compare-2.png" width="960"></p>
 </div>
 </div>
   </div>

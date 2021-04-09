@@ -129,27 +129,32 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Processing:</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span> <span class="co"># Norm für NMR is a reversed x axis</span></code></pre></div>
 <p><img src="plotting_files/figure-html/rawplot-1.png" width="960"></p>
 <p>This is a bit clutered so we can try to separate a bit the spectra. For this we can play with two parameters: <code>offset_y</code> and <code>offset_x</code> which will offset each spectra on their respective axes.</p>
 <p>The offset value must be provided in the axis unit!</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, offset_y <span class="op">=</span> <span class="fl">1e+09</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="plotting_files/figure-html/rawoffset-1.png" width="960"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, offset_y <span class="op">=</span> <span class="fl">1e+09</span>, offset_x <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="plotting_files/figure-html/rawoffset-2.png" width="960"></p>
 <p>If we are not interested in visualizing individual spectra we can simply plot the average supectrum of the label-average spectra. In this case the average spectrum will be respresented by a solid line and the range of data by a transparent ribbon.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="plotting_files/figure-html/averages-1.png" width="960"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, type <span class="op">=</span> <span class="st">"label_average"</span>, offset_y <span class="op">=</span> <span class="fl">1e+09</span>, offset_x <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, type <span class="op">=</span> <span class="st">"label_average"</span>, offset_y <span class="op">=</span> <span class="fl">1e+09</span>, offset_x <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="plotting_files/figure-html/averages-2.png" width="960"></p>
 </div>
 <div id="plotting-specific-regions" class="section level2">
@@ -160,7 +165,8 @@
 <code class="sourceCode R"><span class="va">fa_nmr</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3.3</span>, to <span class="op">=</span> <span class="fl">3.9</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>offset_y <span class="op">=</span> <span class="fl">2e+08</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+        <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+        <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="plotting_files/figure-html/crop-1.png" width="960"></p>
 </div>
 <div id="controlling-bucketting" class="section level2">
@@ -177,6 +183,7 @@
 <span class="va">fa_nmr</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3.3</span>, to <span class="op">=</span> <span class="fl">3.9</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">uniform</span>, color <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Uniform bucketting 0.04ppm"</span><span class="op">)</span></code></pre></div>
@@ -191,6 +198,7 @@
 <span class="va">fa_nmr</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3.3</span>, to <span class="op">=</span> <span class="fl">3.9</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fa_nmr</span>, type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">opti</span>, color <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Optimized bucketting 0.04ppm"</span><span class="op">)</span></code></pre></div>
@@ -200,7 +208,8 @@
 <code class="sourceCode R"><span class="va">fa_nmr</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3.3</span>, to <span class="op">=</span> <span class="fl">3.9</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/bucket_optimized.html">bucket_optimized</a></span><span class="op">(</span>initial_width <span class="op">=</span> <span class="fl">0.04</span>, slackness <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="plotting_files/figure-html/processed-1.png" width="960"></p>
 </div>
   </div>
