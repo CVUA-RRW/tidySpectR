@@ -10,7 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width=10, 
+  fig.height=5
 )
 ```
 
@@ -20,7 +22,7 @@ In this example we will process the example data `fa_nmr` to build a simple
 PC-LDA classificator. As this dataset includes only three spectra of each category don't 
 expect wonders, the aim of this vignette is simply to guide you through a workflow.
 
-##Pre processing NMR spectra
+## Pre processing NMR spectra
 
 ### Creating a collection from files
 
@@ -95,6 +97,17 @@ library(tidySpectR)
 data(fa_nmr)
 ```
 
+The `fa_nmr` toy dataset is provided ywith the package. Let's have a look:
+
+```{r dataset}
+
+fa_nmr
+
+autoplot(fa_nmr, offset_y = 1e+09, offset_x = 1) +
+    theme(legend.position = "none") +
+    scale_x_reverse()
+```
+
 First remove the water and solvent (MeOD in this case) peaks and 
 trim the edges of the spectra to the interessant region.
 
@@ -115,7 +128,7 @@ the dataset (not set to zero).
 
 ```{r peak_masking}
 spectra <- spectra %>% 
-    tidySpectR::extract(0.5, 7.2) %>%
+    extract( 0.5, 7.2) %>%
     mask(4.6, 4.66) %>% 
     mask(3.33, 3.39)
 ```
@@ -156,6 +169,7 @@ spectra <- bucket_uniform(spectra, width = 0.04)
 
 spectra %>% 
     autoplot(type = "label_average", offset_x = 0.5, offset_y = 5 ) +
+    scale_x_reverse() +
     ggtitle("Processed spectra")
 ```
 
@@ -167,9 +181,13 @@ Now that we have processed our spectra we can go on to the modelling part.
 For this we will rely on the [tidymodels](https://www.tidymodels.org/) workflow.
 First we will scale the spectra using Pareto scaling and perform PCA on the predictors.
 
+Note that this package implements only a couple of chemotrics-oriented steps to use with recipes.
+Check out the tidymodels website to learn more about recipes.
+
 ```{r pareto}
 # Export the spectra in a tidy format 
 df <- tidy(spectra)
+print(df)
 
 rec <- recipe(df, label ~.) %>%
         update_role(id, new_role = "ID") %>% 
@@ -195,33 +213,50 @@ and optimizing the preprocessing.
 ## Process new samples
 
 When you go to production, you'll want to use the same pre-processing steps on new samples.
-While this is straigthford for all the read masking operations it can become difficult
-when you use more sophisticated bucketting algorithms.
+While this is straigthforward for all the read masking operations it can become difficult
+when using more sophisticated bucketting or normalization algorithms.
 
-Fortunately it is possible to extract the bucketting values from existing collections and 
-apply them to new ones.
+This package provides a `processing_template` class to deal with reproducible processing.
+Each `collection` object contains a `processing_template` object that automatically saves 
+processing steps and their arguments.
 
-```{r newdat}
-new_dat <- fa_nmr
+```{r processor}
+# See what happened to spectra already
+print(spectra)
 
-# Extracting the bucket limits from the previous analysis
-buckets <- pull_breaks(spectra)
+# Exporting the processing template from a processed collection 
+processor <- export_processor(spectra)
 
+print(processor)
+```
 
-new_dat <- tidySpectR::extract(new_dat, 0.5, 7.2) %>%
-            mask(4.6, 4.66) %>% 
-            mask(3.33, 3.39) %>%
-            normalize_internalStandard(3.57, 3.65) %>%
-            # Applying the bucket limits:
-            bucket_from_breaks(buckets) 
+`processing_template` objects also have a tidy method with relevant information and
+allow access to each single step:
+
+```{r steps}
+tidy(processor)
+
+processor$steps[[1]] %>% tidy()
+
+processor$steps[[4]] %>% tidy() %>% pull(factors)
+```
+
+We can now apply the processing to a new `collection` object (or reuse the fa_nmr dataset) and compare 
+to `spectra`:
+
+```{r repro}
+new_data <- process(processor, fa_nmr)
+print(new_data)
 ```
 
 And done! Let's check that we got the same thing out of both processes:
 
 ```{r compare}
 autoplot(spectra, type = "average")+ 
-ggtitle("Original data")
+    scale_x_reverse()+
+    ggtitle("Original data")
 
-autoplot(new_dat, type = "average")+ 
-ggtitle("New data")
+autoplot(new_data, type = "average")+ 
+    scale_x_reverse() +
+    ggtitle("New data")
 ```

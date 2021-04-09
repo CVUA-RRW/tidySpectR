@@ -35,7 +35,8 @@ with this package:
 ```{r rawplot}
 print(fa_nmr)
 
-autoplot(fa_nmr)
+autoplot(fa_nmr) +
+    scale_x_reverse() # Norm für NMR is a reversed x axis
 ```
 
 This is a bit clutered so we can try to separate a bit the spectra.
@@ -46,10 +47,12 @@ The offset value must be provided in the axis unit!
 
 ```{r rawoffset}
 autoplot(fa_nmr, offset_y = 1e+09) +
-    theme(legend.position = "none")
+    theme(legend.position = "none") +
+    scale_x_reverse()
 
 autoplot(fa_nmr, offset_y = 1e+09, offset_x = 1) +
-    theme(legend.position = "none")
+    theme(legend.position = "none") +
+    scale_x_reverse()
 ```
 
 If we are not interested in visualizing individual spectra we can 
@@ -59,9 +62,11 @@ solid line and the range of data by a transparent ribbon.
 
 ```{r averages}
 autoplot(fa_nmr, type = "average") +
-    theme(legend.position = "none")
+    theme(legend.position = "none") +
+    scale_x_reverse()
 
-autoplot(fa_nmr, type = "label_average", offset_y = 1e+09, offset_x = 1)
+autoplot(fa_nmr, type = "label_average", offset_y = 1e+09, offset_x = 1) +
+    scale_x_reverse()
 ```
 
 ## Plotting specific regions
@@ -74,7 +79,8 @@ Let's take a closer look at what is happening in the 3.3 - 3.9 ppm region:
 fa_nmr %>% 
     extract(from = 3.3, to = 3.9) %>%
     autoplot(offset_y = 2e+08) +
-        theme(legend.position = "none")
+        theme(legend.position = "none") +
+        scale_x_reverse()
 ```
 
 ## Controlling bucketting
@@ -94,6 +100,7 @@ uniform <- fa_nmr %>%
 fa_nmr %>% 
     extract(from = 3.3, to = 3.9) %>%
     autoplot(fa_nmr, type = "average") +
+    scale_x_reverse() +
     geom_vline(xintercept = uniform, color = "red", alpha = 0.5) +
     theme(legend.position = "none") +
     ggtitle("Uniform bucketting 0.04ppm")
@@ -106,6 +113,7 @@ opti <- fa_nmr %>%
 fa_nmr %>% 
     extract(from = 3.3, to = 3.9) %>%
     autoplot(fa_nmr, type = "average") +
+    scale_x_reverse() +
     geom_vline(xintercept = opti, color = "red", alpha = 0.5) +
     theme(legend.position = "none") +
     ggtitle("Optimized bucketting 0.04ppm")
@@ -118,7 +126,8 @@ processed data.
 fa_nmr %>% 
     extract(from = 3.3, to = 3.9) %>%
     bucket_optimized(initial_width = 0.04, slackness = 0.25) %>%
-    autoplot(type = "average")
+    autoplot(type = "average") +
+    scale_x_reverse()
 ```
 
 
